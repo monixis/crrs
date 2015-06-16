@@ -30,32 +30,23 @@
 		
 		<script>
 		$(document).ready(function() {
-			$("#datepicker").datepicker();
-			$("#timepicker").timepicker({
-				'minTime': '2:00pm',
-    			'maxTime': '11:30pm',
-    			'showDuration': true
-			});
 			$("#dateStart").datepicker({
 				minDate : "+0"
 			});
 			$("#timeStart").timepicker({
-				minTime : "7:30am",
+				minTime : "8:00am",
 				maxTime : "2:00am",
-				step : "15"
+				step : "60"
 			});
 			$("#timeEnd").timepicker({
 				minTime : "8:00am",
 				maxTime : "2:00am",
-				step : "15"
-			});
-			$("#dateEnd").datepicker({
-				minDate : "+0",
-				maxDate : "+1"
+				step : "60"
 			});
 	
+	
 		})
-		
+		</script>
 		<script type="text/javascript" charset="utf-8">
   		$(document).ready(function(){
    	 		$("a[rel^='prettyPhoto']").prettyPhoto();
@@ -98,7 +89,7 @@
 
 		</div>
 
-		<div class = "container_home">
+		
 
 			
 				<div style="width: 12px; float:left;"><img src="./icons/beta.gif" /></div>			
@@ -111,15 +102,15 @@
 				
 				</div>
 				
-		</div>
+		
 					
 				
 				
-				<div>
+				<div align="center">
 
-					<h1 style="float:center" class="page_head">Room Reserve Form</h1>
+					<h1 class="page_head">Room Reserve Form</h1>
 
-					<table style="height: 100%; width:100%;">
+					<table style="height: 70%; width:50%;">
 						<tr>
 							<td width="75%" align="left">
 							<FORM NAME="theForm" ID="theForm" ACTION="#" METHOD="POST">
@@ -130,26 +121,16 @@
 										<INPUT required TYPE="text" NAME="roomNum" SIZE="60" class="ask_text_input" />
 										</TD>
 									</TR>
-									<p>
+									
 									<TR>
 										<TD class="formLabel">Reserve Date:</TD>
-										<td class ="ask_input" colspan="3">
-										<INPUT required TYPE="text" NAME="resDate" id="dateStart" SIZE="60" class="ask_text_input" />
-										</TD>
+										<td class ="ask_input">
+										<INPUT required TYPE="text" NAME="resDate" id="dateStart" SIZE="13" class="ask_text_input" />
+										<label class="formLabel">From: </label><INPUT required TYPE="text" NAME="timeStart" id="timeStart" SIZE="13" class="ask_text_input" />
+										<label class="formLabel"> to</label> <INPUT required TYPE="text" NAME="timeEnd" id="timeEnd" SIZE="13" class="ask_text_input" />
+										
+										
 									</TR>
-									<TR>
-										<TD class="formLabel">Start Time:</TD>
-										<td class ="ask_input" colspan="3">
-										<INPUT required TYPE="text" NAME="timeStart" SIZE="60" class="ask_text_input" />
-										</TD>
-									</TR>
-									<TR>
-										<TD class="formLabel">End Time:</TD>
-										<td class ="ask_input" style="width: 200px;">
-										<INPUT required TYPE="text" NAME="timeEnd" id="endTime" SIZE="60" class="ask_text_input" />
-										</TD>
-									</TR>
-									</p>
 									<TR>
 										<TD class="formLabel">Booking Type:</TD>
 										<td class="ask_input">
@@ -185,7 +166,7 @@
 							<td>
 							<center>
 								<div id='captcha1'></div>
-								<p style="width: 150px; position:relative; left:50%; margin-left:-77px;">
+								<p style="width: 150px; position:relative; left:50%; margin-left:-350px;">
 
 									<INPUT name="submit" value="Submit" id="submit" TYPE="submit">
 									<INPUT name="reset" TYPE="reset" id="reset">

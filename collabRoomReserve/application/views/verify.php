@@ -33,55 +33,20 @@ if (isset($_SESSION['simpleCaptchaAnswer']) && $_POST['captchaSelection'] == $_S
     } 
     $referenceNo = randomAlphaNum(10);
     
-    $numBooks = sizeOf($_SESSION['Book_Title'])-1;
-    $numDVDs = sizeOf($_SESSION['DVD_Title'])-1;
-    $numDays = sizeOf($_SESSION['days'])-1;
-    $days = '';
-    for($y = 0; $y <= $numDays; $y++){
-    	$days .= ''. $_SESSION['days'][$y] . " ";
-    }
-                
+   
 $to      = 'stephenpagliuca@gmail.com'; // Change the email address and other fields to be displayed on the email depending on the associated form 
 $subject = 'Reference No. '.$referenceNo;
 $message ="
-Name: ". $_SESSION['Name'] . '
-Office Number: '. $_SESSION['Office_Num'] . '
-Course Number: '. $_SESSION['Course_Num'] . '
-Extension: '. $_SESSION['extension'] . '
-Place: '. $_SESSION['place'] . '
-Room: '. $_SESSION['room'] . '
-Time: '. $_SESSION['time'] . '
-Course Title: '. $_SESSION['courseTitle'] . "
-Days: ". $days . " 
-Semester: " . $_SESSION['semester'] . '
-Extension: '. $_SESSION['extension'] .'
- 
+Primary Patron's Email: ". $_SESSION['primEmail'] . "
+Secondary Patron's Email: ". $_SESSION['secEmail'] . '
+Room Number: '. $_SESSION['roomNum'] . '
+Reservation Date: '. $_SESSION['resDate'] . '
+Start Time: '. $_SESSION['timeStart'] . '
+End Time: '. $_SESSION['timeEnd'] . '
 Comments: '. $_SESSION['Comments'];
-
-for ($i = 1; $i <= $numBooks; $i++) {
-$message .= '
-
-Book/Article '. $i .'
-
-'. $_SESSION['book_article'][$i]. '
-Title: '. $_SESSION['Book_Title'][$i] .'
-Author: '. $_SESSION['Author'][$i] .'
-Call #: '. $_SESSION['Book_call'][$i]. '';
-}
-
-for ($j = 1; $j <= $numDVDs; $j++) {
-$message .= '
-
-DVD/Video ' . $j .'
-
-'. $_SESSION['dvd_video'][$j]. '
-Title: '. $_SESSION['DVD_Title'][$j] .'
-Date Needed: '. $_SESSION['Date_needed'][$j] . '
-Reservation Type: '. $_SESSION['DVD_imp'][$j] . '
-Video #: '. $_SESSION['DVD_videoNum'][$j]. '';
 }
                 
-    $headers = 'From:' . $_SESSION['Email']. "\r\n" . 'X-Mailer: PHP/' . phpversion();
+  $headers = 'From:' . $_SESSION['primEmail']. "\r\n" . 'X-Mailer: PHP/' . phpversion();
     
     if (mail($to, $subject, $message, $headers)) {
     	$_SESSION['Message'] = 'Thank You. Your request has been sent to James A. Cannavino Library staff (845) 575-3292. Your tracking number is: '. $referenceNo;
