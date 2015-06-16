@@ -14,6 +14,18 @@
 		<script src="http://library.marist.edu/js/jquery.prettyPhoto.js" type="text/javascript" charset="utf-8"></script>
 		<script src="./js/jquery.rss.js" type="text/javascript" charset="utf-8"></script>
 		
+		<script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script> 
+		<script type="text/javascript" src="./js/jquery-ui.js"></script>
+		<link rel="stylesheet" href="./styles/jquery-ui.css" type="text/css" /> 
+
+    	
+    	<script>
+    		$(document).ready(function(){
+    			$("#datepicker").datepicker({
+    				minDate : "+0"
+    			});
+    		})
+    	</script>
 		<script type="text/javascript" charset="utf-8">
   		$(document).ready(function(){
    			$("a[rel^='prettyPhoto']").prettyPhoto();
@@ -76,7 +88,8 @@
 				</div>
 		</div>
 		<div>
-			<p>Date: <?php $date = getdate(); echo($date["mon"]. "/" . $date["mday"]. "/" . $date["year"]); ?></p>
+			Pick a date to view available rooms: <input type="text" name="viewDate" id="datepicker" />
+ 			<p>Date: <?php $date = getdate(); echo($date["mon"]. "/" . $date["mday"]. "/" . $date["year"]); ?></p>
 		</div>
 		<div>
 			<table border="1" style="width:100%">
