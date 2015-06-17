@@ -88,8 +88,39 @@
 				</div>
 		</div>
 		<div>
-			Pick a date to view available rooms: <input type="text" name="viewDate" id="datepicker" />
- 			<p>Date: <?php $date = getdate(); echo($date["mon"]. "/" . $date["mday"]. "/" . $date["year"]); ?></p>
+			
+			<style>
+			#keyTable {
+    			position: relative;
+    			left: 1000px;
+    			top: 70px;
+			}
+			#pickDate{
+				position: relative;
+				left: 300px;
+				top: 33px;
+			}
+			</style>
+			<table id="keyTable" style="width:100%">
+  				<tr>
+  					<td style="background-color: GREEN"></td>
+  					<td>= Available</td>
+  				</tr>
+  				<tr>
+  					<td style="background-color: YELLOW"></td>
+  					<td>= Unverified</td>
+  				</tr>
+  				<tr>
+  					<td style="background-color: RED"></td>
+  					<td>= Reserved</td>
+  				</tr>
+  				<tr>
+  					<td style="background-color: ORANGE"></td>
+  					<td>= Reservation Expired</td>
+  				</tr>
+  			</table>
+  			<p id="pickDate">Pick a date to view available rooms: <input type="text" name="viewDate" id="datepicker" /></p>
+ 			<p>Date Being Viewed: <?php $date = getdate(); echo($date["mon"]. "/" . $date["mday"]. "/" . $date["year"]); ?></p>
 		</div>
 		<div>
 			<table border="1" style="width:100%">
@@ -117,333 +148,333 @@
 				 </tr>
 				 <tr>
 				    <td>110</td>
-				    <td></td>		
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
+				    <td id="1108am" style="background-color: GREEN"></td>		
+				    <td id="1109am" style="background-color: GREEN"></td>
+				    <td id="11010am" style="background-color: GREEN"></td>
+				    <td id="11011am" style="background-color: GREEN"></td>
+				    <td id="11012pm" style="background-color: GREEN"></td>
+				    <td id="1101pm" style="background-color: GREEN"></td>
+				    <td id="1102pm" style="background-color: GREEN"></td>
+				    <td id="1103pm" style="background-color: GREEN"></td>
+				    <td id="1104pm" style="background-color: GREEN"></td>
+				    <td id="1105pm" style="background-color: GREEN"></td>
+				    <td id="1106pm" style="background-color: GREEN"></td>
+				    <td id="1107pm" style="background-color: GREEN"></td>
+				    <td id="1108pm" style="background-color: GREEN"></td>
+				    <td id="1109pm" style="background-color: GREEN"></td>
+				    <td id="11010pm" style="background-color: GREEN"></td>
+				    <td id="11011pm" style="background-color: GREEN"></td>
+				    <td id="11012am" style="background-color: GREEN"></td>
+				    <td id="1101am" style="background-color: GREEN"></td>
+				    <td id="1102am" style="background-color: GREEN"></td>
 				  </tr>
 				  <tr>
 				    <td>111</td>
-				    <td></td>		
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
+				    <td id="1118am" style="background-color: GREEN"></td>		
+				    <td id="1119am" style="background-color: GREEN"></td>
+				    <td id="11110am" style="background-color: GREEN"></td>
+				    <td id="11111am" style="background-color: GREEN"></td>
+				    <td id="11112pm" style="background-color: GREEN"></td>
+				    <td id="1111pm" style="background-color: GREEN"></td>
+				    <td id="1112pm" style="background-color: GREEN"></td>
+				    <td id="1113pm" style="background-color: GREEN"></td>
+				    <td id="1114pm" style="background-color: GREEN"></td>
+				    <td id="1115pm" style="background-color: GREEN"></td>
+				    <td id="1116pm" style="background-color: GREEN"></td>
+				    <td id="1117pm" style="background-color: GREEN"></td>
+				    <td id="1118pm" style="background-color: GREEN"></td>
+				    <td id="1119pm" style="background-color: GREEN"></td>
+				    <td id="11110pm" style="background-color: GREEN"></td>
+				    <td id="11111pm" style="background-color: GREEN"></td>
+				    <td id="11112am" style="background-color: GREEN"></td>
+				    <td id="1111am" style="background-color: GREEN"></td>
+				    <td id="1112am" style="background-color: GREEN"></td>
 				  </tr>
 				  <tr>
 				    <td>112</td>
-				    <td></td>		
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
+				    <td id="1128am" style="background-color: GREEN"></td>		
+				    <td id="1129am" style="background-color: GREEN"></td>
+				    <td id="11210am" style="background-color: GREEN"></td>
+				    <td id="11211am" style="background-color: GREEN"></td>
+				    <td id="11212pm" style="background-color: GREEN"></td>
+				    <td id="1121pm" style="background-color: GREEN"></td>
+				    <td id="1122pm" style="background-color: GREEN"></td>
+				    <td id="1123pm" style="background-color: GREEN"></td>
+				    <td id="1124pm" style="background-color: GREEN"></td>
+				    <td id="1125pm" style="background-color: GREEN"></td>
+				    <td id="1126pm" style="background-color: GREEN"></td>
+				    <td id="1127pm" style="background-color: GREEN"></td>
+				    <td id="1128pm" style="background-color: GREEN"></td>
+				    <td id="1129pm" style="background-color: GREEN"></td>
+				    <td id="11210pm" style="background-color: GREEN"></td>
+				    <td id="11211pm" style="background-color: GREEN"></td>
+				    <td id="11212am" style="background-color: GREEN"></td>
+				    <td id="1121am" style="background-color: GREEN"></td>
+				    <td id="1122am" style="background-color: GREEN"></td>
 				  </tr>
 				  <tr>
 				    <td>300A</td>
-				    <td></td>		
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
+				    <td id="300A8am" style="background-color: GREEN"></td>		
+				    <td id="300A9am" style="background-color: GREEN"></td>
+				    <td id="300A10am" style="background-color: GREEN"></td>
+				    <td id="300A11am" style="background-color: GREEN"></td>
+				    <td id="300A12pm" style="background-color: GREEN"></td>
+				    <td id="300A1pm" style="background-color: GREEN"></td>
+				    <td id="300A2pm" style="background-color: GREEN"></td>
+				    <td id="300A3pm" style="background-color: GREEN"></td>
+				    <td id="300A4pm" style="background-color: GREEN"></td>
+				    <td id="300A5pm" style="background-color: GREEN"></td>
+				    <td id="300A6pm" style="background-color: GREEN"></td>
+				    <td id="300A7pm" style="background-color: GREEN"></td>
+				    <td id="300A8pm" style="background-color: GREEN"></td>
+				    <td id="300A9pm" style="background-color: GREEN"></td>
+				    <td id="300A10pm" style="background-color: GREEN"></td>
+				    <td id="300A11pm" style="background-color: GREEN"></td>
+				    <td id="300A12am" style="background-color: GREEN"></td>
+				    <td id="300A1am" style="background-color: GREEN"></td>
+				    <td id="300A2am" style="background-color: GREEN"></td>
 				  </tr>
 				  <tr>
 				    <td>300B</td>
-				    <td></td>		
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
+				    <td id="300B8am" style="background-color: GREEN"></td>		
+				    <td id="300B9am" style="background-color: GREEN"></td>
+				    <td id="300B10am" style="background-color: GREEN"></td>
+				    <td id="300B11am" style="background-color: GREEN"></td>
+				    <td id="300B12pm" style="background-color: GREEN"></td>
+				    <td id="300B1pm" style="background-color: GREEN"></td>
+				    <td id="300B2pm" style="background-color: GREEN"></td>
+				    <td id="300B3pm" style="background-color: GREEN"></td>
+				    <td id="300B4pm" style="background-color: GREEN"></td>
+				    <td id="300B5pm" style="background-color: GREEN"></td>
+				    <td id="300B6pm" style="background-color: GREEN"></td>
+				    <td id="300B7pm" style="background-color: GREEN"></td>
+				    <td id="300B8pm" style="background-color: GREEN"></td>
+				    <td id="300B9pm" style="background-color: GREEN"></td>
+				    <td id="300B10pm" style="background-color: GREEN"></td>
+				    <td id="300B11pm" style="background-color: GREEN"></td>
+				    <td id="300B12am" style="background-color: GREEN"></td>
+				    <td id="300B1am" style="background-color: GREEN"></td>
+				    <td id="300B2am" style="background-color: GREEN"></td>
 				  </tr>
 				  <tr>
 				    <td>300C</td>
-				    <td></td>		
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
+				    <td id="300C8am" style="background-color: GREEN"></td>		
+				    <td id="300C9am" style="background-color: GREEN"></td>
+				    <td id="300C10am" style="background-color: GREEN"></td>
+				    <td id="300C11am" style="background-color: GREEN"></td>
+				    <td id="300C12pm" style="background-color: GREEN"></td>
+				    <td id="300C1pm" style="background-color: GREEN"></td>
+				    <td id="300C2pm" style="background-color: GREEN"></td>
+				    <td id="300C3pm" style="background-color: GREEN"></td>
+				    <td id="300C4pm" style="background-color: GREEN"></td>
+				    <td id="300C5pm" style="background-color: GREEN"></td>
+				    <td id="300C6pm" style="background-color: GREEN"></td>
+				    <td id="300C7pm" style="background-color: GREEN"></td>
+				    <td id="300C8pm" style="background-color: GREEN"></td>
+				    <td id="300C9pm" style="background-color: GREEN"></td>
+				    <td id="300C10pm" style="background-color: GREEN"></td>
+				    <td id="300C11pm" style="background-color: GREEN"></td>
+				    <td id="300C12am" style="background-color: GREEN"></td>
+				    <td id="300C1am" style="background-color: GREEN"></td>
+				    <td id="300C2am" style="background-color: GREEN"></td>
 				  </tr>
 				  <tr>
 				    <td>300D</td>
-				    <td></td>		
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
+				    <td id="300D8am" style="background-color: GREEN"></td>		
+				    <td id="300D9am" style="background-color: GREEN"></td>
+				    <td id="300D10am" style="background-color: GREEN"></td>
+				    <td id="300D11am" style="background-color: GREEN"></td>
+				    <td id="300D12pm" style="background-color: GREEN"></td>
+				    <td id="300D1pm" style="background-color: GREEN"></td>
+				    <td id="300D2pm" style="background-color: GREEN"></td>
+				    <td id="300D3pm" style="background-color: GREEN"></td>
+				    <td id="300D4pm" style="background-color: GREEN"></td>
+				    <td id="300D5pm" style="background-color: GREEN"></td>
+				    <td id="300D6pm" style="background-color: GREEN"></td>
+				    <td id="300D7pm" style="background-color: GREEN"></td>
+				    <td id="300D8pm" style="background-color: GREEN"></td>
+				    <td id="300D9pm" style="background-color: GREEN"></td>
+				    <td id="300D10pm" style="background-color: GREEN"></td>
+				    <td id="300D11pm" style="background-color: GREEN"></td>
+				    <td id="300D12am" style="background-color: GREEN"></td>
+				    <td id="300D1am" style="background-color: GREEN"></td>
+				    <td id="300D2am" style="background-color: GREEN"></td>
 				  </tr>
 				  <tr>
 				    <td>306</td>
-				    <td></td>		
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
+				    <td id="3068am" style="background-color: GREEN"></td>		
+				    <td id="3069am" style="background-color: GREEN"></td>
+				    <td id="30610am" style="background-color: GREEN"></td>
+				    <td id="30611am" style="background-color: GREEN"></td>
+				    <td id="30612pm" style="background-color: GREEN"></td>
+				    <td id="3061pm" style="background-color: GREEN"></td>
+				    <td id="3062pm" style="background-color: GREEN"></td>
+				    <td id="3063pm" style="background-color: GREEN"></td>
+				    <td id="3064pm" style="background-color: GREEN"></td>
+				    <td id="3065pm" style="background-color: GREEN"></td>
+				    <td id="3066pm" style="background-color: GREEN"></td>
+				    <td id="3067pm" style="background-color: GREEN"></td>
+				    <td id="3068pm" style="background-color: GREEN"></td>
+				    <td id="3069pm" style="background-color: GREEN"></td>
+				    <td id="30610pm" style="background-color: GREEN"></td>
+				    <td id="30611pm" style="background-color: GREEN"></td>
+				    <td id="30612am" style="background-color: GREEN"></td>
+				    <td id="3061am" style="background-color: GREEN"></td>
+				    <td id="3062am" style="background-color: GREEN"></td>
 				  </tr>
 				  <tr>
 				    <td>312</td>
-				    <td></td>		
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
+				    <td id="3128am" style="background-color: GREEN"></td>		
+				    <td id="3129am" style="background-color: GREEN"></td>
+				    <td id="31210am" style="background-color: GREEN"></td>
+				    <td id="31211am" style="background-color: GREEN"></td>
+				    <td id="31212pm" style="background-color: GREEN"></td>
+				    <td id="3121pm" style="background-color: GREEN"></td>
+				    <td id="3122pm" style="background-color: GREEN"></td>
+				    <td id="3123pm" style="background-color: GREEN"></td>
+				    <td id="3124pm" style="background-color: GREEN"></td>
+				    <td id="3125pm" style="background-color: GREEN"></td>
+				    <td id="3126pm" style="background-color: GREEN"></td>
+				    <td id="3127pm" style="background-color: GREEN"></td>
+				    <td id="3128pm" style="background-color: GREEN"></td>
+				    <td id="3129pm" style="background-color: GREEN"></td>
+				    <td id="31210pm" style="background-color: GREEN"></td>
+				    <td id="31211pm" style="background-color: GREEN"></td>
+				    <td id="31212am" style="background-color: GREEN"></td>
+				    <td id="3121am" style="background-color: GREEN"></td>
+				    <td id="3122am" style="background-color: GREEN"></td>
 				  </tr>
 				  <tr>
 				    <td>313</td>
-				    <td></td>		
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
+				    <td id="3138am" style="background-color: GREEN"></td>		
+				    <td id="3139am" style="background-color: GREEN"></td>
+				    <td id="31310am" style="background-color: GREEN"></td>
+				    <td id="31311am" style="background-color: GREEN"></td>
+				    <td id="31312pm" style="background-color: GREEN"></td>
+				    <td id="3131pm" style="background-color: GREEN"></td>
+				    <td id="3132pm" style="background-color: GREEN"></td>
+				    <td id="3133pm" style="background-color: GREEN"></td>
+				    <td id="3134pm" style="background-color: GREEN"></td>
+				    <td id="3135pm" style="background-color: GREEN"></td>
+				    <td id="3136pm" style="background-color: GREEN"></td>
+				    <td id="3137pm" style="background-color: GREEN"></td>
+				    <td id="3138pm" style="background-color: GREEN"></td>
+				    <td id="3139pm" style="background-color: GREEN"></td>
+				    <td id="31310pm" style="background-color: GREEN"></td>
+				    <td id="31311pm" style="background-color: GREEN"></td>
+				    <td id="31312am" style="background-color: GREEN"></td>
+				    <td id="3131am" style="background-color: GREEN"></td>
+				    <td id="3132am" style="background-color: GREEN"></td>
 				  </tr>
 				  <tr>
 				    <td>314</td>
-				    <td></td>		
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
+				    <td id="3148am" style="background-color: GREEN"></td>		
+				    <td id="3149am" style="background-color: GREEN"></td>
+				    <td id="31410am" style="background-color: GREEN"></td>
+				    <td id="31411am" style="background-color: GREEN"></td>
+				    <td id="31412pm" style="background-color: GREEN"></td>
+				    <td id="3141pm" style="background-color: GREEN"></td>
+				    <td id="3142pm" style="background-color: GREEN"></td>
+				    <td id="3143pm" style="background-color: GREEN"></td>
+				    <td id="3144pm" style="background-color: GREEN"></td>
+				    <td id="3145pm" style="background-color: GREEN"></td>
+				    <td id="3146pm" style="background-color: GREEN"></td>
+				    <td id="3147pm" style="background-color: GREEN"></td>
+				    <td id="3148pm" style="background-color: GREEN"></td>
+				    <td id="3149pm" style="background-color: GREEN"></td>
+				    <td id="31410pm" style="background-color: GREEN"></td>
+				    <td id="31411pm" style="background-color: GREEN"></td>
+				    <td id="31412am" style="background-color: GREEN"></td>
+				    <td id="3141am" style="background-color: GREEN"></td>
+				    <td id="3142am" style="background-color: GREEN"></td>
 				  </tr>
 				  <tr>
 				    <td>315</td>
-				    <td></td>		
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
+				    <td id="3158am" style="background-color: GREEN"></td>		
+				    <td id="3159am" style="background-color: GREEN"></td>
+				    <td id="31510am" style="background-color: GREEN"></td>
+				    <td id="31511am" style="background-color: GREEN"></td>
+				    <td id="31512pm" style="background-color: GREEN"></td>
+				    <td id="3151pm" style="background-color: GREEN"></td>
+				    <td id="3152pm" style="background-color: GREEN"></td>
+				    <td id="3153pm" style="background-color: GREEN"></td>
+				    <td id="3154pm" style="background-color: GREEN"></td>
+				    <td id="3155pm" style="background-color: GREEN"></td>
+				    <td id="3156pm" style="background-color: GREEN"></td>
+				    <td id="3157pm" style="background-color: GREEN"></td>
+				    <td id="3158pm" style="background-color: GREEN"></td>
+				    <td id="3159pm" style="background-color: GREEN"></td>
+				    <td id="31510pm" style="background-color: GREEN"></td>
+				    <td id="31511pm" style="background-color: GREEN"></td>
+				    <td id="31512am" style="background-color: GREEN"></td>
+				    <td id="3151am" style="background-color: GREEN"></td>
+				    <td id="3152am" style="background-color: GREEN"></td>
 				  </tr>
 				  <tr>
 				    <td>316</td>
-				    <td></td>		
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
+				    <td id="3168am" style="background-color: GREEN"></td>		
+				    <td id="3169am" style="background-color: GREEN"></td>
+				    <td id="31610am" style="background-color: GREEN"></td>
+				    <td id="31611am" style="background-color: GREEN"></td>
+				    <td id="31612pm" style="background-color: GREEN"></td>
+				    <td id="3161pm" style="background-color: GREEN"></td>
+				    <td id="3162pm" style="background-color: GREEN"></td>
+				    <td id="3163pm" style="background-color: GREEN"></td>
+				    <td id="3164pm" style="background-color: GREEN"></td>
+				    <td id="3165pm" style="background-color: GREEN"></td>
+				    <td id="3166pm" style="background-color: GREEN"></td>
+				    <td id="3167pm" style="background-color: GREEN"></td>
+				    <td id="3168pm" style="background-color: GREEN"></td>
+				    <td id="3169pm" style="background-color: GREEN"></td>
+				    <td id="31610pm" style="background-color: GREEN"></td>
+				    <td id="31611pm" style="background-color: GREEN"></td>
+				    <td id="31612am" style="background-color: GREEN"></td>
+				    <td id="3161am" style="background-color: GREEN"></td>
+				    <td id="3162am" style="background-color: GREEN"></td>
 				  </tr>
 				  <tr>
 				    <td>317</td>
-				    <td></td>		
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
+				    <td id="3178am" style="background-color: GREEN"></td>		
+				    <td id="3179am" style="background-color: GREEN"></td>
+				    <td id="31710am" style="background-color: GREEN"></td>
+				    <td id="31711am" style="background-color: GREEN"></td>
+				    <td id="31712pm" style="background-color: GREEN"></td>
+				    <td id="3171pm" style="background-color: GREEN"></td>
+				    <td id="3172pm" style="background-color: GREEN"></td>
+				    <td id="3173pm" style="background-color: GREEN"></td>
+				    <td id="3174pm" style="background-color: GREEN"></td>
+				    <td id="3175pm" style="background-color: GREEN"></td>
+				    <td id="3176pm" style="background-color: GREEN"></td>
+				    <td id="3177pm" style="background-color: GREEN"></td>
+				    <td id="3178pm" style="background-color: GREEN"></td>
+				    <td id="3179pm" style="background-color: GREEN"></td>
+				    <td id="31710pm" style="background-color: GREEN"></td>
+				    <td id="31711pm" style="background-color: GREEN"></td>
+				    <td id="31712am" style="background-color: GREEN"></td>
+				    <td id="3171am" style="background-color: GREEN"></td>
+				    <td id="3172am" style="background-color: GREEN"></td>
 				  </tr>
 				  <tr>
 				    <td>318</td>
-				    <td></td>		
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
-				    <td></td>
+				    <td id="3188am" style="background-color: GREEN"></td>		
+				    <td id="3189am" style="background-color: GREEN"></td>
+				    <td id="31810am" style="background-color: GREEN"></td>
+				    <td id="31811am" style="background-color: GREEN"></td>
+				    <td id="31812pm" style="background-color: GREEN"></td>
+				    <td id="3181pm" style="background-color: GREEN"></td>
+				    <td id="3182pm" style="background-color: GREEN"></td>
+				    <td id="3183pm" style="background-color: GREEN"></td>
+				    <td id="3184pm" style="background-color: GREEN"></td>
+				    <td id="3185pm" style="background-color: GREEN"></td>
+				    <td id="3186pm" style="background-color: GREEN"></td>
+				    <td id="3187pm" style="background-color: GREEN"></td>
+				    <td id="3188pm" style="background-color: GREEN"></td>
+				    <td id="3189pm" style="background-color: GREEN"></td>
+				    <td id="31810pm" style="background-color: GREEN"></td>
+				    <td id="31811pm" style="background-color: GREEN"></td>
+				    <td id="31812am" style="background-color: GREEN"></td>
+				    <td id="3181am" style="background-color: GREEN"></td>
+				    <td id="3182am" style="background-color: GREEN"></td>
 				  </tr>
 			</table>
 		</div>	

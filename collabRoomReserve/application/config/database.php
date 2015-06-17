@@ -48,7 +48,7 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'sqlite:'.APPPATH.'db/rtw.s3db';
+$db['default']['hostname'] = 'sqlite:'.APPPATH.'db/crr.s3db';
 $db['default']['username'] = '';
 $db['default']['password'] = '';
 $db['default']['database'] = '';
