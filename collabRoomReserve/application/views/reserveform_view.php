@@ -13,6 +13,7 @@
 		<script src="http://library.marist.edu/js/jquery.prettyPhoto.js" type="text/javascript" charset="utf-8"></script>
 		<!-- <script src="./js/jquery.rss.js" type="text/javascript" charset="utf-8"></script> --> 
     	<link rel="stylesheet" href="./styles/jquery-ui.css" type="text/css" /> 
+    	
     	<link rel="stylesheet" href="./styles/captcha.css" type="text/css" />
 		<script type="text/javascript" src="./js/jquery.simpleCaptcha-0.2.js"></script>
 		
@@ -22,11 +23,13 @@
 		<script type="text/javascript" src="./js/datepair.js"></script>
 		<script type="text/javascript" src="./js/bootstrap-datepicker.js"></script>
 		<script type="text/javascript" src="./js/jquery-ui.js"></script>
+		
 		<script type="text/javascript" src="./js/validate.js"></script>
+		<script type="text/javascript" src="./js/roomReserveValidate.js" ></script>
 		<link rel="stylesheet" type="text/css" href="./styles/bootstrap-datepicker.css" />
     	<link rel="stylesheet" href="./styles/jquery.timepicker.css" type="text/css" />
-		
-		
+    	
+    	
 		
 		<script>
 		$(document).ready(function() {
@@ -165,7 +168,7 @@
 						<tr>
 							<td>
 							<center>
-								<div id='captcha1'></div>
+								<div id="captcha1"></div>
 								<p style="width: 150px; position:relative; left:50%; margin-left:-350px;">
 
 									<INPUT name="submit" value="Submit" id="submit" TYPE="submit">

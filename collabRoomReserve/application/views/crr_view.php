@@ -100,6 +100,11 @@
 				left: 300px;
 				top: 33px;
 			}
+			#resButton{
+				position: relative;
+				left: 700px;
+				top: 20px;
+			}
 			</style>
 			<table id="keyTable" style="width:100%">
   				<tr>
@@ -119,7 +124,14 @@
   					<td>= Reservation Expired</td>
   				</tr>
   			</table>
-  			<p id="pickDate">Pick a date to view available rooms: <input type="text" name="viewDate" id="datepicker" /></p>
+  			<?php
+				foreach ($res as $row2) {
+					$resDate = $row2 -> resDate;
+					$startTime = $row2 -> startTime;
+					$endTime = $row2 -> endTime;
+			?>
+			<p> <?php echo $resDate; ?></p>
+  			<p id="pickDate">Pick a date to view available rooms: <input type="text" name="viewDate" id="datepicker" value="<?php $date = getdate(); echo($date["mon"]. "/" . $date["mday"]. "/" . $date["year"]); ?>" /></p>
  			<p>Date Being Viewed: <?php $date = getdate(); echo($date["mon"]. "/" . $date["mday"]. "/" . $date["year"]); ?></p>
 		</div>
 		<div>
@@ -479,7 +491,7 @@
 			</table>
 		</div>	
 		<div>
-			<button onclick="location.href='<?php echo base_url("?c=crr&m=reserveform"); ?>'">
+			<button id="resButton" onclick="location.href='<?php echo base_url("?c=crr&m=reserveform"); ?>'">
      Reserve Form</button>
     	</div>	
 				
