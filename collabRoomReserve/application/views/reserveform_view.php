@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<title><?php echo $title; ?></title>
-			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="shortcut icon" href="http://library.marist.edu/images/jac.png" />
 		<link rel="stylesheet" type="text/css" href="./styles/main.css" />
 		<link rel="stylesheet" type="text/css" href="http://library.marist.edu/css/menuStyle.css" />
@@ -13,9 +13,6 @@
 		<script src="http://library.marist.edu/js/jquery.prettyPhoto.js" type="text/javascript" charset="utf-8"></script>
 		<!-- <script src="./js/jquery.rss.js" type="text/javascript" charset="utf-8"></script> --> 
     	<link rel="stylesheet" href="./styles/jquery-ui.css" type="text/css" /> 
-    	
-    	<link rel="stylesheet" href="./styles/captcha.css" type="text/css" />
-		<script type="text/javascript" src="./js/jquery.simpleCaptcha-0.2.js"></script>
 		
 		<script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script> 
 		<script type="text/javascript" src="./js/jquery.timepicker.min.js"></script> 

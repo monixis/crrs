@@ -5,7 +5,7 @@
 		<title><?php echo $title; ?></title>
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="shortcut icon" href="http://library.marist.edu/images/jac.png" />
-		<link rel="stylesheet" type="text/css" href="./style/main.css" />
+		<link rel="stylesheet" type="text/css" href="./styles/main.css" />
 		<link rel="stylesheet" type="text/css" href="http://library.marist.edu/css/menuStyle.css" />
 		<!--script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script-->
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
@@ -75,7 +75,7 @@
 
 		</div>
 
-		<div class = "container_home">
+		
 
 				<div style="width: 12px; float:left;"><img src="./icons/beta.gif" /></div>			
 				<div id="crroptions" style="margin-bottom: 5px;">
@@ -86,24 +86,31 @@
 				<div id="options"><a href="<?php echo base_url(); ?>" title="Home" target="_self"><img class="mainoptions" src="./icons/home.png" /></a><a href="http://library.marist.edu/forms/ask.php" title="Ask-a-Librarian" target="_blank"><img class="mainoptions" src="./icons/contact.png" /></a><a href="<?php echo base_url("?c=crr&m=disclaimer&iframe=true&width=47%&height=55%"); ?>" rel="prettyPhoto"><img class="mainoptions" src="./icons/disclaimer.png" /></a></div>
 				
 				</div>
-		</div>
 		<div>
 			
 			<style>
 			#keyTable {
     			position: relative;
     			left: 1000px;
-    			top: 70px;
+    			top: 10px;
 			}
 			#pickDate{
 				position: relative;
 				left: 300px;
-				top: 33px;
+				bottom: 20px;
 			}
 			#resButton{
 				position: relative;
 				left: 700px;
-				top: 20px;
+				bottom: 30px;
+			}
+			#resTable{
+				position: relative;
+				bottom: 50px;
+			}
+			#viewDate{
+				position: relative;
+				bottom: 50px;
 			}
 			</style>
 			<table id="keyTable" style="width:100%">
@@ -124,18 +131,11 @@
   					<td>= Reservation Expired</td>
   				</tr>
   			</table>
-  			<?php
-				foreach ($res as $row2) {
-					$resDate = $row2 -> resDate;
-					$startTime = $row2 -> startTime;
-					$endTime = $row2 -> endTime;
-			?>
-			<p> <?php echo $resDate; ?></p>
   			<p id="pickDate">Pick a date to view available rooms: <input type="text" name="viewDate" id="datepicker" value="<?php $date = getdate(); echo($date["mon"]. "/" . $date["mday"]. "/" . $date["year"]); ?>" /></p>
- 			<p>Date Being Viewed: <?php $date = getdate(); echo($date["mon"]. "/" . $date["mday"]. "/" . $date["year"]); ?></p>
+ 			<p id="viewDate">Date Being Viewed: <?php $date = getdate(); echo($date["mon"]. "/" . $date["mday"]. "/" . $date["year"]); ?></p>
 		</div>
 		<div>
-			<table border="1" style="width:100%">
+			<table id="resTable" border="1" style="width:100%">
   				<tr>
     				<td>Room#</td>	
 				    <td>8:00am</td>
@@ -319,7 +319,7 @@
 				    <td id="30610am" style="background-color: GREEN"></td>
 				    <td id="30611am" style="background-color: GREEN"></td>
 				    <td id="30612pm" style="background-color: GREEN"></td>
-				    <td id="3061pm" style="background-color: GREEN"></td>
+				    <td id="3061pm" style="background-color: GOLD"></td>
 				    <td id="3062pm" style="background-color: GREEN"></td>
 				    <td id="3063pm" style="background-color: GREEN"></td>
 				    <td id="3064pm" style="background-color: GREEN"></td>
@@ -338,7 +338,7 @@
 				    <td>312</td>
 				    <td id="3128am" style="background-color: GREEN"></td>		
 				    <td id="3129am" style="background-color: GREEN"></td>
-				    <td id="31210am" style="background-color: GREEN"></td>
+				    <td id="31210am" style="background-color: BLUE"></td>
 				    <td id="31211am" style="background-color: GREEN"></td>
 				    <td id="31212pm" style="background-color: GREEN"></td>
 				    <td id="3121pm" style="background-color: GREEN"></td>
@@ -449,8 +449,8 @@
 				    <td id="3178am" style="background-color: GREEN"></td>		
 				    <td id="3179am" style="background-color: GREEN"></td>
 				    <td id="31710am" style="background-color: GREEN"></td>
-				    <td id="31711am" style="background-color: GREEN"></td>
-				    <td id="31712pm" style="background-color: GREEN"></td>
+				    <td id="31711am" style="background-color: PINK"></td>
+				    <td id="31712pm" style="background-color: YELLOW"></td>
 				    <td id="3171pm" style="background-color: GREEN"></td>
 				    <td id="3172pm" style="background-color: GREEN"></td>
 				    <td id="3173pm" style="background-color: GREEN"></td>
@@ -464,11 +464,11 @@
 				    <td id="31711pm" style="background-color: GREEN"></td>
 				    <td id="31712am" style="background-color: GREEN"></td>
 				    <td id="3171am" style="background-color: GREEN"></td>
-				    <td id="3172am" style="background-color: GREEN"></td>
+				    <td id="3172am" style="background-color:ORANGE"></td>
 				  </tr>
 				  <tr>
 				    <td>318</td>
-				    <td id="3188am" style="background-color: GREEN"></td>		
+				    <td id="3188am" style="background-color: RED"></td>		
 				    <td id="3189am" style="background-color: GREEN"></td>
 				    <td id="31810am" style="background-color: GREEN"></td>
 				    <td id="31811am" style="background-color: GREEN"></td>

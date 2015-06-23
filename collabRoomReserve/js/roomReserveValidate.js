@@ -21,6 +21,12 @@ $(document).ready(function() {
 			},
 			resDate: {
 				required: true
+			},
+			timeStart: {
+				required: true
+			},
+			timeEnd: {
+				required: true
 			}
 			
 		},
@@ -35,21 +41,6 @@ $(document).ready(function() {
 			},
 			roomNum: "<br>Please enter a valid room number."
 		}
-		submitHandler: function(form) {
-			$.ajax({
-		        url: "verifyReserveForm.php",
-		        type: "post",
-		        data: $(form).serialize(),
-		        // callback handler that will be called on success
-		        success: function(response){
-		            if (response==1 && $("#theForm").valid()) {
-		                document.location.href="<?php echo base_url("?c=crr&m=verify"); ?>";
-		            } else if (response==0) {
-			                $("#after_submit").html('');
-			                $("#reset").after('<div><label class="error" id="after_submit">Invalid captcha code.</label></div>');
-		              }
-			    }
-	        });
-		}
+		
 	});
 });

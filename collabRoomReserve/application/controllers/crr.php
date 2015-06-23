@@ -3,7 +3,7 @@ class crr extends CI_Controller {
 	public function index() {
 		$this -> load -> model('crr_model');
 		$data['title'] = "JAC Collaboration Rooms";
-		$data['res'] = $this -> crr_model -> getres();
+		//$data['res'] = $this -> crr_model -> getres();
 		$this -> load -> view('crr_view', $data);
 	}
 	public function reserveForm(){
