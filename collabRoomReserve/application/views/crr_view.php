@@ -74,9 +74,6 @@
 			</div>
 
 		</div>
-
-		
-
 				<div style="width: 12px; float:left;"><img src="./icons/beta.gif" /></div>			
 				<div id="crroptions" style="margin-bottom: 5px;">
 					
@@ -132,7 +129,15 @@
   				</tr>
   			</table>
   			<p id="pickDate">Pick a date to view available rooms: <input type="text" name="viewDate" id="datepicker" value="<?php $date = getdate(); echo($date["mon"]. "/" . $date["mday"]. "/" . $date["year"]); ?>" /></p>
- 			<p id="viewDate">Date Being Viewed: <?php $date = getdate(); echo($date["mon"]. "/" . $date["mday"]. "/" . $date["year"]); ?></p>
+ 			<p id="viewDate">Date Being Viewed: 
+ 				<script type="text/javascript">
+ 				document.write($("#datepicker").val());
+ 				$( "#datepicker" ).change(function() {
+ 					// alert( "Handler for .change() called." );
+ 					document.getElementById("viewDate").innerHTML = "Date Being Viewed: " + $("#datepicker").val();
+				});
+ 				</script> 
+ 			</p>
 		</div>
 		<div>
 			<table id="resTable" border="1" style="width:100%">
@@ -319,7 +324,7 @@
 				    <td id="30610am" style="background-color: GREEN"></td>
 				    <td id="30611am" style="background-color: GREEN"></td>
 				    <td id="30612pm" style="background-color: GREEN"></td>
-				    <td id="3061pm" style="background-color: GOLD"></td>
+				    <td id="3061pm" style="background-color: GREEN"></td>
 				    <td id="3062pm" style="background-color: GREEN"></td>
 				    <td id="3063pm" style="background-color: GREEN"></td>
 				    <td id="3064pm" style="background-color: GREEN"></td>
@@ -338,7 +343,7 @@
 				    <td>312</td>
 				    <td id="3128am" style="background-color: GREEN"></td>		
 				    <td id="3129am" style="background-color: GREEN"></td>
-				    <td id="31210am" style="background-color: BLUE"></td>
+				    <td id="31210am" style="background-color: GREEN"></td>
 				    <td id="31211am" style="background-color: GREEN"></td>
 				    <td id="31212pm" style="background-color: GREEN"></td>
 				    <td id="3121pm" style="background-color: GREEN"></td>
@@ -449,8 +454,8 @@
 				    <td id="3178am" style="background-color: GREEN"></td>		
 				    <td id="3179am" style="background-color: GREEN"></td>
 				    <td id="31710am" style="background-color: GREEN"></td>
-				    <td id="31711am" style="background-color: PINK"></td>
-				    <td id="31712pm" style="background-color: YELLOW"></td>
+				    <td id="31711am" style="background-color: GREEN"></td>
+				    <td id="31712pm" style="background-color: GREEN"></td>
 				    <td id="3171pm" style="background-color: GREEN"></td>
 				    <td id="3172pm" style="background-color: GREEN"></td>
 				    <td id="3173pm" style="background-color: GREEN"></td>
@@ -464,11 +469,11 @@
 				    <td id="31711pm" style="background-color: GREEN"></td>
 				    <td id="31712am" style="background-color: GREEN"></td>
 				    <td id="3171am" style="background-color: GREEN"></td>
-				    <td id="3172am" style="background-color:ORANGE"></td>
+				    <td id="3172am" style="background-color: GREEN"></td>
 				  </tr>
 				  <tr>
 				    <td>318</td>
-				    <td id="3188am" style="background-color: RED"></td>		
+				    <td id="3188am" style="background-color: GREEN"></td>		
 				    <td id="3189am" style="background-color: GREEN"></td>
 				    <td id="31810am" style="background-color: GREEN"></td>
 				    <td id="31811am" style="background-color: GREEN"></td>

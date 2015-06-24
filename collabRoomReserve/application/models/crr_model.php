@@ -6,11 +6,13 @@ class crr_model extends CI_Model {
 		parent::__construct();
 		// $this->load->database();
 	}
-	function getres() {
-		$sql = "SELECT resDate startTime, endTime FROM reservations;";
-		$results = $this -> db -> query($sql);
+	
+	function getres($date) {
+		$sql = "SELECT startTime, endTime FROM reservations WHERE resDate = $date;";
+		$results = $this->db->query($sql);
 		return $results -> result();
 	}
+	
 	public function insert_user($userId, $email) {
         $qry = "INSERT INTO reserver VALUES ('$userId', '$email')";
 		$qry->execute();
