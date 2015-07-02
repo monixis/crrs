@@ -21,8 +21,6 @@
 		<script type="text/javascript" src="./js/bootstrap-datepicker.js"></script>
 		<script type="text/javascript" src="./js/jquery-ui.js"></script>
 		
-		<script type="text/javascript" src="./js/validate.js"></script>
-		<script type="text/javascript" src="./js/roomReserveValidate.js" ></script>
 		<link rel="stylesheet" type="text/css" href="./styles/bootstrap-datepicker.css" />
     	<link rel="stylesheet" href="./styles/jquery.timepicker.css" type="text/css" />
     	
@@ -34,13 +32,11 @@
 				minDate : "+0"
 			});
 			$("#timeStart").timepicker({
-				minTime : "8:00am",
-				maxTime : "2:00am",
+				scrollDefault : '9:00am',
 				step : "60"
 			});
 			$("#timeEnd").timepicker({
-				minTime : "8:00am",
-				maxTime : "2:00am",
+				scrollDefault : '9:00am',
 				step : "60"
 			});
 	
@@ -112,47 +108,119 @@
 
 					<table style="height: 70%; width:50%;">
 						<tr>
-							<td width="75%" align="left">
+							<td width="100%" align="left">
 							<FORM NAME="theForm" ID="theForm" ACTION="#" METHOD="POST">
 								<TABLE width="700px">
 									<TR>
 										<TD class="formLabel">Room #:</TD>
 										<td class ="ask_input" colspan="3">
-										<INPUT required TYPE="text" NAME="roomNum" SIZE="60" class="ask_text_input" />
+										<select name ="roomNum" value="<?php echo set_value('roomNum'); ?>" SIZE="1">
+											<option value="110">110</option>
+											<option value="111">111</option>
+											<option value="112">112</option>
+											<option value="300A">300A</option>
+											<option value="300B">300B</option>
+											<option value="300C">300C</option>
+											<option value="300D">300D</option>
+											<option value="306">306</option>
+											<option value="312">312</option>
+											<option value="313">313</option>
+											<option value="314">314</option>
+											<option value="315">315</option>
+											<option value="316">316</option>
+											<option value="317">317</option>
+											<option value="318">318</option>
+										</select>
 										</TD>
 									</TR>
-									
+									<TR>
+										<TD>
+										</TD>
+										<td style="color: RED" colspan="3">
+											<?php echo form_error('roomNum'); ?>
+										</td>
+									</TR>	
 									<TR>
 										<TD class="formLabel">Reserve Date:</TD>
 										<td class ="ask_input">
-										<INPUT required TYPE="text" NAME="resDate" id="dateStart" SIZE="13" class="ask_text_input" />
-										<label class="formLabel">From: </label><INPUT required TYPE="text" NAME="timeStart" id="timeStart" SIZE="13" class="ask_text_input" />
-										<label class="formLabel"> to</label> <INPUT required TYPE="text" NAME="timeEnd" id="timeEnd" SIZE="13" class="ask_text_input" />
-										
-										
+										<INPUT TYPE="text" NAME="resDate" value="<?php echo set_value('resDate'); ?>" id="dateStart" SIZE="13" class="ask_text_input" />
+										<label class="formLabel">From: </label><INPUT TYPE="text" value="<?php echo set_value('timeStart'); ?>" NAME="timeStart" id="timeStart" SIZE="13" class="ask_text_input" />
+										<label class="formLabel"> to</label> <INPUT TYPE="text" value="<?php echo set_value('timeEnd'); ?>" NAME="timeEnd" id="timeEnd" SIZE="13" class="ask_text_input" />
 									</TR>
+									<TR>
+										<TD>
+										</TD>
+										<td style="color: RED" colspan="3">
+											<?php echo form_error('resDate'); ?>  
+										</td>
+									</TR>	
+									<TR>
+										<td>
+										</td>
+										<td style="color: RED" colspan="3">
+											<?php echo form_error('timeEnd'); ?>
+										</td>
+									</TR>
+									<tr>
+										<td>
+										</td>
+										<td style="color: RED" colspan="3">
+											<?php echo form_error('timeStart'); ?> 
+										</td>
+									</tr>
 									<TR>
 										<TD class="formLabel">Booking Type:</TD>
 										<td class="ask_input">
-										<select name ="bookType" SIZE="1">
+										<select name ="bookType" value="<?php echo set_value('bookType'); ?>" SIZE="1">
 											<option value="person">In Person</option>
 											<option value="phone">By Phone</option>
 										</select>
 										</TD>
 									</TR>
 									<TR>
+										<TD>
+										</TD>
+										<td style="color: RED" colspan="3">
+											<?php echo form_error('bookType'); ?>
+										</td>
+									</TR>	
+									<TR>
 										<TD class="formLabel">Primary Patron Email:</TD>
 										<td class="ask_input">
-										<INPUT required TYPE="text" NAME="primEmail" SIZE="60" class="ask_text_input" />
-										<br>
-										<input type="checkbox" required>Check to verify that this patron has a Marist CWID.
+										<INPUT TYPE="text" NAME="primEmail" value="<?php echo set_value('primEmail'); ?>" SIZE="60" class="ask_text_input" />
+									</TR>
+									<TR>
+										<TD>
+										</TD>
+										<td style="color: RED" colspan="3">
+											<?php echo form_error('primEmail'); ?>
+										</td>
+									</TR>	
+									<TR>
+										<TD>
+										</TD>
+										<td colspan="3">
+											<input type="checkbox" required>Check to verify that this patron has a Marist CWID.
+										</td>
 									</TR>
 									<TR>
 										<TD class="formLabel">Secondary Patron Email:</TD>
 										<td class="ask_input">
-										<INPUT required TYPE="text" NAME="secEmail" SIZE="60" class="ask_text_input" />
-										<br>
-										<input type="checkbox" required>Check to verify that this patron has a Marist CWID.
+										<INPUT TYPE="text" NAME="secEmail" value="<?php echo set_value('secEmail'); ?>" SIZE="60" class="ask_text_input" />
+									</TR>
+									<TR>
+										<TD>
+										</TD>
+										<td style="color: RED" colspan="3">
+											<?php echo form_error('secEmail'); ?>
+										</td>
+									</TR>	
+									<TR>
+										<TD>
+										</TD>
+										<td colspan='3'>
+											<input type="checkbox" required>Check to verify that this patron has a Marist CWID.
+										</td>
 									</TR>
 									<TR>
 										<TD class="formLabel"> Comments (optional):
