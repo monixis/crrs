@@ -131,43 +131,17 @@
 											<option value="317">317</option>
 											<option value="318">318</option>
 										</select>
+										</br><div style="color: RED"><?php echo form_error('roomNum'); ?></div>
 										</TD>
 									</TR>
 									<TR>
-										<TD>
-										</TD>
-										<td style="color: RED" colspan="3">
-											<?php echo form_error('roomNum'); ?>
-										</td>
-									</TR>	
-									<TR>
 										<TD class="formLabel">Reserve Date:</TD>
-										<td class ="ask_input">
+										<td class ="ask_input" colspan+"3">
 										<INPUT TYPE="text" NAME="resDate" value="<?php echo set_value('resDate'); ?>" id="dateStart" SIZE="13" class="ask_text_input" />
 										<label class="formLabel">From: </label><INPUT TYPE="text" value="<?php echo set_value('timeStart'); ?>" NAME="timeStart" id="timeStart" SIZE="13" class="ask_text_input" />
 										<label class="formLabel"> to</label> <INPUT TYPE="text" value="<?php echo set_value('timeEnd'); ?>" NAME="timeEnd" id="timeEnd" SIZE="13" class="ask_text_input" />
+										<div style="color: RED"><?php echo form_error('resDate') . " "?><?php echo form_error('timeStart') . " "; ?><?php echo form_error('timeEnd'); ?></div>
 									</TR>
-									<TR>
-										<TD>
-										</TD>
-										<td style="color: RED" colspan="3">
-											<?php echo form_error('resDate'); ?>  
-										</td>
-									</TR>	
-									<TR>
-										<td>
-										</td>
-										<td style="color: RED" colspan="3">
-											<?php echo form_error('timeEnd'); ?>
-										</td>
-									</TR>
-									<tr>
-										<td>
-										</td>
-										<td style="color: RED" colspan="3">
-											<?php echo form_error('timeStart'); ?> 
-										</td>
-									</tr>
 									<TR>
 										<TD class="formLabel">Booking Type:</TD>
 										<td class="ask_input">
@@ -175,26 +149,13 @@
 											<option value="person">In Person</option>
 											<option value="phone">By Phone</option>
 										</select>
+										</br><div style="color:RED"><?php echo form_error('bookType'); ?></div>
 										</TD>
 									</TR>
-									<TR>
-										<TD>
-										</TD>
-										<td style="color: RED" colspan="3">
-											<?php echo form_error('bookType'); ?>
-										</td>
-									</TR>	
 									<TR>
 										<TD class="formLabel">Primary Patron Email:</TD>
 										<td class="ask_input">
-										<INPUT TYPE="text" NAME="primEmail" value="<?php echo set_value('primEmail'); ?>" SIZE="60" class="ask_text_input" />
-									</TR>
-									<TR>
-										<TD>
-										</TD>
-										<td style="color: RED" colspan="3">
-											<?php echo form_error('primEmail'); ?>
-										</td>
+										<INPUT TYPE="text" NAME="primEmail" value="<?php echo set_value('primEmail'); ?>" SIZE="60" class="ask_text_input" /></br><div style="color:RED"><?php echo form_error('primEmail'); ?></div>
 									</TR>	
 									<TR>
 										<TD>
@@ -206,15 +167,8 @@
 									<TR>
 										<TD class="formLabel">Secondary Patron Email:</TD>
 										<td class="ask_input">
-										<INPUT TYPE="text" NAME="secEmail" value="<?php echo set_value('secEmail'); ?>" SIZE="60" class="ask_text_input" />
+										<INPUT TYPE="text" NAME="secEmail" value="<?php echo set_value('secEmail'); ?>" SIZE="60" class="ask_text_input" /></br><div style="color:RED"><?php echo form_error('secEmail'); ?></div>
 									</TR>
-									<TR>
-										<TD>
-										</TD>
-										<td style="color: RED" colspan="3">
-											<?php echo form_error('secEmail'); ?>
-										</td>
-									</TR>	
 									<TR>
 										<TD>
 										</TD>
@@ -233,7 +187,6 @@
 						<tr>
 							<td>
 							<center>
-								<div id="captcha1"></div>
 								<p style="width: 150px; position:relative; left:50%; margin-left:-350px;">
 
 									<INPUT name="submit" value="Submit" id="submit" TYPE="submit">

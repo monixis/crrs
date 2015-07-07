@@ -94,7 +94,7 @@ class crr extends CI_Controller {
 				$roomNum = "303";
 			else 
 				$roomNum = $this->input->post('roomNum');
-			$resId = 0 + $roomNum . substr($resdate, 0, 2) . substr($resdate,3,2) . substr($resdate,6,4) . $resStartTime . $resEndTime;
+			$resId = substr($resdate, 0, 2) . substr($resdate,3,2) . substr($resdate,6,4) . $resStartTime . $resEndTime . $roomNum;
 			$resData = array(
 				'resId' => $resId,
 				'roomNum' => $this->input->post('roomNum'),
