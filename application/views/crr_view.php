@@ -92,7 +92,7 @@
   					<th>Time</th>
   					  
   				<?php 
-  				 $formatDate = date("m/d/Y"); 
+  				 $formatDate = date("mdY"); 
   				 $totalrooms = 0;
 				 $cnt = 0;
 				 $a_rooms = array();
