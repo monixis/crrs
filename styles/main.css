@@ -83,3 +83,10 @@ td, th {
 td.slots{
 	background: green;
 }
+td.reserved{
+	background: #b31b1b;
+}
+
+td.unverified{
+	background: #FF9900;
+}

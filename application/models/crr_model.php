@@ -13,12 +13,19 @@ class crr_model extends CI_Model {
 		return $results -> result();
 	}
 	
+	public function getReservations($date){
+		$sql = "SELECT resId, status FROM reservations WHERE resDate = '$date';";
+		$results = $this->db->query($sql, array($date));
+		return $results -> result();
+		//return $sql;
+ 	}
+	
 	public function insert_user($userId, $email) {
         $qry = "INSERT INTO reserver VALUES ('$userId', '$email')";
 		$qry->execute();
 	}
-	public function insert_reservation($resID, $resDate, $startTime, $endTime, $resEmail, $resType, $roomNum, $status, $isFinals){
-		$qry = "INSERT INTO reservations VALUES ('$resID', $resDate, $startTime, $endTime, '$resEmail', '$resType', '$roomNum', '$status', '$isFinals')";
+	public function insert_reservation($resID, $resDate, $startTime, $resEmail, $resType, $roomNum, $status, $isFinals){
+		$qry = "INSERT INTO reservations VALUES ('$resID', $resDate, $startTime, '$resEmail', '$resType', '$roomNum', '$status', '$isFinals')";
 		$qry->execute();
 	}
 	
