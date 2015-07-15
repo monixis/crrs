@@ -7,10 +7,21 @@ class crr_model extends CI_Model {
 		// $this->load->database();
 	}
 	
-	function getres($date) {
-		$sql = "SELECT startTime, endTime FROM reservations WHERE resDate = $date;";
-		$results = $this->db->query($sql);
+	function getreserver($res) {
+		$sql = "SELECT email FROM reserver WHERE email = '$res';";
+		$results = $this->db->query($sql, array($res));
+		if($results == $res)
+			return false;
+		else {
+			return true;
+		}
+	}
+	
+	public function getResDetails($resId){
+		$sql = "SELECT resId, resDate, startTime, resEmail, resType, roomNum, status.status, reservations.status as 'statusId' FROM reservations inner join status on reservations.status = status.statusNum WHERE resId = '$resId';";
+		$results = $this->db->query($sql, array($resId));
 		return $results -> result();
+		//return $sql;
 	}
 	
 	public function getReservations($date){
@@ -20,13 +31,11 @@ class crr_model extends CI_Model {
 		//return $sql;
  	}
 	
-	public function insert_user($userId, $email) {
-        $qry = "INSERT INTO reserver VALUES ('$userId', '$email')";
-		$qry->execute();
+	public function insert_user($email) {
+		$this->db->insert('reserver', $email);
 	}
-	public function insert_reservation($resID, $resDate, $startTime, $resEmail, $resType, $roomNum, $status, $isFinals){
-		$qry = "INSERT INTO reservations VALUES ('$resID', $resDate, $startTime, '$resEmail', '$resType', '$roomNum', '$status', '$isFinals')";
-		$qry->execute();
+	public function insert_reservation($data){
+		$this->db->insert('reservations', $data);
 	}
 	
 	public function getRooms(){

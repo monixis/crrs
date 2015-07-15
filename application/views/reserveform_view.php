@@ -5,24 +5,15 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="shortcut icon" href="http://library.marist.edu/images/jac.png" />
 		<link rel="stylesheet" type="text/css" href="./styles/main.css" />
-		<link rel="stylesheet" type="text/css" href="http://library.marist.edu/css/menuStyle.css" />
-		<!--script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script-->
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-		<script src="http://library.marist.edu/js/libraryMenu.js" type="text/javascript" charset="utf-8"></script>
 		<link rel="stylesheet" href="http://library.marist.edu/css/prettyPhoto.css" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
-		<script src="http://library.marist.edu/js/jquery.prettyPhoto.js" type="text/javascript" charset="utf-8"></script>
-		<!-- <script src="./js/jquery.rss.js" type="text/javascript" charset="utf-8"></script> --> 
     	<link rel="stylesheet" href="./styles/jquery-ui.css" type="text/css" /> 
 		
 		<script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script> 
-		<script type="text/javascript" src="./js/jquery.timepicker.min.js"></script> 
-		<script type="text/javascript" src="./js/jquery.datepair.js"></script> 
-		<script type="text/javascript" src="./js/datepair.js"></script>
 		<script type="text/javascript" src="./js/bootstrap-datepicker.js"></script>
 		<script type="text/javascript" src="./js/jquery-ui.js"></script>
 		
 		<link rel="stylesheet" type="text/css" href="./styles/bootstrap-datepicker.css" />
-    	<link rel="stylesheet" href="./styles/jquery.timepicker.css" type="text/css" />
     	
     	
 		
@@ -32,11 +23,6 @@
 				minDate : "+0"
 			});
 		})
-		</script>
-		<script type="text/javascript" charset="utf-8">
-  		$(document).ready(function(){
-   	 		$("a[rel^='prettyPhoto']").prettyPhoto();
-  		});
 		</script>
 		<script>
 			(function(i, s, o, g, r, a, m) {
@@ -65,31 +51,36 @@
 	</head>
 	<body>
 
-		<div id="headerContainer">
-			<a href="<?php echo base_url(); ?>" target="_self"> <div id="header"></div> </a>
-		</div>
-		<div id="menu">
-			<div id="menuItems">
-
-			</div>
+		
 
 		</div>
 
 		
 
-			
+		
 				
-					<h1 style="color: #b31b1b; text-align: center;">JAC Collaboration Room Reservation</h1>
+					<h1 style="color: #b31b1b; text-align: center;"><?php echo $title;?></h1>
 				
 				
 		
 					
-				
 				
 				<div align="center">
+				<div style="width:36px; height:26px; float:right; margin-top:-65px;"><img  id="close" src="./icons/close.png"/></div>
 
 					<h1 class="page_head">Room Reserve Form</h1>
-					
+					<?php 
+						$resDate = substr($resId, 0, 2) . "/" . substr($resId, 2, 2) . "/" . substr($resId, 4, 4);
+						if(substr($resId,11,1) == "A" || substr($resId,11,1) == "B"|| substr($resId,11,1) == "C" || substr($resId,11,1) == "D"){
+							$roomNum = substr($resId,8,4);
+							$time = substr($resId,12);
+						}
+						else {
+							$roomNum = substr($resId,8,3);
+							$time = substr($resId,11);
+						}
+						
+					?>
 					<table style="height: 70%; width:50%;">
 						<tr>
 							<td width="100%" align="left">
@@ -98,47 +89,24 @@
 									<TR>
 										<TD class="formLabel">Room #:</TD>
 										<td class ="ask_input" colspan="3">
-										<select name ="roomNum" value="<?php echo set_value('roomNum'); ?>" SIZE="1">
-											<?php
-												foreach ($rooms as $row1) {
-												$roomNum = $row1 -> roomNum;
-								 			?>
-											<option value="<?php echo $roomNum?>"><?php echo $roomNum?></option>
-											<?php
-												}
-											?>
-										</select>
-										</br><div style="color: RED"><?php echo form_error('roomNum'); ?></div>
+										<input type="text" name="roomNum" disabled="true" value="<?php echo $roomNum ?>"/>
 										</TD>
 									</TR>
 									<TR>
 										<TD class="formLabel">Reserve Date:</TD>
 										<td class ="ask_input" colspan+"3">
-										<INPUT TYPE="text" NAME="resDate" value="<?php echo set_value('resDate'); ?>" id="dateStart" SIZE="13" class="ask_text_input" />
-										<div style="color: RED"><?php echo form_error('resDate') . " "?></div>
+										<INPUT TYPE="text" disabled="true" NAME="resDate" value="<?php echo $resDate?>" SIZE="13" class="ask_text_input" />
 									</TR>
 									<TR>
 										<TD class="formLabel">Reservation Start Time:</TD>
 										<td class="ask_input">
-										<select name ="timeStart" value="<?php echo set_value('timeStart'); ?>" SIZE="1">
-											<?php 
-												foreach ($hours as $row2) {
-												$starttime = $row2 -> starttime;
-												$totalhrs = $row2 -> totalhrs;
-												}
-												for($i=0; $i < $totalhrs; $i++){
-								 			?>
-											<option value="<?php echo ($starttime)?>:00"><?php echo $starttime?>:00</option>
-											<?php
-												$starttime++; 
-												}
-											?>
-										</select>
+										<input type="text" disabled="true" name ="timeStart" value="<?php echo $time . ":00" ?>">
 										<label class="formLabel">for </label>
 										<select name ="numHours" value="<?php echo set_value('numHours'); ?>" SIZE="1">
-											<option value="1">1 hour</option>
-											<option value="2">2 hours</option>
-											<option value="3">3 hours</option>
+											<option value="<?php echo $time + 1; ?>">1 hour</option>
+											<option value="<?php echo $time + 2; ?>">2 hours</option>
+											<option value="<?php echo $time + 3; ?>">3 hours</option>
+										</select>
 									</TR>
 									<TR>
 										<TD class="formLabel">Booking Type:</TD>

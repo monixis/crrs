@@ -1,10 +1,20 @@
-<link rel="stylesheet" type="text/css" href="./styles/main.css" />
+		<link rel="stylesheet" type="text/css" href="./styles/main.css" />
 		<script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script> 
 		<script type="text/javascript" src="./js/dashboard.js"></script> 
+		<link rel="stylesheet" href="http://library.marist.edu/css/prettyPhoto.css" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
+		<script src="http://library.marist.edu/js/jquery.prettyPhoto.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" charset="utf-8">
+  		$(document).ready(function(){
+   			$("a[rel^='prettyPhoto']").prettyPhoto();
+  		});
+		</script>
 		<div id="dashboard">
+			<div id="shadowBox"></div>
+			
 			<?php 
 			$reservedslots = array();			
 			$cnt1 = 0;
+			//$detailsLink = "";
 			
 			foreach ($slots as $row2){
 				$reservedslots[$cnt1][0] = $row2 -> resId;
@@ -101,4 +111,5 @@
   				<?php }	?>  				
 			
 			</table>
+			
 		</div>	

@@ -21,5 +21,22 @@ $('#dashboard_view').load(url);
 });
 
 $('td').click(function() {
-	alert($(this).attr('id'));
+	var slotid = $(this).attr('id'); 
+	if ($(this).attr('class') == 'slots'){
+		//alert('open slots');
+		var link = "http://localhost/collabRoomReserveSystem/?c=crr&m=reserveForm&resId=" + slotid;
+		$('#shadowBox').css({'visibility':'visible','width':'900px','height':'700px'});
+		//$('#shadowBox').empty();
+	$('#shadowBox').load(link);
+	}else{
+		var link = "http://localhost/collabRoomReserveSystem/?c=crr&m=reservationDetails&resId=" + slotid;
+		$('#shadowBox').css({'visibility':'visible','width':'500px','height':'350px'});
+		//$('#shadowBox').empty();
+	$('#shadowBox').load(link);
+	}
+});
+
+$('#close').click(function(){
+	$('#shadowBox').css('visibility','hidden');
+	alert("monish");
 })

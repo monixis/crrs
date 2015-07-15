@@ -80,13 +80,68 @@ td, th {
 	overflow-x: scroll;
 }
 
-td.slots{
+.slots{
 	background: green;
 }
-td.reserved{
+.reserved{
 	background: #b31b1b;
 }
 
-td.unverified{
+.unverified{
 	background: #FF9900;
+}
+#details{
+	
+	margin-right:auto;
+	margin-left: auto;
+	width: 500px;
+	font-family: font-family: sans-serif, Helvetica, arial;
+	font-size: 16px;
+	background: #FFFFFF;
+}
+
+#detailsType{
+	height: 80px;
+	border-bottom: 1px solid #e6e6e6;
+}
+
+.label{
+	margin-left: 60px;
+	font-size: 18px;
+	font-style: bold;
+	margin-right: 5px;
+}
+
+.resDet{
+	border-bottom: 1px solid #e6e6e6;
+}
+
+td{
+	width: 35px;
+}
+
+td:hover{
+	cursor:pointer;
+}
+
+#shadowBox{
+	border: 8px solid black;
+	/*width: 500px;
+	height: 450px;*/
+	position: absolute;
+	z-index: 10;
+	top:50%;
+	left:50%;
+	margin-left: -180px;
+    margin-top: -140px;
+    box-shadow: 0 0 0 9999px rgba(0,0,0,0.5);
+    border-radius: 7px;
+    visibility: hidden;
+    background: #ffffff;
+   overflow: hidden;
+}
+
+#close:hover{
+	opacity:0.5;
+	cursor: pointer;
 }
