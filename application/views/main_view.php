@@ -1,5 +1,5 @@
 		<link rel="stylesheet" type="text/css" href="./styles/main.css" />
-		<script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script> 
+		<script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script> 	
 		<script type="text/javascript" src="./js/dashboard.js"></script> 
 		<link rel="stylesheet" href="http://library.marist.edu/css/prettyPhoto.css" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
 		<script src="http://library.marist.edu/js/jquery.prettyPhoto.js" type="text/javascript" charset="utf-8"></script>
@@ -9,7 +9,7 @@
   		});
 		</script>
 		<div id="dashboard">
-			<div id="shadowBox"></div>
+			<div id="shadowBox"><iframe id="shadowFrame"></iframe><div style="width:36px; height:26px; float:right; margin-top:3px;"><img id="close" src="./icons/close.png"/></div></div>
 			
 			<?php 
 			$reservedslots = array();			

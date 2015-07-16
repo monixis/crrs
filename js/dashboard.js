@@ -1,6 +1,7 @@
 /**
  * @author Monish.Singh1
  */
+var shadowBoxOpen = 0;
 $('#datepicker').change(function() {
 	 var date = $('input#datepicker').val();
 	/* var find = '/';
@@ -22,21 +23,33 @@ $('#dashboard_view').load(url);
 
 $('td').click(function() {
 	var slotid = $(this).attr('id'); 
-	if ($(this).attr('class') == 'slots'){
-		//alert('open slots');
-		var link = "http://localhost/collabRoomReserveSystem/?c=crr&m=reserveForm&resId=" + slotid;
-		$('#shadowBox').css({'visibility':'visible','width':'900px','height':'700px'});
-		//$('#shadowBox').empty();
-	$('#shadowBox').load(link);
-	}else{
-		var link = "http://localhost/collabRoomReserveSystem/?c=crr&m=reservationDetails&resId=" + slotid;
-		$('#shadowBox').css({'visibility':'visible','width':'500px','height':'350px'});
-		//$('#shadowBox').empty();
-	$('#shadowBox').load(link);
+	if(shadowBoxOpen == 0){
+		if ($(this).attr('class') == 'slots'){
+			var link = "http://localhost/collabRoomReserveSystem/?c=crr&m=reserveForm&resId=" + slotid;
+			$('#shadowBox').css({'visibility':'visible','width':'840px','height':'600px'});
+			$('#shadowFrame').css({'width':'800px','height':'600px'});
+			$('iframe').attr('src',link);
+			shadowBoxOpen = 1;
+		}else{
+			var link = "http://localhost/collabRoomReserveSystem/?c=crr&m=reservationDetails&resId=" + slotid;
+			$('#shadowBox').css({'visibility':'visible','width':'540px','height':'350px'});
+			$('#shadowFrame').css({'width':'500px','height':'350px'});
+	    	$('iframe').attr('src',link);
+	    	shadowBoxOpen = 1;
+		}
+	}else if(shadowBoxOpen == 1){
+			$('#shadowBox').attr('src','');
+			$('#shadowBox').css('visibility','hidden');
+			shadowBoxOpen = 0;
 	}
+	
 });
 
 $('#close').click(function(){
+	$('#shadowBox').attr('src','');
 	$('#shadowBox').css('visibility','hidden');
-	alert("monish");
-})
+	shadowBoxOpen = 0;
+});
+
+
+

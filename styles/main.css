@@ -126,22 +126,40 @@ td:hover{
 
 #shadowBox{
 	border: 8px solid black;
-	/*width: 500px;
-	height: 450px;*/
-	position: absolute;
+	position: fixed;
 	z-index: 10;
-	top:50%;
-	left:50%;
-	margin-left: -180px;
-    margin-top: -140px;
+	left:33%;
+	top:23%;
     box-shadow: 0 0 0 9999px rgba(0,0,0,0.5);
     border-radius: 7px;
     visibility: hidden;
     background: #ffffff;
-   overflow: hidden;
+    overflow: hidden;
 }
 
 #close:hover{
 	opacity:0.5;
 	cursor: pointer;
+}
+
+iframe{
+	border: none;
+}
+
+.btn {
+  -webkit-border-radius: 8;
+  -moz-border-radius: 8;
+  border-radius: 8px;
+  font-family: Georgia;
+  color: #ffffff;
+  font-size: 16px;
+  background: #333;
+  padding: 10px 6px 10px 6px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  text-decoration: none;
+  opacity:0.5;
+  cursor: pointer;
 }
