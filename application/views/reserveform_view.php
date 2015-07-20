@@ -10,8 +10,15 @@
 				});
 			})
 		</script>
-			<div id="details">
-					<h1 class="page_head">Room Reserve Form</h1>
+		<div style="width: 750px;">
+			
+		<div id="detailsType">
+				<div id="color" style="width: 60px; height: 550px; float:left; background: green; ">
+				</div>
+				<div style="float:right; width:690px; height: 38px; text-align: center; font-size: 30px; color: #b31b1b;">
+					<p>Room Reserve Form</p>
+				</div>
+		</div>
 					<?php
 						$resDate = substr($resId, 0, 2) . "/" . substr($resId, 2, 2) . "/" . substr($resId, 4, 4);
 						if (substr($resId, 11, 1) == "A" || substr($resId, 11, 1) == "B" || substr($resId, 11, 1) == "C" || substr($resId, 11, 1) == "D") {
@@ -23,7 +30,31 @@
 						}
 					?>
 					<FORM NAME="theForm" ID="theForm" ACTION="#" METHOD="POST">	
-								<TABLE width="700px">
+						
+						<p class="resDet"><label class="label">Room No: </label><input type="text" name="roomNum" disabled="true" value="<?php echo $roomNum ?>"/></p>
+						<p class="resDet"><label class="label">Reserve Date: </label><INPUT TYPE="text" disabled="true" NAME="resDate" value="<?php echo $resDate?>" SIZE="13" class="ask_text_input" /></p>
+						<p class="resDet"><label class="label">Reservation Time: </label><input type="text" disabled="true" name ="timeStart" value="<?php echo $time . ":00" ?>">
+										<label class="label">for </label>
+										<select name ="numHours" value="<?php echo set_value('numHours'); ?>" SIZE="1">
+											<option value="<?php echo $time + 1; ?>">1 hour</option>
+											<option value="<?php echo $time + 2; ?>">2 hours</option>
+											<option value="<?php echo $time + 3; ?>">3 hours</option>
+										</select>
+						</p>
+						<p class="resDet"><label class="label">Booking Type:</label><select name ="bookType" value="<?php echo set_value('bookType'); ?>" SIZE="1">
+											<option value="person">In Person</option>
+											<option value="phone">By Phone</option>
+										</select>
+										</br><div style="color:RED"><?php echo form_error('bookType'); ?></div>
+						</p>
+						<p class="resDet"><label class="label">Primary Email:</label><INPUT TYPE="text" NAME="primEmail" value="<?php echo set_value('primEmail'); ?>" SIZE="60" class="ask_text_input" /></br><div style="color:RED"><?php echo form_error('primEmail'); ?></div></p>
+						<p class="resDet"><input type="checkbox" style="margin-left:180px;" required>Check to verify that this patron has a Marist CWID.</input></p>
+						<p class="resDet"><label class="label">Secondary Email:</label><INPUT TYPE="text" NAME="secEmail" value="<?php echo set_value('secEmail'); ?>" SIZE="60" class="ask_text_input" /></br><div style="color:RED"><?php echo form_error('secEmail'); ?></div></p>
+						<p class="resDet"><input type="checkbox" style="margin-left:180px;" required>Check to verify that this patron has a Marist CWID.</input></p>
+						<p class="resDet"><label class="label">Comments (Optional): </label><textarea NAME="Comments" ROWS="5" COLS="43" ></textarea></p>
+						
+						
+								<!--TABLE id="reserveform">
 									<TR>
 										<TD class="label">Room #:</TD>
 										<td class ="ask_input" colspan="3">
@@ -36,7 +67,7 @@
 										<INPUT TYPE="text" disabled="true" NAME="resDate" value="<?php echo $resDate?>" SIZE="13" class="ask_text_input" />
 									</TR>
 									<TR>
-										<TD class="label">Reservation Start Time:</TD>
+										<TD class="label">Reservation Time:</TD>
 										<td class="ask_input">
 										<input type="text" disabled="true" name ="timeStart" value="<?php echo $time . ":00" ?>">
 										<label class="label">for </label>
@@ -57,7 +88,7 @@
 										</TD>
 									</TR>
 									<TR>
-										<TD class="label">Primary Patron Email:</TD>
+										<TD class="label">Primary Email:</TD>
 										<td class="ask_input">
 										<INPUT TYPE="text" NAME="primEmail" value="<?php echo set_value('primEmail'); ?>" SIZE="60" class="ask_text_input" /></br><div style="color:RED"><?php echo form_error('primEmail'); ?></div>
 									</TR>	
@@ -69,7 +100,7 @@
 										</td>
 									</TR>
 									<TR>
-										<TD class="label">Secondary Patron Email:</TD>
+										<TD class="label">Secondary Email:</TD>
 										<td class="ask_input">
 										<INPUT TYPE="text" NAME="secEmail" value="<?php echo set_value('secEmail'); ?>" SIZE="60" class="ask_text_input" /></br><div style="color:RED"><?php echo form_error('secEmail'); ?></div>
 									</TR>
@@ -84,9 +115,9 @@
 										<TD class="label"> Comments (optional):
 										<br>
 										</TD>
-										<td class ="ask_input" colspan="3">							<textarea NAME="Comments" ROWS="10" COLS="43" ></textarea></TD>
+										<td class ="ask_input" colspan="3">	<textarea NAME="Comments" ROWS="10" COLS="43" ></textarea></TD>
 									</TR>
-						</table>			
+						</table-->			
 						<!--table width="600px">
 						<tr>
 							<td>
@@ -101,8 +132,8 @@
 						</tr>
 					</table-->
 					<input name="submit" value="Reserve the Room" id="submit" type="submit" class="btn" style="margin-left:56px; margin-top:5px;"/>
-					<input name="reset" type="reset" id="reset" class="btn" />
+					<!--input name="reset" type="reset" id="reset" class="btn" style="margin-left:56px; margin-top:5px;"/-->
 					</form>
-					</div>
-					
+	
+			</div>		
 			

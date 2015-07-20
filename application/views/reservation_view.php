@@ -41,4 +41,5 @@
 	<p class="resDet"><label class="label">Reserved By:</label><?php echo $resEmail; ?></p>
 	<p class="resDet"><label class="label">Status:</label><?php echo $status; ?></p>
 	<button type="button" class="btn" style="margin-left:56px; margin-top:5px;">Keys Returned</button>
+	<button type="button" class="btn" style="margin-left:56px; margin-top:5px;">Cancel Reservation</button>
 </div>
