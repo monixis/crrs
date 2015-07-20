@@ -77,36 +77,41 @@ class crr extends CI_Controller {
 					$isFinals = TRUE;
 				else 
 					$isFinals = FALSE;
-
-				$limit = $this->input->post('numHours');
-				for($time; $time < $limit; $time++){
-					if($time == 25)
-						$resTime = 1;
-					else if ($time == 26)
-						$resTime = 2;
-					else {
-						$resTime = $time;
-					}
-					$inResTime = $resTime . ":00";
-					$resData = array(
-						'resId' => $resId,
-						'roomNum' => $roomNum,
-						'resDate' => $resDate,
-						'startTime' => $inResTime,
-						'resEmail' => $this->input->post('primEmail'),
-						'resType' => $this->input->post('bookType'),
-						'status' => $status,
-						'isFinals' => $isFinals
-					);
-				$this->crr_model->insert_reservation($resData);
+			
+			$limit = $this->input->post('numHours') + $time;
+			for($time; $time < $limit; $time++){
+				if($time == 25)
+					$resTime = 1;
+				else if ($time == 26)
+					$resTime = 2;
+				else {
+					$resTime = $time;
 				}
+				$resId = substr($resId, 0, 8) . $roomNum . $resTime;
+				$inResTime = $resTime . ":00";
+				$resData = array(
+					'resId' => $resId,
+					'roomNum' => $roomNum,
+					'resDate' => $resDate,
+					'startTime' => $inResTime,
+					'resEmail' => $this->input->post('primEmail'),
+					'resType' => $this->input->post('bookType'),
+					'status' => $status,
+					'isFinals' => $isFinals
+				);
+			$this->crr_model->insert_reservation($resData);
+			
+			}
 				
-			$this->load->view('verify_view');
-		}
-		}
+		$this->load->view('verify_view');
+	}
+}
 		//$this -> load -> view('reserveform_view', $data);
 	public function disclaimer(){
 		$this -> load -> view('disclaimer');	
+	}	
+	public function test(){
+		$this -> load -> view('verify_view');	
 	}	
 }
 ?>

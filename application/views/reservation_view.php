@@ -1,4 +1,3 @@
-
 <link rel="stylesheet" type="text/css" href="./styles/main.css" />
 <script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script> 		
 <script type="text/javascript" src="./js/dashboard.js"></script> 

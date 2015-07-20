@@ -1,4 +1,4 @@
-		<link rel="stylesheet" type="text/css" href="./styles/main.css" />
+<link rel="stylesheet" type="text/css" href="./styles/main.css" />
     	<link rel="stylesheet" href="./styles/jquery-ui.css" type="text/css" /> 
 		<script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script> 
 		<script type="text/javascript" src="./js/jquery-ui.js"></script>
@@ -9,6 +9,28 @@
 					minDate : "+0"
 				});
 			})
+		</script>
+		<script>
+			$(document).ready(function() {
+				$("#bookType").change(function(){
+								if($(this).find('option:selected').val() == "person"){
+									$("#check2").removeAttr('hidden');
+									$("#checkbox2").attr('required','true');
+									$("#isUnverified2").attr('hidden', 'true');
+									$("#check1").removeAttr('hidden');
+									$("#checkbox1").attr('required','true');
+									$("#isUnverified1").attr('hidden', 'true');
+								}
+								else{
+									$("#check2").attr('hidden','true');
+									$("#checkbox2").removeAttr('required');
+				   					$("#isUnverified2").removeAttr('hidden');
+				   					$("#check1").attr('hidden','true');
+				   					$("#checkbox1").removeAttr('required');
+				   					$("#isUnverified1").removeAttr('hidden');
+				   				}	
+				});
+			});
 		</script>
 		<div style="width: 750px;">
 			
@@ -36,21 +58,23 @@
 						<p class="resDet"><label class="label">Reservation Time: </label><input type="text" disabled="true" name ="timeStart" value="<?php echo $time . ":00" ?>">
 										<label class="label">for </label>
 										<select name ="numHours" value="<?php echo set_value('numHours'); ?>" SIZE="1">
-											<option value="<?php echo $time + 1; ?>">1 hour</option>
-											<option value="<?php echo $time + 2; ?>">2 hours</option>
-											<option value="<?php echo $time + 3; ?>">3 hours</option>
+											<option value="1">1 hour</option>
+											<option value="2">2 hours</option>
+											<option value="3">3 hours</option>
 										</select>
 						</p>
-						<p class="resDet"><label class="label">Booking Type:</label><select name ="bookType" value="<?php echo set_value('bookType'); ?>" SIZE="1">
+						<p class="resDet"><label class="label">Booking Type:</label><select name ="bookType" id="bookType" value="<?php echo set_value('bookType'); ?>" SIZE="1">
 											<option value="person">In Person</option>
 											<option value="phone">By Phone</option>
 										</select>
 										</br><div style="color:RED"><?php echo form_error('bookType'); ?></div>
 						</p>
 						<p class="resDet"><label class="label">Primary Email:</label><INPUT TYPE="text" NAME="primEmail" value="<?php echo set_value('primEmail'); ?>" SIZE="60" class="ask_text_input" /></br><div style="color:RED"><?php echo form_error('primEmail'); ?></div></p>
-						<p class="resDet"><input type="checkbox" style="margin-left:180px;" required>Check to verify that this patron has a Marist CWID.</input></p>
+						<p class="resDet" id="check1"><input type="checkbox" id="checkbox1" style="margin-left:180px;" required>Check to verify that this patron has a Marist CWID.</input></p>
+						<p class="resDet" id="isUnverified1" hidden style="margin-left:180px;">A Marist ID must be shown when verifying a reservation.</p>
 						<p class="resDet"><label class="label">Secondary Email:</label><INPUT TYPE="text" NAME="secEmail" value="<?php echo set_value('secEmail'); ?>" SIZE="60" class="ask_text_input" /></br><div style="color:RED"><?php echo form_error('secEmail'); ?></div></p>
-						<p class="resDet"><input type="checkbox" style="margin-left:180px;" required>Check to verify that this patron has a Marist CWID.</input></p>
+						<p class="resDet" id="check2"><input type="checkbox" id="checkbox2" style="margin-left:180px;" required>Check to verify that this patron has a Marist CWID.</input></p>
+						<p class="resDet" id="isUnverified2" hidden style="margin-left:180px;">A Marist ID must be shown when verifying a reservation.</p>
 						<p class="resDet"><label class="label">Comments (Optional): </label><textarea NAME="Comments" ROWS="5" COLS="43" ></textarea></p>
 						
 						
@@ -123,7 +147,6 @@
 							<td>
 							<center>
 								<p>
-
 									<INPUT name="submit" value="Submit" id="submit" TYPE="submit">
 									<INPUT name="reset" TYPE="reset" id="reset">
 						
