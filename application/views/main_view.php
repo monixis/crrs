@@ -19,10 +19,9 @@
 			foreach ($slots as $row2){
 				$reservedslots[$cnt1][0] = $row2 -> resId;
 				$reservedslots[$cnt1][1] = $row2 -> status;
-			//	print_r($reservedslots[$cnt1]);
 				$cnt1 = $cnt1 +1;
 				}
-			print_r(sizeof($reservedslots));
+			//print_r(sizeof($reservedslots));
 			
 			foreach ($hours as $row1) {
 					$stime = $row1 -> starttime;
@@ -43,7 +42,7 @@
 					  $roomNum = $row -> roomNum;
 					  $totalrooms =  $totalrooms +1; 
 				?>
-				<th id="<?php echo $cnt; ?>"><?php echo $roomNum; ?></th>
+				<th id="<?php echo $cnt; ?>" class="roomno"><?php echo $roomNum; ?></th>
 				 <?php  
 					$a_rooms[$cnt] = $roomNum;
 					$cnt= $cnt +1; 
@@ -80,7 +79,7 @@
 					$y = $y + 1;
 					$currtime1 = $currtime . ":" . "00";
   				?>	<tr>
-  						<td><?php echo $currtime1; ?></td>
+  						<td id="time"><?php echo $currtime1; ?></td>
 
  						<?php 
 							for ($i =0; $i < $totalrooms ; $i++){
@@ -94,7 +93,10 @@
 											}elseif($reservedslots[$j][1] == 2){
 												$slotclass = "unverified";
 											}
-											print_r($slotid);
+											elseif($reservedslots[$j][1] == 4){
+												$slotclass = "transactionComplete";
+											}
+											//print_r($slotid);
 											break;
 										}else{
 											$slotclass = "slots";

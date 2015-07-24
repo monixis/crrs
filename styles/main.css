@@ -90,6 +90,16 @@ td, th {
 .unverified{
 	background: #FF9900;
 }
+
+.details{
+	background: #333;	
+}
+
+.transactionComplete{
+	background: #3399FF;
+	opacity: 0.7;
+}
+
 #details{
 	
 	margin-right:auto;
@@ -121,6 +131,10 @@ td{
 }
 
 td:hover{
+	cursor:pointer;
+}
+
+th.roomno:hover{
 	cursor:pointer;
 }
 
@@ -162,3 +176,14 @@ iframe{
   opacity:0.5;
   cursor: pointer;
 }
+
+#confirmations{
+	border: 1px solid #fffff ;
+	width: 48px;
+	height: 48px;
+	float: left;
+	margin-left:5px;
+	margin-top:30px;
+	
+}
+

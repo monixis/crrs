@@ -18,7 +18,7 @@ class crr_model extends CI_Model {
 	}
 	
 	public function getResDetails($resId){
-		$sql = "SELECT resId, resDate, startTime, resEmail, resType, roomNum, status.status, reservations.status as 'statusId' FROM reservations inner join status on reservations.status = status.statusNum WHERE resId = '$resId';";
+		$sql = "SELECT resId, resDate, startTime, resEmail, resType, roomNum, status.status, reservations.status as 'statusId', totalHours FROM reservations inner join status on reservations.status = status.statusNum WHERE resId = '$resId';";
 		$results = $this->db->query($sql, array($resId));
 		return $results -> result();
 		//return $sql;
@@ -49,5 +49,21 @@ class crr_model extends CI_Model {
 		$results = $this->db->query($sql);
 		return $results -> result();
 	} 
+	
+	public function updateStatus($resId, $status){
+		$sql = "UPDATE reservations SET status = '$status' WHERE resId = '$resId' ;";
+		if ($this->db->simple_query($sql, array($resId, $status))){
+			return 1;
+		}else{
+			return 0;			
+		}
+	}
+	
+	public function getRoomDetails($roomno){
+		$sql = "SELECT roomNum, seats, computers, printers, scanners, whiteboards FROM rooms WHERE roomNum = '$roomno';";
+		$results = $this->db->query($sql, array($roomno));
+		return $results -> result();
+	}
+	
 }
 ?>

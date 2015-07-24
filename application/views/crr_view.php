@@ -31,7 +31,7 @@
    			$("a[rel^='prettyPhoto']").prettyPhoto();
   		});
 		</script>
-		
+	
 	</head>
 	<body>
 
@@ -47,7 +47,7 @@
 				
 					<h1 style="color: #b31b1b; text-align: center;">JAC Collaboration Rooms Reservation System</h1>
 				
-		<div>
+		<div style="width: 1000px; margin-left:auto; margin-right: auto;">
 			
 			
   			<p id="pickDate">Select a date: <input type="text" name="viewDate" id="datepicker" value="" /></p>

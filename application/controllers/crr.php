@@ -35,7 +35,15 @@ class crr extends CI_Controller {
 		$data['details'] = $this -> crr_model -> getResDetails($resId);
 		$this -> load -> view('reservation_view', $data);
 	}
-
+	
+	public function updateStatus(){
+		$resId = $_POST['resId'];
+		$status = $_POST['status'];
+		$this -> load -> model('crr_model');
+		$result = $this -> crr_model -> updateStatus($resId, $status);
+		echo $result;
+	}
+	
 	public function reserveForm(){
 		$this -> load -> model('crr_model');
 		$data['title'] = "JAC Collaboraseservation System";
@@ -73,11 +81,12 @@ class crr extends CI_Controller {
 					$status = 1;
 				else
 					$status = 2;
-				if($resDate > '12/14/2015' && $resDate < '12/18/2015' || $resDate > '05/09/2015' && $resDate < '05/13/2015')
+				/*if($resDate > '12/14/2015' && $resDate < '12/18/2015' || $resDate > '05/09/2015' && $resDate < '05/13/2015')
 					$isFinals = TRUE;
 				else 
 					$isFinals = FALSE;
-			
+			*/
+			$totalHours = $this->input->post('numHours');
 			$limit = $this->input->post('numHours') + $time;
 			for($time; $time < $limit; $time++){
 				if($time == 25)
@@ -97,21 +106,27 @@ class crr extends CI_Controller {
 					'resEmail' => $this->input->post('primEmail'),
 					'resType' => $this->input->post('bookType'),
 					'status' => $status,
-					'isFinals' => $isFinals
+					'totalHours' => $totalHours
 				);
 			$this->crr_model->insert_reservation($resData);
 			
 			}
-				
-		$this->load->view('verify_view');
+			
+		$data['info'] = "The reservation is complete. Reservation id: ";		
+		$this->load->view('verify_view', $data);
 	}
 }
 		//$this -> load -> view('reserveform_view', $data);
 	public function disclaimer(){
 		$this -> load -> view('disclaimer');	
 	}	
-	public function test(){
-		$this -> load -> view('verify_view');	
-	}	
+	
+	public function roomDetails(){
+		$this -> load -> model('crr_model');
+		$roomNo = $this -> input -> get('roomNo');
+		$data['details'] = $this -> crr_model -> getRoomDetails($roomNo);
+		$this -> load -> view('roomdetails_view', $data);
+	}
+	
 }
 ?>

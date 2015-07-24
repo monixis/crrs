@@ -8,7 +8,5 @@ $_SESSION['bookType']= $_POST['bookType'];
 $_SESSION['roomNum']= $_POST['roomNum'];
 $_SESSION['timeStart']= $_POST['timeStart'];
 $_SESSION['timeEnd']= $_POST['timeEnd'];
-
-
-          
+         
 ?>
