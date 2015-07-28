@@ -52,7 +52,6 @@
 						}
 					?>
 					<FORM NAME="theForm" ID="theForm" ACTION="#" METHOD="POST">	
-						
 						<p class="resDet"><label class="label">Room No: </label><input type="text" name="roomNum" disabled="true" style="color: #b31b1b; background: #ffffff; border: 1px solid #ffffff; font-size: 18px;" value="<?php echo $roomNum ?>"/></p>
 						<p class="resDet"><label class="label">Reserve Date: </label><INPUT TYPE="text" disabled="true" NAME="resDate" style="color: #b31b1b; background: #ffffff; border: 1px solid #ffffff; font-size: 18px;" value="<?php echo $resDate?>" SIZE="13" class="ask_text_input" /></p>
 						<p class="resDet"><label class="label">Reservation Time: </label><input type="text" disabled="true" name ="timeStart" style="color: #b31b1b; background: #ffffff; border: 1px solid #ffffff; font-size: 18px;" value="<?php echo $time . ":00" ?>">

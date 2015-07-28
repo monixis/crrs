@@ -22,8 +22,8 @@ $('td').click(function() {
 			shadowBoxOpen = 1;
 		}else{
 			var link = "http://localhost/collabRoomReserveSystem/?c=crr&m=reservationDetails&resId=" + slotid;
-			$('#shadowBox').css({'visibility':'visible','width':'540px','height':'350px'});
-			$('#shadowFrame').css({'width':'500px','height':'350px'});
+			$('#shadowBox').css({'visibility':'visible','width':'540px','height':'417px'});
+			$('#shadowFrame').css({'width':'500px','height':'417px'});
 			$('#shadowBox').css('left','33%');
 	    	$('iframe').attr('src',link);
 	    	shadowBoxOpen = 1;

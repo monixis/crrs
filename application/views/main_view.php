@@ -23,10 +23,8 @@
 				}
 			//print_r(sizeof($reservedslots));
 			
-			foreach ($hours as $row1) {
-					$stime = $row1 -> starttime;
-					$totalhrs = $row1 -> totalhrs;
-			} ?>
+		
+			?>
 			
 			<table id="resTable">
   				<tr>
@@ -48,8 +46,49 @@
 					$cnt= $cnt +1; 
 				} ?>
   				</tr>
+  			
+				<?php 
+  				foreach ($hours as $row1) {
+					$operationHours = $row1 -> hours;
+					$operationHours1 = str_replace(":", "", $operationHours);
+					$isAvailable = $row1 -> isAvailable;
+				?>
+				<tr>
+					<td id="time"><?php echo $operationHours; ?></td>
+
+ 						<?php 
+							for ($i =0; $i < $totalrooms ; $i++){
+							$slotid = $formatDate.$a_rooms[$i].$operationHours1;
+							$slotid= (string)$slotid;	
+									
+									for ($j= 0; $j < sizeof($reservedslots); $j++){
+										if ($slotid == $reservedslots[$j][0]){
+											if($reservedslots[$j][1] == 1){
+												$slotclass = "reserved";
+											}elseif($reservedslots[$j][1] == 2){
+												$slotclass = "unverified";
+											}
+											elseif($reservedslots[$j][1] == 4){
+												$slotclass = "transactionComplete";
+											}
+											//print_r($slotid);
+											break;
+										}else{
+											$slotclass = "slots";
+										}
+									}						
+							 
+						?>
+						<td class=<?php echo $slotclass; ?> id="<?php echo $slotid; ?>"></td>
+						<?php
+							}					  						
+  						?>
+				</tr>
+				<?php } ?>
   				
-  				<?php 
+  				
+  				
+  				<!--?php 
   				$currtime = $stime;
 				$y = 0;
 				$slotclass = "slots";
@@ -58,7 +97,7 @@
   					if ($y == 0){
   						$currtime = $stime;
   					}else{
-  						$currtime = $currtime + 1 ;
+  						$currtime = $currtime + 1;
   					}
   									
 					/*if ($currtime == 25)
@@ -78,6 +117,12 @@
 					
 					$y = $y + 1;
 					$currtime1 = $currtime . ":" . "00";
+				/*	$currtime = (string)$currtime;
+					if(strrpos($currtime, ".") == -1){
+						$currtime1 = $currtime;
+					}else{
+						$currtime1 = $currtime . ":" . "30";
+					}*/
   				?>	<tr>
   						<td id="time"><?php echo $currtime1; ?></td>
 
@@ -109,9 +154,8 @@
 							}					  						
   						?>
   						
-  				    </tr>
-  				<?php }	?>  				
-			
+  				    </tr-->
+  			  				
 			</table>
 			
 		</div>	

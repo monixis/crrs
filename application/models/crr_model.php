@@ -18,7 +18,7 @@ class crr_model extends CI_Model {
 	}
 	
 	public function getResDetails($resId){
-		$sql = "SELECT resId, resDate, startTime, resEmail, resType, roomNum, status.status, reservations.status as 'statusId', totalHours FROM reservations inner join status on reservations.status = status.statusNum WHERE resId = '$resId';";
+		$sql = "SELECT resId, resDate, startTime, resEmail, resType, roomNum, status.status, reservations.status as 'statusId', totalHours, rId FROM reservations inner join status on reservations.status = status.statusNum WHERE resId = '$resId';";
 		$results = $this->db->query($sql, array($resId));
 		return $results -> result();
 		//return $sql;
@@ -39,20 +39,23 @@ class crr_model extends CI_Model {
 	}
 	
 	public function getRooms(){
-		$sql = "SELECT roomNum FROM rooms";
+		$sql = "SELECT roomNum FROM rooms WHERE isAvailable = 1";
 		$results = $this->db->query($sql);
 		return $results -> result();
 	} 
 	
 	public function getHours(){
-		$sql = "SELECT starttime, totalhrs FROM hours";
+		/*$sql = "SELECT starttime, totalhrs FROM hours";
+		$results = $this->db->query($sql);
+		return $results -> result();*/
+		$sql = "SELECT hours, isAvailable FROM operationHours ORDER BY id ASC";
 		$results = $this->db->query($sql);
 		return $results -> result();
 	} 
 	
-	public function updateStatus($resId, $status){
-		$sql = "UPDATE reservations SET status = '$status' WHERE resId = '$resId' ;";
-		if ($this->db->simple_query($sql, array($resId, $status))){
+	public function updateStatus($rId, $status){
+		$sql = "UPDATE reservations SET status = '$status' WHERE rId = '$rId' ;";
+		if ($this->db->simple_query($sql, array($rId, $status))){
 			return 1;
 		}else{
 			return 0;			
@@ -65,5 +68,14 @@ class crr_model extends CI_Model {
 		return $results -> result();
 	}
 	
+	function getmaxid($col, $table){
+		$this -> db -> select_max($col);
+		$query = $this -> db -> get($table);
+		foreach ($query -> result() as $row){
+			$maxval = $row -> $col;
+		}
+		$maxval = $maxval + 1;
+		return $maxval;
+	}
 }
 ?>

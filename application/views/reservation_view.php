@@ -12,6 +12,7 @@
 		$status = $row -> status;
 		$statusId = $row -> statusId;
 		$totalHours = $row -> totalHours;
+		$rId = $row -> rId;
 	}
 ?>
 <title><?php echo $resId; ?></title>	
@@ -28,7 +29,7 @@
 </script>
 <div id="details">
 	<div id="detailsType">
-		<div id="color" style="width: 60px; height: 350px; float:left; ">
+		<div id="color" style="width: 60px; height: 417px; float:left; ">
 		</div>
 		<div style="float:right; width:440px; height: 38px; text-align: center; font-size: 30px; color: #b31b1b;">
 			<div id="confirmations"></div><p id="resId">#<?php echo $resId; ?></p>
@@ -40,6 +41,8 @@
 	<p class="resDet"><label class="label">Time:</label><?php echo $startTime; ?></p>
 	<p class="resDet"><label class="label">Reserved By:</label><?php echo $resEmail; ?></p>
 	<p class="resDet"><label class="label">Status:</label><?php echo $status; ?></p>
+	<label class="label">Notes:</label>
+	<textarea rows="3" cols="50" style="margin-left:60px; margin-bottom:5px;"></textarea>
 	<?php if ($status == 'Reserved'){?>
 		<button type="button" class="btn" id="returned" style="margin-left:56px; margin-top:5px;">Keys Returned</button>
 	<?php } else if ($status == 'Unverified'){?>
@@ -50,14 +53,14 @@
 </div>
 <script type="text/javascript">
 $('#returned').click(function(){
-	var resId = $('#resId').text();
-	resId= resId.replace('#','');
+	//var resId = $('#resId').text();
+	rId= <?php echo $rId ?>;
 	var status = 4;	
 	//var totalHours = <?php echo $totalHours ;?>;
 	//for(var i=0; i<totalHours; i++){
 		//var resId1 = parseInt(resId);
 	//	resId1 = resId1 + i;
-		$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>",{resId: resId, status: status}).done(function(data){
+		$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>",{rId: rId, status: status}).done(function(data){
 							if (data == 1){
 									$('#confirmations').append("<img src='./icons/tick.png'/>");
 							}else{
@@ -69,10 +72,9 @@ $('#returned').click(function(){
 });
 
 $('#canceled').click(function(){
-	var resId = $('#resId').text();
-	resId= resId.replace('#','');
+	rId= <?php echo $rId ?>;
 	var status = 3;	
-	$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>",{resId: resId, status: status}).done(function(data){
+	$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>",{rId: rId, status: status}).done(function(data){
 							if (data == 1){
 									$('#confirmations').append("<img src='./icons/tick.png'/>")
 							}else{
@@ -83,10 +85,9 @@ $('#canceled').click(function(){
 });
 
 $('#verify').click(function(){
-	var resId = $('#resId').text();
-	resId= resId.replace('#','');
+	rId= <?php echo $rId ?>;
 	var status = 1;	
-	$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>",{resId: resId, status: status}).done(function(data){
+	$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>",{rId: rId, status: status}).done(function(data){
 							if (data == 1){
 									$('#confirmations').append("<img src='./icons/tick.png'/>")
 							}else{

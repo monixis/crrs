@@ -37,10 +37,10 @@ class crr extends CI_Controller {
 	}
 	
 	public function updateStatus(){
-		$resId = $_POST['resId'];
+		$rId = $_POST['rId'];
 		$status = $_POST['status'];
 		$this -> load -> model('crr_model');
-		$result = $this -> crr_model -> updateStatus($resId, $status);
+		$result = $this -> crr_model -> updateStatus($rId, $status);
 		echo $result;
 	}
 	
@@ -51,12 +51,13 @@ class crr extends CI_Controller {
 		$data['hours'] = $this -> crr_model -> getHours();
 		$resId = $this -> input -> get('resId');
 		$data['resId'] = $this -> input -> get('resId');
+		$rId = $this -> crr_model -> getmaxid('rId', 'reservations');
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('primEmail', 'Email', 'required|valid_email');
 		$this->form_validation->set_rules('secEmail', 'Email', 'required|valud_email');
 		if ($this->form_validation->run() == FALSE)
 		{
-			$this->load->view('reserveForm_view', $data);
+			$this->load->view('reserveform_view', $data);
 		}
 		else
 		{
@@ -106,7 +107,8 @@ class crr extends CI_Controller {
 					'resEmail' => $this->input->post('primEmail'),
 					'resType' => $this->input->post('bookType'),
 					'status' => $status,
-					'totalHours' => $totalHours
+					'totalHours' => $totalHours,
+					'rId' => $rId
 				);
 			$this->crr_model->insert_reservation($resData);
 			
