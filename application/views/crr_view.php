@@ -16,6 +16,7 @@
 		<script type="text/javascript" src="./js/jquery.prettyPhoto.js"></script> 
 		<link rel="stylesheet" type="text/css" href="./styles/prettyPhoto.css" />
 		 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+		 <script type="text/javascript" src="./js/dashboard.js"></script>
 		<script>
     		$(document).ready(function(){
     			$("#datepicker").datepicker({
@@ -26,12 +27,53 @@
 +    	    $('#dashboard_view').load('http://localhost/collabRoomReserveSystem/?c=crr&m=todayReservation');
     		})
     	</script>
-		<script type="text/javascript" charset="utf-8">
-  		$(document).ready(function(){
-   			$("a[rel^='prettyPhoto']").prettyPhoto();
-  		});
-		</script>
-	
+		<style type="text/css">
+			#tfnewsearch{
+				float:center;
+				padding:20px;
+			}
+			.tftextinput2{
+				margin: 0;
+				padding: 5px 15px;
+				font-family: Arial, Helvetica, sans-serif;
+				font-size:14px;
+				color:#666;
+				border:1px solid BLACK; border-right:0px;
+				border-top-left-radius: 5px 5px;
+				border-bottom-left-radius: 5px 5px;
+			}
+			.tfbutton2 {
+				margin: 0;
+				padding: 5px 7px;
+				font-family: Arial, Helvetica, sans-serif;
+				font-size:14px;
+				font-weight:bold;
+				outline: none;
+				cursor: pointer;
+				text-align: center;
+				text-decoration: none;
+				color: #ffffff;
+				border: solid 1px BLACK; border-right:0px;
+				background: BLACK;
+				background: -webkit-gradient(linear, left top, left bottom, from(#CB1313), to(#CB1313));
+				background: -moz-linear-gradient(top,  BLACK,  #CB1313);
+				border-top-right-radius: 5px 5px;
+				border-bottom-right-radius: 5px 5px;
+			}
+			.tfbutton2:hover {
+				text-decoration: none;
+				background: BLACK;
+				background: -webkit-gradient(linear, left top, left bottom, from(#970909), to(#970909));
+				background: -moz-linear-gradient(top,  #0095cc,  #00678e);
+			}
+			/* Fixes submit button height problem in Firefox */
+			.tfbutton2::-moz-focus-inner {
+			  border: 0;
+			}
+			.tfclear{
+				clear:both;
+			}
+		</style>
 	</head>
 	<body>
 
@@ -49,7 +91,17 @@
 				
 		<div style="width: 1000px; margin-left:auto; margin-right: auto;">
 			
-			
+				<div id="tfheader">
+					
+					        <input type="text" id="tfq" class="tftextinput2" name="q" value="Search our website"><input type="submit" value=">" class="tfbutton2"><br>
+					        <input type="radio" checked name="searchBy" value="room">Room#
+							<input type="radio" name="searchBy" value="resId">Reservation ID
+							<input type="radio" name="searchBy" value="email">Email
+							<!-- <input type="radio" name="searchBy" value="" -->
+					
+					<div class="tfclear"></div>
+				</div>
+					
   			<p id="pickDate">Select a date: <input type="text" name="viewDate" id="datepicker" value="" /></p>
  			<!--p id="viewDate">Date Being Viewed: 
  				<script type="text/javascript">

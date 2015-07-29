@@ -16,10 +16,43 @@ class crr_model extends CI_Model {
 			return true;
 		}
 	}
-	
+	public function updateStatus($rId, $status){
+		$sql = "UPDATE reservations SET status = '$status' WHERE rId = '$rId' ;";
+		if ($this->db->simple_query($sql, array($rId, $status))){
+			return 1;
+		}else{
+			return 0;			
+		}
+	}
+	function getmaxid($col, $table){
+		$this -> db -> select_max($col);
+		$query = $this -> db -> get($table);
+		foreach ($query -> result() as $row){
+			$maxval = $row -> $col;
+		}
+		$maxval = $maxval + 1;
+		return $maxval;
+	}
+	public function getRoomDetails($roomno){
+		$sql = "SELECT roomNum, seats, computers, printers, scanners, whiteboards FROM rooms WHERE roomNum = '$roomno';";
+		$results = $this->db->query($sql, array($roomno));
+		return $results -> result();
+	}
 	public function getResDetails($resId){
 		$sql = "SELECT resId, resDate, startTime, resEmail, resType, roomNum, status.status, reservations.status as 'statusId', totalHours, rId FROM reservations inner join status on reservations.status = status.statusNum WHERE resId = '$resId';";
 		$results = $this->db->query($sql, array($resId));
+		return $results -> result();
+		//return $sql;
+	}
+	public function getRoomSearchDetails($roomNum){
+		$sql = "SELECT resId, resDate, startTime, resEmail, resType, roomNum, status.status, reservations.status as 'statusId' FROM reservations inner join status on reservations.status = status.statusNum WHERE roomNum = '$roomNum';";
+		$results = $this->db->query($sql, array($roomNum));
+		return $results -> result();
+		//return $sql;
+	}
+	public function getEmailDetails($email){
+		$sql = "SELECT resId, resDate, startTime, resEmail, resType, roomNum, status.status, reservations.status as 'statusId' FROM reservations inner join status on reservations.status = status.statusNum WHERE resEmail = '$email';";
+		$results = $this->db->query($sql, array($email));
 		return $results -> result();
 		//return $sql;
 	}
@@ -45,37 +78,44 @@ class crr_model extends CI_Model {
 	} 
 	
 	public function getHours(){
-		/*$sql = "SELECT starttime, totalhrs FROM hours";
-		$results = $this->db->query($sql);
-		return $results -> result();*/
 		$sql = "SELECT hours, isAvailable FROM operationHours ORDER BY id ASC";
 		$results = $this->db->query($sql);
 		return $results -> result();
 	} 
-	
-	public function updateStatus($rId, $status){
-		$sql = "UPDATE reservations SET status = '$status' WHERE rId = '$rId' ;";
-		if ($this->db->simple_query($sql, array($rId, $status))){
-			return 1;
-		}else{
-			return 0;			
+	function updatetable($timeData, $unavailData){
+		$this->db->empty_table('hours'); 
+		$this->db->insert('hours', $timeData);
+		$unavail = array(
+			'isAvailable' => 0
+		);
+		$avail = array(
+			'isAvailable' => 1
+		);
+		$rooms = array(
+			110,
+			111,
+			112,
+			"300A",
+			"300B",
+			"300C",
+			"300D",
+			306,
+			312,
+			313,
+			314,
+			315,
+			316,
+			317,
+			318
+		);
+		for($j = 0; $j < count($rooms); $j++){
+			$this -> db -> where('roomNum', $rooms[$j]);
+			$this -> db -> update('rooms', $avail);
 		}
-	}
-	
-	public function getRoomDetails($roomno){
-		$sql = "SELECT roomNum, seats, computers, printers, scanners, whiteboards FROM rooms WHERE roomNum = '$roomno';";
-		$results = $this->db->query($sql, array($roomno));
-		return $results -> result();
-	}
-	
-	function getmaxid($col, $table){
-		$this -> db -> select_max($col);
-		$query = $this -> db -> get($table);
-		foreach ($query -> result() as $row){
-			$maxval = $row -> $col;
+		for($i = 0; $i < count($unavailData); $i++){
+			$this -> db -> where('roomNum', $unavailData[$i]);
+			$this -> db -> update('rooms', $unavail);
 		}
-		$maxval = $maxval + 1;
-		return $maxval;
 	}
 }
 ?>

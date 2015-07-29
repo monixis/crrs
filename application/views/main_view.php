@@ -1,4 +1,4 @@
-		<link rel="stylesheet" type="text/css" href="./styles/main.css" />
+<link rel="stylesheet" type="text/css" href="./styles/main.css" />
 		<script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script> 	
 		<script type="text/javascript" src="./js/dashboard.js"></script> 
 		<link rel="stylesheet" href="http://library.marist.edu/css/prettyPhoto.css" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
@@ -59,8 +59,8 @@
  						<?php 
 							for ($i =0; $i < $totalrooms ; $i++){
 							$slotid = $formatDate.$a_rooms[$i].$operationHours1;
-							$slotid= (string)$slotid;	
-									
+							$slotid= (string)$slotid;
+							$slotclass = "slots";
 									for ($j= 0; $j < sizeof($reservedslots); $j++){
 										if ($slotid == $reservedslots[$j][0]){
 											if($reservedslots[$j][1] == 1){
@@ -125,7 +125,6 @@
 					}*/
   				?>	<tr>
   						<td id="time"><?php echo $currtime1; ?></td>
-
  						<?php 
 							for ($i =0; $i < $totalrooms ; $i++){
 							$slotid = $formatDate.$a_rooms[$i].$currtime;

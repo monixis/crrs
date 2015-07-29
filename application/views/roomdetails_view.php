@@ -33,5 +33,3 @@
 	<p class="resDet"><label class="label">Whiteboards: </label><?php echo $whiteboards; ?></p>
 	
 </div>
-
-
