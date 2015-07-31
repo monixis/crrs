@@ -73,7 +73,7 @@ td, th {
 }
 
 #dashboard{
-	width: 1000px;
+	width: 1017px;
 	border: 1px solid black;
 	margin-left:auto;
 	margin-right:auto;
@@ -94,7 +94,7 @@ td, th {
 	
 	margin-right:auto;
 	margin-left: auto;
-	width: 500px;
+	width: 600px;
 	font-family: font-family: sans-serif, Helvetica, arial;
 	font-size: 16px;
 	background: #FFFFFF;
@@ -182,3 +182,13 @@ th.roomno:hover{
 	margin-top:30px;
 	
 }
+
+.blocked{
+	opacity: 0.5;
+}
+
+.currentTime{
+	color: #b31b1b;
+	font-weight: bold;
+}
+

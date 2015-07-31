@@ -47,40 +47,26 @@
 							$roomNum = substr($resId, 8, 4);
 							$time = substr($resId, 12);
 							if(strlen($time) == 4){
-								if(substr($time, 2, 1) == "3"){
-									$time = substr($time, 0, 2) . ":30";
-								}
-								else {
-									$time = substr($time, 0, 2) . ":00";
-								}
+								$time = substr($time, 0, 2) . ":30";
+							}
+							else if(strlen($time) == 3) {
+								$time = substr($time, 0, 1) . ":30";
 							}
 							else {
-								if(substr($time, 1, 1) == "3"){
-									$time = substr($time, 0, 1) . ":30";
-								}
-								else {
-									$time = substr($time, 0, 1) . ":00";
-								}
+								$time = substr($time, 0) . ":00";
 							}
 						} 
 						else {
 							$roomNum = substr($resId, 8, 3);
 							$time = substr($resId, 11);
 							if(strlen($time) == 4){
-								if(substr($time, 2, 1) == "3"){
-									$time = substr($time, 0, 2) . ":30";
-								}
-								else {
-									$time = substr($time, 0, 2) . ":00";
-								}
+								$time = substr($time, 0, 2) . ":30";
+							}
+							else if(strlen($time) == 3) {
+								$time = substr($time, 0, 1) . ":30";
 							}
 							else {
-								if(substr($time, 1, 1) == "3"){
-									$time = substr($time, 0, 1) . ":30";
-								}
-								else {
-									$time = substr($time, 0, 1) . ":00";
-								}
+								$time = substr($time, 0) . ":00";
 							}
 						}
 					?>

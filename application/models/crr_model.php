@@ -67,8 +67,15 @@ class crr_model extends CI_Model {
 	public function insert_user($email) {
 		$this->db->insert('reserver', $email);
 	}
+	
 	public function insert_reservation($data){
-		$this->db->insert('reservations', $data);
+		$this->db->insert('reservations', $data);	
+		if($this->db->affected_rows()>0)
+		{
+			return 1;			
+		}else{
+			return 0;
+		}
 	}
 	
 	public function getRooms(){

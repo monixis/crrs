@@ -1,13 +1,16 @@
-<link rel="stylesheet" type="text/css" href="./styles/main.css" />
+		<link rel="stylesheet" type="text/css" href="./styles/main.css" />
 		<script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script> 	
 		<script type="text/javascript" src="./js/dashboard.js"></script> 
-		<link rel="stylesheet" href="http://library.marist.edu/css/prettyPhoto.css" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
-		<script src="http://library.marist.edu/js/jquery.prettyPhoto.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="./js/freezeheader.js"></script> 
 		<script type="text/javascript" charset="utf-8">
   		$(document).ready(function(){
-   			$("a[rel^='prettyPhoto']").prettyPhoto();
-  		});
-		</script>
+   			 $("#resTable").freezeHeader({'height': '600px'});
+   			 var currHour = new Date().getHours();
+   		 	 var element = document.getElementsByName(currHour)[0];
+   		 	element.scrollIntoView();
+   		});
+   		
+   		</script>
 		<div id="dashboard">
 			<div id="shadowBox"><iframe id="shadowFrame"></iframe><div style="width:36px; height:26px; float:right; margin-top:3px;"><img id="close" src="./icons/close.png"/></div></div>
 			
@@ -22,12 +25,11 @@
 				$cnt1 = $cnt1 +1;
 				}
 			//print_r(sizeof($reservedslots));
-			
-		
 			?>
-			
+			<div id="rTable">
 			<table id="resTable">
-  				<tr>
+				<thead>
+					<tr>
   					<th>Time</th>
   					  
   				<?php 
@@ -36,6 +38,7 @@
   				 $totalrooms = 0;
 				 $cnt = 0;
 				 $a_rooms = array();
+				 $slotclass = "slots";
   				foreach ($rooms as $row) {
 					  $roomNum = $row -> roomNum;
 					  $totalrooms =  $totalrooms +1; 
@@ -46,21 +49,28 @@
 					$cnt= $cnt +1; 
 				} ?>
   				</tr>
-  			
+				</thead>
+  				
+  				<tbody>
 				<?php 
   				foreach ($hours as $row1) {
 					$operationHours = $row1 -> hours;
 					$operationHours1 = str_replace(":", "", $operationHours);
 					$isAvailable = $row1 -> isAvailable;
+					if($isAvailable == 0){
+						$hourclass = "blocked"; 
+					}else{
+						$hourclass = "active";
+					}
 				?>
-				<tr>
-					<td id="time"><?php echo $operationHours; ?></td>
+				<tr class ="<?php echo $hourclass; ?>" name="<?php echo $operationHours; ?>">
+					<td class="time"><?php echo $operationHours; ?></td>
 
  						<?php 
 							for ($i =0; $i < $totalrooms ; $i++){
 							$slotid = $formatDate.$a_rooms[$i].$operationHours1;
-							$slotid= (string)$slotid;
-							$slotclass = "slots";
+							$slotid= (string)$slotid;	
+									
 									for ($j= 0; $j < sizeof($reservedslots); $j++){
 										if ($slotid == $reservedslots[$j][0]){
 											if($reservedslots[$j][1] == 1){
@@ -80,14 +90,13 @@
 							 
 						?>
 						<td class=<?php echo $slotclass; ?> id="<?php echo $slotid; ?>"></td>
+						
 						<?php
 							}					  						
   						?>
 				</tr>
 				<?php } ?>
-  				
-  				
-  				
+				</tbody>
   				<!--?php 
   				$currtime = $stime;
 				$y = 0;
@@ -125,6 +134,7 @@
 					}*/
   				?>	<tr>
   						<td id="time"><?php echo $currtime1; ?></td>
+
  						<?php 
 							for ($i =0; $i < $totalrooms ; $i++){
 							$slotid = $formatDate.$a_rooms[$i].$currtime;
@@ -156,5 +166,6 @@
   				    </tr-->
   			  				
 			</table>
-			
+			</div>
 		</div>	
+		
