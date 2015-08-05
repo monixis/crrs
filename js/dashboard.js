@@ -3,7 +3,7 @@
  */
 var shadowBoxOpen = 0;
 $('#datepicker').change(function() {
-	 var date = $('input#datepicker').val();
+	var date = $('input#datepicker').val();
 	var url = "http://localhost/collabRoomReserveSystem/?c=crr&m=getReservations&date="+date;
 	$('#dashboard_view').empty();
 	$('#dashboard_view').load(url);
@@ -13,7 +13,7 @@ $('td').click(function() {
 	var slotid = $(this).attr('id');
 	var slotclass = $(this).attr('class');
 	if ($(this).parent().attr('class') == 'active'){
-		//if (slotclass == 'slots'){
+		if (slotclass != 'time'){
 			if(shadowBoxOpen == 0){
 					if ($(this).attr('class') == 'slots'){
 						var link = "http://localhost/collabRoomReserveSystem/?c=crr&m=reserveForm&resId=" + slotid;
@@ -38,7 +38,7 @@ $('td').click(function() {
 					$('#dashboard_view').empty();
 					$('#dashboard_view').load(url);
 			}
-		//}
+		}
 	}
 	
 });

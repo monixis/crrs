@@ -30,7 +30,19 @@
 				   					$("#isUnverified1").removeAttr('hidden');
 				   				}	
 				});
+				
+				var availableTags = [];
+				<?php 
+				foreach($emails as $row){
+				?>
+				availableTags.push('<?php echo $row -> email;?>');
+				<?php }	?>
+        		$( "#primEmail, #secEmail" ).autocomplete({
+      			source: availableTags
+			    });
+				
 			});
+				
 		</script>
 		<div style="width: 750px;">
 			
@@ -69,12 +81,29 @@
 								$time = substr($time, 0) . ":00";
 							}
 						}
+						
+						//time format converter
+						$index = strpos($time, ":");		
+						$hr = substr($time, 0, $index);
+						$min = substr($time, $index+1);
+						$suffix = "am";
+						if ($hr > 12){
+							$hr = $hr - 12;
+							$suffix = "pm";
+						}
+						if($hr == 00){
+							$hr = 12;					
+						}elseif($hr == 12){
+							$suffix = "pm";
+						}
+						$time = $hr . ":" . $min . " " . $suffix;
 					?>
+								
 					<FORM NAME="theForm" ID="theForm" ACTION="#" METHOD="POST">	
 						
 						<p class="resDet"><label class="label">Room No: </label><input type="text" name="roomNum" disabled="true" style="color: #b31b1b; background: #ffffff; border: 1px solid #ffffff; font-size: 18px;" value="<?php echo $roomNum ?>"/></p>
 						<p class="resDet"><label class="label">Reserve Date: </label><INPUT TYPE="text" disabled="true" NAME="resDate" style="color: #b31b1b; background: #ffffff; border: 1px solid #ffffff; font-size: 18px;" value="<?php echo $resDate?>" SIZE="13" class="ask_text_input" /></p>
-						<p class="resDet"><label class="label">Reservation Time: </label><input type="text" disabled="true" name ="timeStart" style="color: #b31b1b; background: #ffffff; border: 1px solid #ffffff; font-size: 18px;" value="<?php echo $time; ?>">
+						<p class="resDet"><label class="label">Reservation Time: </label><input type="text" disabled="true" name ="timeStart" style="color: #b31b1b; background: #ffffff; border: 1px solid #ffffff; font-size: 18px;" value="<?php echo $time?>">
 										<label class="label" style="margin-left:0px;">for </label>
 										<select name ="numHours" value="<?php echo set_value('numHours'); ?>" SIZE="1">
 											<option value="1">1 hour</option>
@@ -82,16 +111,17 @@
 											<option value="3">3 hours</option>
 										</select>
 						</p>
+						
 						<p class="resDet"><label class="label">Booking Type:</label><select name ="bookType" id="bookType" value="<?php echo set_value('bookType'); ?>" SIZE="1">
 											<option value="person">In Person</option>
 											<option value="phone">By Phone</option>
 										</select>
 										</br><div style="color:RED"><?php echo form_error('bookType'); ?></div>
 						</p>
-						<p class="resDet"><label class="label">Primary Email:</label><INPUT TYPE="text" NAME="primEmail" value="<?php echo set_value('primEmail'); ?>" SIZE="60" class="ask_text_input" /></br><div style="color:RED"><?php echo form_error('primEmail'); ?></div></p>
+						<p class="resDet"><label class="label">Primary Email:</label><INPUT TYPE="text" NAME="primEmail" id="primEmail" value="<?php echo set_value('primEmail'); ?>" SIZE="60" class="ask_text_input" /></br><div style="color:RED"><?php echo form_error('primEmail'); ?></div></p>
 						<p class="resDet" id="check1"><input type="checkbox" id="checkbox1" style="margin-left:180px;" required>Check to verify that this patron has a Marist CWID.</input></p>
 						<p class="resDet" id="isUnverified1" hidden style="margin-left:180px;">A Marist ID must be shown when verifying a reservation.</p>
-						<p class="resDet"><label class="label">Secondary Email:</label><INPUT TYPE="text" NAME="secEmail" value="<?php echo set_value('secEmail'); ?>" SIZE="60" class="ask_text_input" /></br><div style="color:RED"><?php echo form_error('secEmail'); ?></div></p>
+						<p class="resDet"><label class="label">Secondary Email:</label><INPUT TYPE="text" NAME="secEmail" id="secEmail" value="<?php echo set_value('secEmail'); ?>" SIZE="60" class="ask_text_input" /></br><div style="color:RED"><?php echo form_error('secEmail'); ?></div></p>
 						<p class="resDet" id="check2"><input type="checkbox" id="checkbox2" style="margin-left:180px;" required>Check to verify that this patron has a Marist CWID.</input></p>
 						<p class="resDet" id="isUnverified2" hidden style="margin-left:180px;">A Marist ID must be shown when verifying a reservation.</p>
 						<p class="resDet"><label class="label">Comments (Optional): </label><textarea NAME="Comments" ROWS="3" COLS="43" ></textarea></p>

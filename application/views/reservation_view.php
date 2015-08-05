@@ -14,6 +14,22 @@
 		$totalHours = $row -> totalHours;
 		$rId = $row -> rId;
 	}
+	
+	//time format converter
+		$index = strpos($startTime, ":");		
+		$hr = substr($startTime, 0, $index);
+		$min = substr($startTime, $index+1);
+		$suffix = "am";
+		if ($hr > 12){
+			$hr = $hr - 12;
+			$suffix = "pm";
+		}
+		if($hr == 00){
+			$hr = 12;					
+		}elseif($hr == 12){
+			$suffix = "pm";
+		}
+		$startTime = $hr . ":" . $min . " " . $suffix;
 ?>
 <title><?php echo $resId; ?></title>	
 <script>
@@ -38,11 +54,11 @@
 	
 	<p class="resDet"><label class="label">Room No: </label><?php echo $roomNum; ?></p>
 	<p class="resDet"><label class="label">Date: </label><?php echo $resDate; ?></p>
-	<p class="resDet"><label class="label">Start Time:</label><?php echo $startTime; ?><label class="label">Total Hours:</label><?php echo $totalHours; ?></p>
+	<p class="resDet"><label class="label">Time:</label><?php echo $startTime; ?><label class="label">Total Hours:</label><?php echo $totalHours; ?></p>
 	<p class="resDet"><label class="label">Reserved By:</label><?php echo $resEmail; ?></p>
 	<p class="resDet"><label class="label">Status:</label><?php echo $status; ?></p>
 	<label class="label">Notes:</label>
-	<textarea rows="3" cols="50" style="margin-left:60px; margin-bottom:5px;"></textarea>
+	<textarea rows="3" cols="50" id="notes" style="margin-left:60px; margin-bottom:5px;"></textarea>
 	<?php if ($status == 'Reserved'){?>
 		<button type="button" class="btn" id="returned" style="margin-left:56px; margin-top:5px;">Keys Returned</button>
 	<?php } else if ($status == 'Unverified'){?>
@@ -56,11 +72,12 @@ $('#returned').click(function(){
 	//var resId = $('#resId').text();
 	rId= <?php echo $rId ?>;
 	var status = 4;	
-	//var totalHours = <?php echo $totalHours ;?>;
+	notes = $('textarea#notes').val();
+	//var totalHours = <!--?php echo $totalHours ;?>;
 	//for(var i=0; i<totalHours; i++){
 		//var resId1 = parseInt(resId);
 	//	resId1 = resId1 + i;
-		$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>",{rId: rId, status: status}).done(function(data){
+		$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>",{rId: rId, status: status, notes: notes}).done(function(data){
 							if (data == 1){
 									$('#confirmations').append("<img src='./icons/tick.png'/>");
 							}else{
@@ -74,7 +91,8 @@ $('#returned').click(function(){
 $('#canceled').click(function(){
 	rId= <?php echo $rId ?>;
 	var status = 3;	
-	$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>",{rId: rId, status: status}).done(function(data){
+	notes = $('textarea#notes').val();
+	$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>",{rId: rId, status: status, notes: notes}).done(function(data){
 							if (data == 1){
 									$('#confirmations').append("<img src='./icons/tick.png'/>")
 							}else{
@@ -87,7 +105,8 @@ $('#canceled').click(function(){
 $('#verify').click(function(){
 	rId= <?php echo $rId ?>;
 	var status = 1;	
-	$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>",{rId: rId, status: status}).done(function(data){
+	notes = $('textarea#notes').val();
+	$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>",{rId: rId, status: status, notes: notes}).done(function(data){
 							if (data == 1){
 									$('#confirmations').append("<img src='./icons/tick.png'/>")
 							}else{

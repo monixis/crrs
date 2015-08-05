@@ -5,6 +5,7 @@ class crr extends CI_Controller {
 		$data['title'] = "JAC Collaboration Rooms";
 		$data['rooms'] = $this -> crr_model -> getRooms();
 		$data['hours'] = $this -> crr_model -> getHours();
+		$data['passcode'] = $this -> crr_model -> getPwd(1);
 		$this -> load -> view('crr_view', $data);
 	}
 	public function admin() {
@@ -22,8 +23,9 @@ class crr extends CI_Controller {
 	public function updateStatus(){
 		$rId = $_POST['rId'];
 		$status = $_POST['status'];
-		$this -> load -> model('crr_model');
-		$result = $this -> crr_model -> updateStatus($rId, $status);
+		$notes = $_POST['notes'];
+ 		$this -> load -> model('crr_model');
+		$result = $this -> crr_model -> updateStatus($rId, $status, $notes);
 		echo $result;
 	}
 	
@@ -78,8 +80,9 @@ class crr extends CI_Controller {
 	public function reserveForm(){
 		$this -> load -> model('crr_model');
  		$data['title'] = "JAC Collaboraseservation System";
- 		$data['rooms'] = $this -> crr_model -> getRooms();
- 		$data['hours'] = $this -> crr_model -> getHours();
+ 		//$data['rooms'] = $this -> crr_model -> getRooms();
+ 		//$data['hours'] = $this -> crr_model -> getHours();
+		$data['emails'] = $this -> crr_model -> getEmails();
  		$resId = $this -> input -> get('resId');
  		$data['resId'] = $this -> input -> get('resId');
  		$rId = $this -> crr_model -> getmaxid('rId', 'reservations');
@@ -294,11 +297,13 @@ class crr extends CI_Controller {
 	public function disclaimer(){
 		$this -> load -> view('disclaimer');	
 	}	
+	
 	public function roomDetails(){
 		$this -> load -> model('crr_model');
 		$roomNo = $this -> input -> get('roomNo');
 		$data['details'] = $this -> crr_model -> getRoomDetails($roomNo);
 		$this -> load -> view('roomdetails_view', $data);
 	}
+	
 }
 ?>

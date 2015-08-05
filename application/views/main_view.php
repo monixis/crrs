@@ -54,6 +54,7 @@
   				<tbody>
 				<?php 
   				foreach ($hours as $row1) {
+  					$displayHours = $row1 -> displayhrs;
 					$operationHours = $row1 -> hours;
 					$operationHours1 = str_replace(":", "", $operationHours);
 					$isAvailable = $row1 -> isAvailable;
@@ -64,7 +65,7 @@
 					}
 				?>
 				<tr class ="<?php echo $hourclass; ?>" name="<?php echo $operationHours; ?>">
-					<td class="time"><?php echo $operationHours; ?></td>
+					<td class="time" style="width:45px;"><?php echo $displayHours; ?></td>
 
  						<?php 
 							for ($i =0; $i < $totalrooms ; $i++){

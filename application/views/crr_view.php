@@ -23,8 +23,8 @@
     				minDate : "+0"
     			});
     			$("#datepicker").datepicker( "setDate", new Date());
-+    		$("#datepicker").empty();
-+    	    $('#dashboard_view').load('http://localhost/collabRoomReserveSystem/?c=crr&m=todayReservation');
+    		$("#datepicker").empty();
+    	    $('#dashboard_view').load('http://localhost/collabRoomReserveSystem/?c=crr&m=todayReservation');
     		})
     	</script>
 		<style type="text/css">
@@ -87,11 +87,17 @@
 
 		</div>
 				
-					<h1 style="color: #b31b1b; text-align: center;">JAC Collaboration Rooms Reservation System</h1>
+		<h1 style="color: #b31b1b; text-align: center;">JAC Collaboration Rooms Reservation System</h1>
 				
+		<!--div id="passcode" style="margin-top:0px; margin-left: auto; margin-right: auto; width: 300px; margin-bottom: 5px;">
+							<strong>PASSCODE: </strong>
+							<input type="password" name='passcode' id='passcode'></input><br/>
+							<input type="button" class="Submit" id="submit" value="Submit" style="margin-left:85px; margin-top:10px;"></input>
+		</div-->
+						
 		<div style="width: 1000px; margin-left:auto; margin-right: auto;">
 			
-				<div id="tfheader">
+				<!--div id="tfheader">
 					
 					        <input type="text" id="tfq" class="tftextinput2" name="q" value="Search our website"><input type="submit" value=">" class="tfbutton2"><br>
 					        <input type="radio" checked name="searchBy" value="room">Room#
@@ -99,8 +105,8 @@
 							<input type="radio" name="searchBy" value="email">Email
 							<!-- <input type="radio" name="searchBy" value="" -->
 					
-					<div class="tfclear"></div>
-				</div>
+					<!--div class="tfclear"></div>
+				</div-->
 					
   			<p id="pickDate">Select a date: <input type="text" name="viewDate" id="datepicker" value="" /></p>
  			<!--p id="viewDate">Date Being Viewed: 

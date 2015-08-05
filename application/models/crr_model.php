@@ -16,14 +16,26 @@ class crr_model extends CI_Model {
 			return true;
 		}
 	}
-	public function updateStatus($rId, $status){
+	
+	public function updateStatus($rId, $status, $notes){
 		$sql = "UPDATE reservations SET status = '$status' WHERE rId = '$rId' ;";
 		if ($this->db->simple_query($sql, array($rId, $status))){
-			return 1;
+			if (strlen($notes) > 0){
+				$sql1 = "INSERT into notes(resId, note) VALUES ('$rId', '$notes');";	
+				if ($this->db->simple_query($sql1, array($rId, $notes))){
+					return 1;		
+				}else{
+					return 0;
+				}
+			}
+			else{
+				return 1;
+			}
 		}else{
 			return 0;			
 		}
 	}
+	
 	function getmaxid($col, $table){
 		$this -> db -> select_max($col);
 		$query = $this -> db -> get($table);
@@ -85,10 +97,17 @@ class crr_model extends CI_Model {
 	} 
 	
 	public function getHours(){
-		$sql = "SELECT hours, isAvailable FROM operationHours ORDER BY id ASC";
+		$sql = "SELECT hours, isAvailable, displayhrs FROM operationHours ORDER BY id ASC";
 		$results = $this->db->query($sql);
 		return $results -> result();
 	} 
+	
+	public function getDisplayHours($hour){
+		$sql = "SELECT displayhrs FROM operationHours WHERE hours = '$hour';";
+		$results = $this->db->query($sql, array($hour));
+		return $results -> result();
+	}
+	
 	function updatetable($timeData, $unavailData){
 		$this->db->empty_table('hours'); 
 		$this->db->insert('hours', $timeData);
@@ -123,6 +142,18 @@ class crr_model extends CI_Model {
 			$this -> db -> where('roomNum', $unavailData[$i]);
 			$this -> db -> update('rooms', $unavail);
 		}
+	}
+	
+	public function getEmails(){
+		$sql = "SELECT email, userID FROM reserver";
+		$results = $this->db->query($sql);
+		return $results -> result();
+	} 
+	
+	public function getPwd($type){
+		$sql = "SELECT pwd FROM passcode WHERE id = $type;";
+		$results = $this->db->query($sql, array($type));
+		return $results -> result();		
 	}
 }
 ?>
