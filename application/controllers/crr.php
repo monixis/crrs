@@ -2,23 +2,18 @@
 class crr extends CI_Controller {
 	public function index() {
 		$this -> load -> model('crr_model');
-		$data['title'] = "JAC Collaboration Rooms";
-		$data['rooms'] = $this -> crr_model -> getRooms();
-		$data['hours'] = $this -> crr_model -> getHours();
+		$data['title'] = "JAC Collaboration Room";
+		$date = date("m/d/Y");
+		//$data['rooms'] = $this -> crr_model -> getRooms($date);
+		//$data['hours'] = $this -> crr_model -> getHours();
+	//	$data['blockedHours'] = $this -> crr_model -> getBlockedHours();
 		$data['passcode'] = $this -> crr_model -> getPwd(1);
 		$this -> load -> view('crr_view', $data);
 	}
 	public function admin() {
 		$this -> load -> model('crr_model');
-		$startTime = $this -> input -> post('startTime');
-		$numHrs = $this -> input -> post('numHrs');
-		$timeData = array(
-					'starttime' => $startTime,
-					'totalhrs' => $numHrs,
-				);
-		$unavailData = $this -> input -> post('unavailRoom');	
-		$this->crr_model->updatetable($timeData, $unavailData);
-		$this -> load -> view('admin');
+		$data['hours'] = $this -> crr_model -> getHours();
+		$this -> load -> view('admin', $data);
 	}
 	public function updateStatus(){
 		$rId = $_POST['rId'];
@@ -32,8 +27,9 @@ class crr extends CI_Controller {
 	public function todayReservation(){
 		$this -> load -> model('crr_model');
 		$date = date("m/d/Y");
-		$data['rooms'] = $this -> crr_model -> getRooms();
+		$data['rooms'] = $this -> crr_model -> getRooms($date);
 		$data['hours'] = $this -> crr_model -> getHours();
+		$data['blockedHours'] = $this -> crr_model -> getBlockedHours($date);
 		$data['slots'] = $this -> crr_model -> getReservations($date);
 		$date = str_replace("/", "", $date);
 		$data['date'] = $date;
@@ -42,8 +38,9 @@ class crr extends CI_Controller {
 	public function getReservations(){
 		$this -> load -> model('crr_model');
 		$date = $this -> input -> get('date');
-		$data['rooms'] = $this -> crr_model -> getRooms();
+		$data['rooms'] = $this -> crr_model -> getRooms($date);
 		$data['hours'] = $this -> crr_model -> getHours();
+		$data['blockedHours'] = $this -> crr_model -> getBlockedHours($date);
 		$data['slots'] = $this -> crr_model -> getReservations($date);
 		$date = str_replace("/", "", $date);
 		$data['date'] = $date;

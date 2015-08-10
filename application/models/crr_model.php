@@ -70,7 +70,7 @@ class crr_model extends CI_Model {
 	}
 	
 	public function getReservations($date){
-		$sql = "SELECT resId, status FROM reservations WHERE resDate = '$date';";
+		$sql = "SELECT resId, status FROM reservations WHERE resDate = '$date' and status != 3;";
 		$results = $this->db->query($sql, array($date));
 		return $results -> result();
 		//return $sql;
@@ -90,15 +90,21 @@ class crr_model extends CI_Model {
 		}
 	}
 	
-	public function getRooms(){
-		$sql = "SELECT roomNum FROM rooms WHERE isAvailable = 1";
-		$results = $this->db->query($sql);
+	public function getRooms($date){
+		$sql = "SELECT roomNum FROM rooms WHERE roomNum NOT IN(SELECT roomNum FROM roomInstructions WHERE '$date' BETWEEN startDate AND endDate)";
+		$results = $this->db->query($sql, array($date));
 		return $results -> result();
 	} 
 	
 	public function getHours(){
-		$sql = "SELECT hours, isAvailable, displayhrs FROM operationHours ORDER BY id ASC";
+		$sql = "SELECT id, hours, isAvailable, displayhrs FROM operationHours ORDER BY id ASC";
 		$results = $this->db->query($sql);
+		return $results -> result();
+	} 
+	
+	public function getBlockedHours($date){
+		$sql = "SELECT hourid FROM hoursInstructions WHERE '$date' BETWEEN startDate AND endDate";
+		$results = $this->db->query($sql, array($date));
 		return $results -> result();
 	} 
 	
@@ -150,10 +156,13 @@ class crr_model extends CI_Model {
 		return $results -> result();
 	} 
 	
-	public function getPwd($type){
-		$sql = "SELECT pwd FROM passcode WHERE id = $type;";
-		$results = $this->db->query($sql, array($type));
-		return $results -> result();		
+	public function getPwd($id){
+		$this -> db -> select('pwd');
+		$query = $this -> db -> get_where('passcode', array('id' => $id));
+		foreach ($query -> result() as $row){
+			$passcode = $row -> pwd;
+		}
+		return $passcode;		
 	}
 }
 ?>

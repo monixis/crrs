@@ -24,7 +24,7 @@
     			});
     			$("#datepicker").datepicker( "setDate", new Date());
     		$("#datepicker").empty();
-    	    $('#dashboard_view').load('http://localhost/collabRoomReserveSystem/?c=crr&m=todayReservation');
+    	   
     		})
     	</script>
 		<style type="text/css">
@@ -87,15 +87,15 @@
 
 		</div>
 				
-		<h1 style="color: #b31b1b; text-align: center;">JAC Collaboration Rooms Reservation System</h1>
+		<h1 style="color: #b31b1b; text-align: center;">JAC Collaboration Room Reservation System</h1>
 				
-		<!--div id="passcode" style="margin-top:0px; margin-left: auto; margin-right: auto; width: 300px; margin-bottom: 5px;">
+		<div id="passcode" style="margin-top:0px; margin-left: auto; margin-right: auto; width: 300px; height: 0px;">
 							<strong>PASSCODE: </strong>
-							<input type="password" name='passcode' id='passcode'></input><br/>
-							<input type="button" class="Submit" id="submit" value="Submit" style="margin-left:85px; margin-top:10px;"></input>
-		</div-->
+							<input type="password" name='passcode' id='passcode' style="height:23px; margin-left: 10px;"></input><br/>
+							<input type="button" class="btn" id="submit" value="Submit" style="margin-left:95px; margin-top:10px; width:100px;"></input>
+		</div>
 						
-		<div style="width: 1000px; margin-left:auto; margin-right: auto;">
+		<div id="date">
 			
 				<!--div id="tfheader">
 					
@@ -136,5 +136,40 @@
 
 			</div>
 			<script type="text/javascript" src="./js/dashboard.js"></script> 
+			<script type="text/javascript">
+			
+				$("input#submit").click(function(){
+				var passcode = <?php print_r($passcode);?>;
+				var pcode = $("input#passcode").val();
+				if (passcode == pcode){
+					$("#date, #dashboard_view").css("visibility", "visible");
+					$("div#passcode").css("visibility", "hidden");
+					$('#dashboard_view').load('http://localhost/collabRoomReserveSystem/?c=crr&m=todayReservation');
+				}else{
+					$("input#passcode").css('border', '3px solid red');
+					setTimeout(function(){
+						$("input#passcode").css('border', '1px solid grey');
+					}, 2000)
+				}	
+			});
+			
+			$('#passcode').keypress(function(e){
+				var key = e.which;
+				if(key == 13){
+				var passcode = <?php print_r($passcode);?>;
+				var pcode = $("input#passcode").val();
+				if (passcode == pcode){
+					$("#date, #dashboard_view").css("visibility", "visible");
+					$("div#passcode").css("visibility", "hidden");
+					$('#dashboard_view').load('http://localhost/collabRoomReserveSystem/?c=crr&m=todayReservation');
+				}else{
+					$("input#passcode").css('border', '3px solid red');
+					setTimeout(function(){
+						$("input#passcode").css('border', '1px solid grey');
+					}, 2000)
+				}}
+			});
+			
+			</script>
 	</body>
 </html>

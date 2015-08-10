@@ -1,6 +1,7 @@
 /**
  * @author Monish.Singh1
  */
+  		 			
 var shadowBoxOpen = 0;
 $('#datepicker').change(function() {
 	var date = $('input#datepicker').val();
@@ -75,6 +76,7 @@ $('th.roomno').click(function(){
 	$('iframe').attr('src',link);
 	shadowBoxOpen = 1;
 });
+
 
 
 

@@ -192,3 +192,15 @@ th.roomno:hover{
 	font-weight: bold;
 }
 
+#date{
+	width: 1000px;
+	margin-left:auto; 
+	margin-right: auto;
+	visibility: hidden;
+}
+
+#adminSelection{
+	width: 800px;
+	margin-left:auto; 
+	margin-right: auto;
+}
