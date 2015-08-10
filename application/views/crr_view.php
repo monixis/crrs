@@ -24,7 +24,26 @@
     			});
     			$("#datepicker").datepicker( "setDate", new Date());
     		$("#datepicker").empty();
-    	   
+    	 
+			var availableTags = [];
+				<?php 
+				foreach($emails as $row){
+				?>
+				availableTags.push('<?php echo $row -> email;?>');
+				<?php }	?>
+				<?php 
+				foreach($rooms as $row2){
+				?>
+				availableTags.push('<?php echo $row2 -> roomNum;?>');
+				<?php }	?>
+				<?php 
+				foreach($resId as $row3){
+				?>
+				availableTags.push('<?php echo $row3 -> resId;?>');
+				<?php }	?>
+        		$( "#tfq" ).autocomplete({
+      			source: availableTags
+			    });		
     		})
     	</script>
 		<style type="text/css">
@@ -88,16 +107,15 @@
 		</div>
 				
 		<h1 style="color: #b31b1b; text-align: center;">JAC Collaboration Room Reservation System</h1>
-				
 		<div id="passcode" style="margin-top:0px; margin-left: auto; margin-right: auto; width: 300px; height: 0px;">
-							<strong>PASSCODE: </strong>
+ 							<strong>PASSCODE: </strong>
 							<input type="password" name='passcode' id='passcode' style="height:23px; margin-left: 10px;"></input><br/>
 							<input type="button" class="btn" id="submit" value="Submit" style="margin-left:95px; margin-top:10px; width:100px;"></input>
 		</div>
-						
+				
 		<div id="date">
 			
-				<!--div id="tfheader">
+				<div id="tfheader">
 					
 					        <input type="text" id="tfq" class="tftextinput2" name="q" value="Search our website"><input type="submit" value=">" class="tfbutton2"><br>
 					        <input type="radio" checked name="searchBy" value="room">Room#
@@ -105,8 +123,8 @@
 							<input type="radio" name="searchBy" value="email">Email
 							<!-- <input type="radio" name="searchBy" value="" -->
 					
-					<!--div class="tfclear"></div>
-				</div-->
+					<div class="tfclear"></div>
+				</div>
 					
   			<p id="pickDate">Select a date: <input type="text" name="viewDate" id="datepicker" value="" /></p>
  			<!--p id="viewDate">Date Being Viewed: 

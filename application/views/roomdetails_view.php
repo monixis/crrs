@@ -10,8 +10,7 @@
 		$scanners = $row -> scanners;
 		$whiteboards = $row -> whiteboards;
 	}
-?>
-<title><?php echo $resId; ?></title>	
+?>	
 <script>
 	$(document).ready(function(){
 			$("#color").addClass("details");

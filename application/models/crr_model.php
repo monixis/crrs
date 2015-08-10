@@ -16,7 +16,15 @@ class crr_model extends CI_Model {
 			return true;
 		}
 	}
-	
+	function isreserved($res) {
+		$sql = "SELECT resId FROM reservations WHERE resId = '$res';";
+		$results = $this->db->query($sql, array($res));
+		if($results == $res)
+			return TRUE;
+		else {
+			return FALSE;
+		}
+	}
 	public function updateStatus($rId, $status, $notes){
 		$sql = "UPDATE reservations SET status = '$status' WHERE rId = '$rId' ;";
 		if ($this->db->simple_query($sql, array($rId, $status))){
@@ -35,7 +43,6 @@ class crr_model extends CI_Model {
 			return 0;			
 		}
 	}
-	
 	function getmaxid($col, $table){
 		$this -> db -> select_max($col);
 		$query = $this -> db -> get($table);
@@ -63,10 +70,15 @@ class crr_model extends CI_Model {
 		//return $sql;
 	}
 	public function getEmailDetails($email){
-		$sql = "SELECT resId, resDate, startTime, resEmail, resType, roomNum, status.status, reservations.status as 'statusId' FROM reservations inner join status on reservations.status = status.statusNum WHERE resEmail = '$email';";
+		$sql = "SELECT resId, comments, totalHours, resDate, startTime, resEmail, resType, roomNum, status.status, reservations.status as 'statusId' FROM reservations inner join status on reservations.status = status.statusNum WHERE resEmail = '$email';";
 		$results = $this->db->query($sql, array($email));
 		return $results -> result();
 		//return $sql;
+	}
+	public function getNotes($email){
+		$sql = "SELECT DISTINCT note FROM notes INNER JOIN reservations ON notes.resId = reservations.rId WHERE reservations.resEmail = '$email'ORDER BY notes.resId DESC;";
+		$results = $this->db->query($sql, array($email));
+		return $results -> result();
 	}
 	
 	public function getReservations($date){
@@ -79,7 +91,6 @@ class crr_model extends CI_Model {
 	public function insert_user($email) {
 		$this->db->insert('reserver', $email);
 	}
-	
 	public function insert_reservation($data){
 		$this->db->insert('reservations', $data);	
 		if($this->db->affected_rows()>0)
@@ -95,25 +106,40 @@ class crr_model extends CI_Model {
 		$results = $this->db->query($sql, array($date));
 		return $results -> result();
 	} 
-	
+	public function getResIds(){
+		$sql = "SELECT resId FROM reservations;";
+		$results = $this->db->query($sql);
+		return $results -> result();
+	}
 	public function getHours(){
 		$sql = "SELECT id, hours, isAvailable, displayhrs FROM operationHours ORDER BY id ASC";
 		$results = $this->db->query($sql);
 		return $results -> result();
 	} 
-	
 	public function getBlockedHours($date){
 		$sql = "SELECT hourid FROM hoursInstructions WHERE '$date' BETWEEN startDate AND endDate";
 		$results = $this->db->query($sql, array($date));
 		return $results -> result();
 	} 
-	
 	public function getDisplayHours($hour){
 		$sql = "SELECT displayhrs FROM operationHours WHERE hours = '$hour';";
 		$results = $this->db->query($sql, array($hour));
 		return $results -> result();
 	}
-	
+	public function getEmails(){
+		$sql = "SELECT email, userID FROM reserver";
+		$results = $this->db->query($sql);
+		return $results -> result();
+	} 
+
+	public function getPwd($id){
+		$this -> db -> select('pwd');
+		$query = $this -> db -> get_where('passcode', array('id' => $id));
+		foreach ($query -> result() as $row){
+			$passcode = $row -> pwd;
+		}
+		return $passcode;		
+ 	}
 	function updatetable($timeData, $unavailData){
 		$this->db->empty_table('hours'); 
 		$this->db->insert('hours', $timeData);
@@ -148,21 +174,6 @@ class crr_model extends CI_Model {
 			$this -> db -> where('roomNum', $unavailData[$i]);
 			$this -> db -> update('rooms', $unavail);
 		}
-	}
-	
-	public function getEmails(){
-		$sql = "SELECT email, userID FROM reserver";
-		$results = $this->db->query($sql);
-		return $results -> result();
-	} 
-	
-	public function getPwd($id){
-		$this -> db -> select('pwd');
-		$query = $this -> db -> get_where('passcode', array('id' => $id));
-		foreach ($query -> result() as $row){
-			$passcode = $row -> pwd;
-		}
-		return $passcode;		
 	}
 }
 ?>

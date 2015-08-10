@@ -1,10 +1,9 @@
 /**
  * @author Monish.Singh1
  */
-  		 			
 var shadowBoxOpen = 0;
 $('#datepicker').change(function() {
-	var date = $('input#datepicker').val();
+	 var date = $('input#datepicker').val();
 	var url = "http://localhost/collabRoomReserveSystem/?c=crr&m=getReservations&date="+date;
 	$('#dashboard_view').empty();
 	$('#dashboard_view').load(url);
@@ -66,17 +65,12 @@ $('#close').click(function(){
 	$('#dashboard_view').empty();
 	$('#dashboard_view').load(url);
 });
-
-$('th.roomno').click(function(){
+$( document ).on( "click", "th.roomno", function(){ 
 	var roomNo = $(this).text();
 	var link = "http://localhost/collabRoomReserveSystem/?c=crr&m=roomDetails&roomNo=" + roomNo;
-	$('#shadowBox').css({'visibility':'visible','width':'540px','height':'350px'});
-	$('#shadowFrame').css({'width':'500px','height':'350px'});
+	$('#shadowBox').css({'visibility':'visible','width':'560px','height':'360px'});
+	$('#shadowFrame').css({'width':'550px','height':'350px'});
 	$('#shadowBox').css('left','33%');
 	$('iframe').attr('src',link);
 	shadowBoxOpen = 1;
 });
-
-
-
-

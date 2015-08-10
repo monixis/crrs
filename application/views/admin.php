@@ -25,7 +25,9 @@
 
 		<div class = "container_home">
 				
-				<h1 style="color: #b31b1b; text-align: center;">Admin - JAC Collaboration Room Reservation System</h1>
+					
+						
+			<h1 style="color: #b31b1b; text-align: center;">Admin - JAC Collaboration Room Reservation System</h1>
 			<div id="adminSelection">
 				<p><label class="label">Deselect Hours to Freeze: </label></p>
 				<p><label class="label">From: </label></p>

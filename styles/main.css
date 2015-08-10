@@ -1,6 +1,6 @@
 body, html {
 	margin: 0px;
-	font-family: sans-serif, Helvetica, arial;
+	font-family : sans-serif, Helvetica, arial;
 	background: #ffffff;
 	font-size: 14px;
 }
@@ -182,7 +182,10 @@ th.roomno:hover{
 	margin-top:30px;
 	
 }
-
+th.roomno{
+	z-index: 5; 
+	position:relative;
+}
 .blocked{
 	opacity: 0.5;
 }
@@ -191,7 +194,6 @@ th.roomno:hover{
 	color: #b31b1b;
 	font-weight: bold;
 }
-
 #date{
 	width: 1000px;
 	margin-left:auto; 
