@@ -18,9 +18,9 @@
 </script>
 <div id="details">
 	<div id="detailsType">
-		<div id="color" style="width: 60px; height: 350px; float:left; ">
+		<div id="color" style="width: 60px; height:440px; float:left; ">
 		</div>
-		<div style="float:right; width:440px; height: 38px; text-align: center; font-size: 30px; color: #b31b1b;">
+		<div style="float:right; width:530px; height: 38px; text-align: center; font-size: 30px; color: #b31b1b;">
 			<div id="confirmations"></div><p id="resId">Room # <?php echo $roomNum; ?></p>
 		</div>
 	</div>

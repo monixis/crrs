@@ -58,25 +58,28 @@ class crr_model extends CI_Model {
 		return $results -> result();
 	}
 	public function getResDetails($resId){
-		$sql = "SELECT resId, resDate, startTime, resEmail, resType, roomNum, status.status, reservations.status as 'statusId', totalHours, rId FROM reservations inner join status on reservations.status = status.statusNum WHERE resId = '$resId';";
+		$sql = "SELECT resId, resDate, startTime, resEmail, resType, roomNum, status.status, reservations.status as 'statusId', totalHours, rId, comments, numPatrons FROM reservations inner join status on reservations.status = status.statusNum WHERE resId = '$resId';";
 		$results = $this->db->query($sql, array($resId));
 		return $results -> result();
-		//return $sql;
+	}
+	public function getResDetails1($rId){
+		$sql = "SELECT DISTINCT rId, resDate, startTime, resEmail, resType, roomNum, status.status, reservations.status as 'statusId', totalHours, comments, numPatrons FROM reservations inner join status on reservations.status = status.statusNum WHERE rId = '$rId';";
+		$results = $this->db->query($sql, array($rId));
+		return $results -> result();
 	}
 	public function getRoomSearchDetails($roomNum){
 		$sql = "SELECT resId, resDate, startTime, resEmail, resType, roomNum, status.status, reservations.status as 'statusId' FROM reservations inner join status on reservations.status = status.statusNum WHERE roomNum = '$roomNum';";
 		$results = $this->db->query($sql, array($roomNum));
 		return $results -> result();
-		//return $sql;
 	}
 	public function getEmailDetails($email){
-		$sql = "SELECT resId, comments, totalHours, resDate, startTime, resEmail, resType, roomNum, status.status, reservations.status as 'statusId' FROM reservations inner join status on reservations.status = status.statusNum WHERE resEmail = '$email';";
+		//$sql = "SELECT rId, comments, totalHours, resDate, startTime, resEmail, resType, roomNum, status.status, reservations.status as 'statusId' FROM reservations inner join status on reservations.status = status.statusNum WHERE resEmail = '$email';";
+		$sql = "SELECT DISTINCT resDate, rId, status.status as 'status', reservations.status as 'statusId' FROM reservations INNER JOIN status ON reservations.status = status.statusNum WHERE resEmail = '$email' ORDER BY resDate DESC;";
 		$results = $this->db->query($sql, array($email));
 		return $results -> result();
-		//return $sql;
 	}
 	public function getNotes($email){
-		$sql = "SELECT DISTINCT note FROM notes INNER JOIN reservations ON notes.resId = reservations.rId WHERE reservations.resEmail = '$email'ORDER BY notes.resId DESC;";
+		$sql = "SELECT note, resid FROM notes WHERE resid IN ( SELECT DISTINCT rId FROM reservations WHERE resEmail = '$email') ORDER BY resid DESC";
 		$results = $this->db->query($sql, array($email));
 		return $results -> result();
 	}
@@ -140,6 +143,13 @@ class crr_model extends CI_Model {
 		}
 		return $passcode;		
  	}
+	
+	public function getAssociatedResId($rId){
+		$sql = "SELECT max(resId) FROM reservations WHERE rId='$rId'";
+		$results = $this->db->query($sql, array($rId));
+		return $results -> result();
+	}
+		
 	function updatetable($timeData, $unavailData){
 		$this->db->empty_table('hours'); 
 		$this->db->insert('hours', $timeData);
@@ -174,6 +184,10 @@ class crr_model extends CI_Model {
 			$this -> db -> where('roomNum', $unavailData[$i]);
 			$this -> db -> update('rooms', $unavail);
 		}
+	}
+	
+	public function deleteRes($rId){
+		$this->db->delete('reservations', array('rId' => $rId)); 
 	}
 }
 ?>

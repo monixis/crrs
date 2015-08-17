@@ -30,6 +30,7 @@
 				   					$("#isUnverified1").removeAttr('hidden');
 				   				}	
 				});
+				
 				var availableTags = [];
 				<?php 
 				foreach($emails as $row){
@@ -44,7 +45,7 @@
 		<div style="width: 750px;">
 			
 		<div id="detailsType">
-				<div id="color" style="width: 60px; height: 550px; float:left; background: green; ">
+				<div id="color" style="width: 60px; height: 575px; float:left; background: green; ">
 				</div>
 				<div style="float:right; width:690px; height: 38px; text-align: center; font-size: 30px; color: #b31b1b;">
 					<p>Room Reserve Form</p>
@@ -107,8 +108,8 @@
 										</select>
 						</p>
 						<p class="resDet"><label class="label">Booking Type:</label><select name ="bookType" id="bookType" value="<?php echo set_value('bookType'); ?>" SIZE="1">
-											<option value="person">In Person</option>
-											<option value="phone">By Phone</option>
+											<option value="person">For Now</option>
+											<option value="phone">For Future</option>
 										</select>
 										</br><div style="color:RED"><?php echo form_error('bookType'); ?></div>
 						</p>

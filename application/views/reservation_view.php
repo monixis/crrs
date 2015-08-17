@@ -4,7 +4,7 @@
 
 <?php 
 	foreach($details as $row){
-		$resId = $row -> resId;
+		//$resId = $row -> resId;
 		$resDate = $row -> resDate;
 		$startTime = $row -> startTime;
 		$resEmail = $row -> resEmail;
@@ -14,6 +14,8 @@
 		$statusId = $row -> statusId;
 		$totalHours = $row -> totalHours;
 		$rId = $row -> rId;
+		$comments = $row -> comments;
+		$numPatrons = $row -> numPatrons;
 	}
 	//time format converter
 		$index = strpos($startTime, ":");		
@@ -47,7 +49,7 @@
 		$notValid = 0;
 	}
 ?>
-<title><?php echo $resId; ?></title>	
+<title><?php echo $rId; ?></title>	
 <script>
 	$(document).ready(function(){
 		if(<?php echo $statusId; ?> == 1){
@@ -66,10 +68,10 @@
 </script>
 <div id="details">
 	<div id="detailsType">
-		<div id="color" style="width: 60px; height: 440px; float:left; ">
+		<div id="color" style="width: 60px; height: 575px; float:left; ">
 		</div>
 		<div style="float:right; width:530px; height: 38px; text-align: center; font-size: 30px; color: #b31b1b;">
-			<div id="confirmations"></div><p id="resId">#<?php echo $resId; ?></p>
+			<div id="confirmations"></div><p id="resId">#<?php echo $rId; ?></p>
 		</div>
 		
 	</div>
@@ -79,9 +81,10 @@
 	<div id="valid">
 	<p class="resDet"><label class="label">Room No: </label><?php echo $roomNum; ?></p>
 	<p class="resDet"><label class="label">Date: </label><?php echo $resDate; ?></p>
-	<p class="resDet"><label class="label">Time:</label><?php echo $startTime; ?><label class="label">Total Hours:</label><?php echo $totalHours; ?></p>
+	<p class="resDet"><label class="label">Time:</label><?php echo $startTime; ?><label class="label" style="margin-left: 70px;">Total Hours:</label><?php echo $totalHours; ?></p>
 	<p class="resDet"><label class="label">Reserved By:</label><?php echo $resEmail; ?></p>
-	<p class="resDet"><label class="label">Status:</label><?php echo $status; ?></p>
+	<p class="resDet"><label class="label">Status:</label><?php echo $status; ?><label class="label" style="margin-left: 55px;">No. of Patrons:</label><?php echo $numPatrons; ?></p>
+	<p class="resDet"><label class="label">Comments:</label><textarea readonly rows="3" cols="50" style="margin-left:60px; margin-bottom:5px;"><?php echo $comments; ?></textarea></p>
 	<label class="label">Notes:</label>
 	<textarea id="notes" rows="3" cols="50" style="margin-left:60px; margin-bottom:5px;"></textarea>
 	<?php if ($status == 'Reserved'){?>
@@ -100,10 +103,6 @@ $('#returned').click(function(){
 	rId= <?php echo $rId ?>;
 	var status = 4;	
 	notes = $('textarea#notes').val();
-	//var totalHours = <?php echo $totalHours ;?>;
-	//for(var i=0; i<totalHours; i++){
-		//var resId1 = parseInt(resId);
-	//	resId1 = resId1 + i;
 		$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>",{rId: rId, status: status, notes: notes}).done(function(data){
 							if (data == 1){
 									$('#confirmations').append("<img src='./icons/tick.png'/>");
