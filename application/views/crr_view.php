@@ -24,31 +24,11 @@
     			});
     			$("#datepicker").datepicker( "setDate", new Date());
     			$("#datepicker").empty();
-    	   
-    	   		
-				var availableTags = [];
-				<?php 
-				foreach($emails as $row){
-				?>
-				availableTags.push('<?php echo $row -> email;?>');
-				<?php }	?>
-        		$( "#tfq" ).autocomplete({
-      			source: availableTags
-			    });
+				
+			    $("#tfheader").load("http://localhost/crrs/?c=crr&m=tfq");
     		})
     	</script>
-		<!--script>
-			var availableTags = [];
-				<?php 
-				foreach($emails as $row){
-				?>
-				availableTags.push('<?php echo $row -> email;?>');
-				<?php }	?>
-				$( "#tfq" ).autocomplete({
-      			source: availableTags
-			    });		
-    		})
-    	</script-->
+		
 		<style type="text/css">
 		
 		</style>
@@ -75,10 +55,8 @@
 		<div id="date">
 			
 				<div id="tfheader">
-					        <input type="text" id="tfq" class="tftextinput2" name="q" /><img id="search" style="margin-left:5px;" src="./icons/search.png"/><!--input type="submit" value=">" class="tfbutton2"><br-->
-					        <!--input type="radio" name="searchBy" value="room">Room#
-							<input type="radio" name="searchBy" value="resId">Reservation ID
-							<input type="radio" checked name="searchBy" value="email" />Email-->
+					        <!--input type="text" id="tfq" class="tftextinput2" name="q" /><img id="search" style="margin-left:5px;" src="./icons/search.png"/><!--input type="submit" value=">" class="tfbutton2"><br-->
+					        
 				</div>
 					
   			<p id="pickDate">Select a date: <input type="text" name="viewDate" id="datepicker" value="" /></p>

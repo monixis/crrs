@@ -1,4 +1,0 @@
-insert into reservations values(144, '2015-01-17', '10:00AM', '1:00PM', 'stephen@marist.edu', 'person', '300A', 'reserved', 'false');
-insert into reservations values(2020, '2015-01-17', '1:00PM', '3:00PM', 'stephen@marist.edu', 'person', '112', 'unverified', 'false');
-select * from reservations;
-SELECT startTime, endTime FROM reservations AS res;

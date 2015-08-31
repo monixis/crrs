@@ -2,7 +2,7 @@
     	<link rel="stylesheet" href="./styles/jquery-ui.css" type="text/css" /> 
 		<script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script> 
 		<script type="text/javascript" src="./js/jquery-ui.js"></script>
-		<script type="text/javascript" src="./js/dashboard.js"></script> 
+		
 		<script>
 			$(document).ready(function() {
 				$("#dateStart").datepicker({
@@ -45,7 +45,7 @@
 		<div style="width: 750px;">
 			
 		<div id="detailsType">
-				<div id="color" style="width: 60px; height: 575px; float:left; background: green; ">
+				<div id="color" style="width: 60px; height: 640px; float:left; background: green; ">
 				</div>
 				<div style="float:right; width:690px; height: 38px; text-align: center; font-size: 30px; color: #b31b1b;">
 					<p>Room Reserve Form</p>
@@ -120,20 +120,20 @@
 												<option value="4">4</option>
 												<option value="5">5</option>
 											</select>
-											</p>
-						<p class="resDet"><label class="label">Primary Email:</label><INPUT TYPE="text" NAME="primEmail" id="primEmail" value="<?php echo set_value('primEmail'); ?>" SIZE="60" class="ask_text_input" /></br><div style="color:RED"><?php echo form_error('primEmail'); ?></div></p>
+						</p>
+						<p class="resDet"><label class="label">Primary Marist Email:</label><INPUT TYPE="text" NAME="primEmail" id="primEmail" value="<?php echo set_value('primEmail'); ?>" SIZE="40" class="ask_text_input" /><img id="notesSearch" style="width:15px; height:15px; margin-left: 10px;" src="./icons/search.png"/></br><div style="color:RED"><?php echo form_error('primEmail'); ?></div></p>
 						<p class="resDet" id="check1"><input type="checkbox" id="checkbox1" style="margin-left:180px;" required>Check to verify that this patron has a Marist CWID.</input></p>
+						<p class="resDet"><label class="label">Primary Phone No:</label><INPUT TYPE="text" NAME="primPhone" id="primPhone" value="<?php echo set_value('primPhone'); ?>" SIZE="15" class="ask_text_input" /></br></p>
 						<p class="resDet" id="isUnverified1" hidden style="margin-left:180px;">A Marist ID must be shown when verifying a reservation.</p>
-						<p class="resDet"><label class="label">Secondary Email:</label><INPUT TYPE="text" NAME="secEmail" id="secEmail" value="<?php echo set_value('secEmail'); ?>" SIZE="60" class="ask_text_input" /></br><div style="color:RED"><?php echo form_error('secEmail'); ?></div></p>
+						<p class="resDet"><label class="label">Secondary Email:</label><INPUT TYPE="text" NAME="secEmail" id="secEmail" value="<?php echo set_value('secEmail'); ?>" SIZE="40" class="ask_text_input" /></br><div style="color:RED"><?php echo form_error('secEmail'); ?></div></p>
 						<p class="resDet" id="check2"><input type="checkbox" id="checkbox2" style="margin-left:180px;" required>Check to verify that this patron has a Marist CWID.</input></p>
 						<p class="resDet" id="isUnverified2" hidden style="margin-left:180px;">A Marist ID must be shown when verifying a reservation.</p>
 						<p class="resDet"><label class="label">Comments (Optional): </label><textarea NAME="Comments" ROWS="3" COLS="43" ></textarea></p>
-						
-						
-								
+							
 					<input name="submit" value="Reserve the Room" id="submit" type="submit" class="btn" style="margin-left:56px; margin-top:5px;"/>
 					<!--input name="reset" type="reset" id="reset" class="btn" style="margin-left:56px; margin-top:5px;"/-->
 					</form>
 	
-			</div>		
+			</div>	
+			<script type="text/javascript" src="./js/dashboard.js"></script> 
 			

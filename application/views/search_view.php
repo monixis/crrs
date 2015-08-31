@@ -25,13 +25,13 @@
 	<div id="element" style="width: 300px; border-right: 1px solid #ccc; margin-top: 10px;float: left;">
 	
 	</div>
-	<div id="notes" style="width:300px; float: right;">
+	<div id="notes" style="width:392px; float: right;">
 		<ul>
 			<?php 
 				foreach($notes as $row1){ 
 					$note = $row1 -> note;	
 			?>
-					<li><?php echo $note;?></li><br/>
+					<li style="border-bottom: 1px solid #dee5e7; padding: 5px;"><?php echo $note;?></li><br/>
 			<?php }	?>
 		</ul>
 	</div>

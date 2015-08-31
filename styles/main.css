@@ -46,7 +46,7 @@ td, th {
 }
 
 
-#datepicker {
+#datepicker, #datepicker1 {
 	position: relative;
 	/*bottom: 50px;*/
 	font-size: 18px;
@@ -86,7 +86,9 @@ td, th {
 .reserved{
 	background: #b31b1b;
 }
-
+.canceled{
+	background: #4C4C43;
+}
 .unverified{
 	background: #FF9900;
 }
@@ -137,7 +139,7 @@ td:hover{
     overflow: hidden;
 }
 
-#close:hover,#search:hover{
+#close:hover,#search:hover,#notesSearch:hover{
 	opacity:0.5;
 	cursor: pointer;
 }

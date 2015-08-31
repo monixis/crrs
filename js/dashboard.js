@@ -17,16 +17,18 @@ $('td').click(function() {
 			if(shadowBoxOpen == 0){
 					if ($(this).attr('class') == 'slots'){
 						var link = "http://localhost/crrs/?c=crr&m=reserveForm&resId=" + slotid;
-						$('#shadowBox').css({'visibility':'visible','width':'840px','height':'575px'});
-						$('#shadowFrame').css({'width':'800px','height':'575px'});
+						$('#shadowBox').css({'visibility':'visible','width':'840px','height':'640px'});
+						$('#shadowFrame').css({'width':'800px','height':'640px'});
 						$('#shadowBox').css('left','25%');
+						$('#shadowBox').css('top','15%');
 						$('iframe').attr('src',link);
 						shadowBoxOpen = 1;
 					}else{
 						var link = "http://localhost/crrs/?c=crr&m=reservationDetails&resId=" + slotid;
-						$('#shadowBox').css({'visibility':'visible','width':'640px','height':'575px'});
-						$('#shadowFrame').css({'width':'600px','height':'575px'});
-						$('#shadowBox').css('left','33%');
+						$('#shadowBox').css({'visibility':'visible','width':'640px','height':'615px'});
+						$('#shadowFrame').css({'width':'600px','height':'615px'});
+						$('#shadowBox').css('left','28%');
+						$('#shadowBox').css('top','15%');
 	    				$('iframe').attr('src',link);
 	    				shadowBoxOpen = 1;
 					}
@@ -37,6 +39,7 @@ $('td').click(function() {
 					var url = "http://localhost/crrs/?c=crr&m=getReservations&date="+date;
 					$('#dashboard_view').empty();
 					$('#dashboard_view').load(url);
+					$("#tfheader").load("http://localhost/crrs/?c=crr&m=tfq");
 			}
 		}
 	}
@@ -62,9 +65,10 @@ $('#close').click(function(){
 	var url = "http://localhost/crrs/?c=crr&m=getReservations&date="+date;
 	$('#dashboard_view').empty();
 	$('#dashboard_view').load(url);
+	$("#tfheader").load("http://localhost/crrs/?c=crr&m=tfq");
 });
 
-$( document ).on( "click", "th.roomno", function(){ 
+$(document).on( "click", "th.roomno", function(){ 
 	var roomNo = $(this).text();
 	var link = "http://localhost/crrs/?c=crr&m=roomDetails&roomNo=" + roomNo;
 	$('#shadowBox').css({'visibility':'visible','width':'640px','height':'440px'});
@@ -74,3 +78,10 @@ $( document ).on( "click", "th.roomno", function(){
 	shadowBoxOpen = 1;
 });
 	
+$('#notesSearch').click(function(){
+	var searchText = $("#primEmail").val();
+	var link = "http://localhost/crrs/?c=crr&m=search&q=" + searchText;
+	window.open(link);
+});
+
+
