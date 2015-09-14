@@ -1,17 +1,20 @@
 <link rel="stylesheet" type="text/css" href="./styles/main.css" />
-		<script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script> 	
-		<script type="text/javascript" src="./js/dashboard.js"></script> 
-		<script type="text/javascript" src="./js/freezeheader.js"></script> 
-		<script type="text/javascript" charset="utf-8">
-  		$(document).ready(function(){
-		   $("#resTable").freezeHeader({'height': '600px'});
-		   			 var currHour = new Date().getHours();
-		   		 	 var element = document.getElementsByName(currHour)[0];
-		   		 	 element.scrollIntoView();
-		   		});
-		</script>
+<script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script> 	
+<link rel="shortcut icon" href="http://library.marist.edu/images/jac.png" />
+		<style>
+			.blocked{
+				display: none;
+			}
+			#resTable{
+				min-width: 100%;
+			}
+			td, th { 
+			  padding: 5px; 
+			  width: 20px;
+			}
+		</style>
+		
 		<div id="dashboard">
-			<div id="optionmenu" style="width:1010px; height: 25px; border: 1px solid #ffffff; margin-bottom: 5px; "><img id="refresh" style="width: 25px; float:left;" src="./icons/refresh.png" /><img id="print" style="width: 25px; float:right;" src="./icons/print.png" /></div>
 			<div id="shadowBox"><iframe id="shadowFrame"></iframe><div style="width:36px; height:26px; float:right; margin-top:3px;"><img id="close" src="./icons/close.png"/></div></div>
 			
 			<?php 
@@ -110,7 +113,7 @@
 									}						
 							 
 						?>
-						<td class=<?php echo $slotclass; ?> id="<?php echo $slotid; ?>"></td>
+						<td class=<?php echo $slotclass; ?> id="<?php echo $slotid; ?>"><?php if($slotclass == "reserved"){echo "Res";}else if($slotclass == "unverified"){echo "Unver";}else if($slotclass == "transactionComplete"){echo "Comp";}?></td>
 						<?php
 							}					  						
   						?>
@@ -125,3 +128,6 @@
 			
 		</div>	
 		</div>
+		<script>
+			window.print();
+		</script>

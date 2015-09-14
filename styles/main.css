@@ -74,7 +74,7 @@ td, th {
 
 #dashboard{
 	width: 1017px;
-	border: 1px solid black;
+	border: 1px solid white;
 	margin-left:auto;
 	margin-right:auto;
 	overflow-x: scroll;
@@ -139,7 +139,7 @@ td:hover{
     overflow: hidden;
 }
 
-#close:hover,#search:hover,#notesSearch:hover{
+#close:hover,#search:hover,#notesSearch:hover, #refresh:hover, #print:hover{
 	opacity:0.5;
 	cursor: pointer;
 }

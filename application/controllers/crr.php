@@ -377,5 +377,18 @@ class crr extends CI_Controller {
 		}
 		echo $result;
 	}
+	
+	public function printTable(){
+		$this -> load -> model('crr_model');
+		$date = $this -> input -> get('date');
+		$data['rooms'] = $this -> crr_model -> getRooms($date);
+ 		$data['hours'] = $this -> crr_model -> getHours();
+		//$this -> load -> view('admin', $data);
+		$data['slots'] = $this -> crr_model -> getReservations($date);
+		$data['blockedHours'] = $this -> crr_model -> getBlockedHours($date);
+		$date = str_replace("/", "", $date);
+		$data['date'] = $date;
+		$this -> load -> view('printPage', $data, $date);
+	}
 }
 ?>

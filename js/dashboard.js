@@ -84,4 +84,20 @@ $('#notesSearch').click(function(){
 	window.open(link);
 });
 
+$('#refresh').click(function(){
+	var date = $('input#datepicker').val();
+	var url = "http://localhost/crrs/?c=crr&m=getReservations&date="+date;
+	$('#dashboard_view').empty();
+	$('#dashboard_view').load(url);
+	$("#tfheader").load("http://localhost/crrs/?c=crr&m=tfq");
+});
+
+
+$('#print').click(function(){
+	var date = $('input#datepicker').val();
+	var url = "http://localhost/crrs/?c=crr&m=printTable&date="+date;
+	window.open(url);
+	//window.print();
+});
+
 
