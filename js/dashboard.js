@@ -12,11 +12,19 @@ $('#datepicker').change(function() {
 $('td').click(function() {
 	var slotid = $(this).attr('id');
 	var slotclass = $(this).attr('class');
-	if ($(this).parent().attr('class') == 'active'){
-		if (slotclass != 'time'){
-			if(shadowBoxOpen == 0){
+	var date = $('input#datepicker').val();
+	var today = new Date();
+	var today = today.getMonth()+1 + "/" + today.getDate() + "/" + today.getFullYear();
+		if ($(this).parent().attr('class') == 'active'){
+			if (slotclass != 'time'){
+				if(shadowBoxOpen == 0){
 					if ($(this).attr('class') == 'slots'){
-						var link = "http://localhost/crrs/?c=crr&m=reserveForm&resId=" + slotid;
+						if (date < today){
+							var link = "http://localhost/crrs/?c=crr&m=displayInfo";
+							//alert("Reservations cannot be made for past dates.");
+						}else{
+							var link = "http://localhost/crrs/?c=crr&m=reserveForm&resId=" + slotid;
+						}
 						$('#shadowBox').css({'visibility':'visible','width':'840px','height':'640px'});
 						$('#shadowFrame').css({'width':'800px','height':'640px'});
 						$('#shadowBox').css('left','25%');
@@ -24,7 +32,12 @@ $('td').click(function() {
 						$('iframe').attr('src',link);
 						shadowBoxOpen = 1;
 					}else{
-						var link = "http://localhost/crrs/?c=crr&m=reservationDetails&resId=" + slotid;
+						if (date < today){
+							var link = "http://localhost/crrs/?c=crr&m=readonlyReservationDetails&resId=" + slotid;
+						}else{
+							var link = "http://localhost/crrs/?c=crr&m=reservationDetails&resId=" + slotid;
+						}	
+						
 						$('#shadowBox').css({'visibility':'visible','width':'640px','height':'615px'});
 						$('#shadowFrame').css({'width':'600px','height':'615px'});
 						$('#shadowBox').css('left','28%');
@@ -32,18 +45,16 @@ $('td').click(function() {
 	    				$('iframe').attr('src',link);
 	    				shadowBoxOpen = 1;
 					}
-			}else if(shadowBoxOpen == 1){
+				}else if(shadowBoxOpen == 1){
 					$('#shadowBox').css('visibility','hidden');
 					shadowBoxOpen = 0;
-					var date = $('input#datepicker').val();
 					var url = "http://localhost/crrs/?c=crr&m=getReservations&date="+date;
 					$('#dashboard_view').empty();
 					$('#dashboard_view').load(url);
 					$("#tfheader").load("http://localhost/crrs/?c=crr&m=tfq");
+				}
 			}
 		}
-	}
-	
 });
 
 $('#search').click(function() {

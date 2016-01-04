@@ -134,7 +134,8 @@ class crr_model extends CI_Model {
 	}
 	
 	public function getRooms($date){
-		$sql = "SELECT roomNum FROM rooms WHERE roomNum NOT IN(SELECT roomNum FROM roomInstructions WHERE '$date' BETWEEN startDate AND endDate)";
+		//$sql = "SELECT roomNum FROM rooms WHERE roomNum NOT IN(SELECT roomNum FROM roomInstructions WHERE '$date' BETWEEN startDate AND endDate)";
+		$sql = "SELECT roomNum FROM rooms WHERE isAvailable = 1";
 		$results = $this->db->query($sql, array($date));
 		return $results -> result();
 	} 
@@ -150,6 +151,7 @@ class crr_model extends CI_Model {
 	} 
 	public function getBlockedHours($date){
 		$sql = "SELECT hourid FROM hoursInstructions WHERE '$date' BETWEEN startDate AND endDate";
+		//$sql = "SELECT hourid FROM hoursInstructions WHERE 12/29/2015 >= startDate AND 12/29/2015 <= endDate";
 		$results = $this->db->query($sql, array($date));
 		return $results -> result();
 	} 

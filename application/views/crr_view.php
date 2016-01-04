@@ -20,7 +20,7 @@
 		<script>
     		$(document).ready(function(){
     			$("#datepicker").datepicker({
-    				minDate : "+0"
+    			//	minDate : "+0"
     			});
     			$("#datepicker").datepicker( "setDate", new Date());
     			$("#datepicker").empty();
@@ -93,7 +93,7 @@
 					<br />
 					&#169; Copyright 2007-2015 Marist College. All Rights Reserved.
 
-					<a href="http://www.marist.edu/disclaimers.html" target="_blank" >Disclaimers</a> | <a href="http://www.marist.edu/privacy.html" target="_blank" >Privacy Policy</a> 
+					<a href="http://www.marist.edu/disclaimers.html" target="_blank" >Disclaimers</a> | <a href="http://www.marist.edu/privacy.html" target="_blank" >Privacy Policy</a> | <a href="http://localhost/crrs/?c=crr&m=ack" target="_blank" >Acknowledgement</a> 
 				</p>
 
 			</div>

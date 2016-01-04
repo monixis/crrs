@@ -10,7 +10,7 @@
 
 	<body>
 					
-		<div id="confirmations"></div><h1 style="color: #b31b1b; font-size: 32px; text-align: center;">Confirmation Page</h1>
+		<div id="confirmations"></div><h1 style="color: #b31b1b; font-size: 32px; text-align: center;"><?php echo $header;?></h1>
 		<p style="font-size: 20px; text-align: center; text-decoration: bold;"><?php echo $info;?></p><br/>				
 
 

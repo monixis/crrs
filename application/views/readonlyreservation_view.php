@@ -73,9 +73,8 @@
 	<div id="detailsType">
 		<div id="color" style="width: 60px; height: 615px; float:left; ">
 		</div>
-		
 		<div style="float:right; width:530px; height: 38px; text-align: center; font-size: 30px; color: #b31b1b;">
-			<div id="confirmations"></div><p id="resId">#<?php echo $rId ; ?><button type="button" class="btn" id="edit">Edit</button></p>
+			<div id="confirmations"></div><p id="resId">#<?php echo $rId ; ?> - readonly</p>
 		</div>
 		
 	</div>
@@ -92,25 +91,6 @@
 	<p class="resDet"><label class="label">Comments:</label><textarea readonly rows="3" cols="50" style="margin-left:60px; margin-bottom:5px;"><?php echo $comments; ?></textarea></p>
 	<label class="label">Notes:</label>
 	<textarea id="notes" rows="3" cols="50" style="margin-left:60px; margin-bottom:5px;"></textarea>
-	<?php if ($status == 'Reserved'){?>
-		<button type="button" class="btn" id="returned" style="margin-left:10%; margin-top:5px;">Keys Returned</button>
-		<button type="button" class="btn" id="canceled" style="margin-left:5px; margin-top:5px;">Cancel Reservation</button>
-		<?php if($resId > '0'){?>
-		<button type="button" class="btn" id="cancelSlot" style="margin-left:5px; margin-top:5px;">Cancel this Slot</button>
-		<?php } ?>
-	
-	<?php } else if ($status == 'Unverified'){?>
-		<button type="button" class="btn" id="verify" style="margin-left:10%; margin-top:5px;">Verify and Reserve</button>
-		<button type="button" class="btn" id="canceled" style="margin-left:5px; margin-top:5px;">Cancel Reservation</button>
-		<?php if($resId > '0'){?>
-		<button type="button" class="btn" id="cancelSlot" style="margin-left:5px; margin-top:5px;">Cancel this Slot</button>
-		<?php } ?>
-
-	<?php } else if ($status == 'Transaction Complete'){?>
-		<?php if($resId > '0'){?>
-		<button type="button" class="btn" id="cancelSlot" style="margin-left:10%; margin-top:5px;">Cancel this Slot</button>
-		<?php } ?>
-	<?php } ?>
 	</div>
 </div>
 <script type="text/javascript">

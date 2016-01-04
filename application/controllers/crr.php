@@ -8,6 +8,7 @@ class crr extends CI_Controller {
 		//$data['hours'] = $this -> crr_model -> getHours();
 		$data['resId'] = $this -> crr_model -> getResIds();
 		$data['passcode'] = $this -> crr_model -> getPwd(1);
+		$data['Apasscode'] = $this -> crr_model -> getPwd(2);
 		$data['emails'] = $this -> crr_model -> getEmails();
 		$this -> load -> view('crr_view', $data);
 	}
@@ -75,6 +76,14 @@ class crr extends CI_Controller {
 		$data['resId'] = $resId;
 		$this -> load -> view('reservation_view', $data);
 	}
+	
+	public function readonlyReservationDetails(){
+		$this -> load -> model('crr_model');
+		$resId = $this -> input -> get('resId');
+		$data['details'] = $this -> crr_model -> getResDetails($resId);
+		$data['resId'] = $resId;
+		$this -> load -> view('readonlyreservation_view', $data);
+	}
 
 	public function reservationDetails1(){
 		$this -> load -> model('crr_model');
@@ -83,7 +92,8 @@ class crr extends CI_Controller {
 		$data['resId'] = 0;
 		$this -> load -> view('reservation_view', $data);
 	}
-
+	
+	
 	public function reserveForm(){
 		date_default_timezone_set('US/Eastern');	
 		$date = new DateTime();
@@ -315,15 +325,18 @@ class crr extends CI_Controller {
 			if(sizeof($result1) == 0){
 				$result = $this->crr_model->insert_reservation($resData, 'reservations');
 					if($result == 0){
+						$data['header'] = "Confirmation Page";
 						$data['info'] = "Reservation Conflict. The slot $resId is already reserved.";
 						$this -> crr_model -> deleteRes($rId);		
 						break;
 					}
 					else{
+						$data['header'] = "Confirmation Page";	
 						$data['info'] = "The reservation is complete. Reservation id: " . $rId;	
 						$data['result']= $result;
 					}	
 			}else{
+				$data['header'] = "Confirmation Page";
 				$data['info'] = "Reservation Conflict. The slot $resId is already reserved.";
 				$this -> crr_model -> deleteRes($rId);	
 				break;	
@@ -334,6 +347,12 @@ class crr extends CI_Controller {
 		}
 	}
 
+	public function displayInfo(){
+		$data['header'] = "Reservation Failed";
+		$data['info'] = "Unfortunately we cannot go back on time to make a reservation :)";
+		$this->load->view('verify_view', $data);
+	} 
+	
 	public function disclaimer(){
 		$this -> load -> view('disclaimer');	
 	}	
@@ -382,13 +401,23 @@ class crr extends CI_Controller {
 		$this -> load -> model('crr_model');
 		$date = $this -> input -> get('date');
 		$data['rooms'] = $this -> crr_model -> getRooms($date);
- 		$data['hours'] = $this -> crr_model -> getHours();
-		//$this -> load -> view('admin', $data);
+		$data['hours'] = $this -> crr_model -> getHours();
 		$data['slots'] = $this -> crr_model -> getReservations($date);
 		$data['blockedHours'] = $this -> crr_model -> getBlockedHours($date);
 		$date = str_replace("/", "", $date);
 		$data['date'] = $date;
-		$this -> load -> view('printPage', $data, $date);
+		$this -> load -> view('printPage', $data);
+	}
+	
+	public function deleteSlot(){
+		$resId = $_POST['resId'];
+		$this -> load -> model('crr_model');
+		$result = $this -> crr_model -> deleteSlot($resId);
+		echo $result;
+	}
+	
+	public function ack(){
+		$this -> load -> view('ack_view');
 	}
 }
 ?>
