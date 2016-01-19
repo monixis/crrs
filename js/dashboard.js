@@ -12,16 +12,17 @@ $('#datepicker').change(function() {
 $('td').click(function() {
 	var slotid = $(this).attr('id');
 	var slotclass = $(this).attr('class');
-	var date = $('input#datepicker').val();
+	var selecteddate = new Date($('input#datepicker').val());
+	Date.parse(selecteddate);
 	var today = new Date();
-	var today = today.getMonth()+1 + "/" + today.getDate() + "/" + today.getFullYear();
+	today.setHours(0, 0, 0, 0);
+	Date.parse(today);
 		if ($(this).parent().attr('class') == 'active'){
 			if (slotclass != 'time'){
 				if(shadowBoxOpen == 0){
 					if ($(this).attr('class') == 'slots'){
-						if (date < today){
+						if (today > selecteddate){
 							var link = "http://localhost/crrs/?c=crr&m=displayInfo";
-							//alert("Reservations cannot be made for past dates.");
 						}else{
 							var link = "http://localhost/crrs/?c=crr&m=reserveForm&resId=" + slotid;
 						}
@@ -32,14 +33,14 @@ $('td').click(function() {
 						$('iframe').attr('src',link);
 						shadowBoxOpen = 1;
 					}else{
-						if (date < today){
+						if (today > selecteddate){
 							var link = "http://localhost/crrs/?c=crr&m=readonlyReservationDetails&resId=" + slotid;
 						}else{
 							var link = "http://localhost/crrs/?c=crr&m=reservationDetails&resId=" + slotid;
 						}	
 						
-						$('#shadowBox').css({'visibility':'visible','width':'640px','height':'615px'});
-						$('#shadowFrame').css({'width':'600px','height':'615px'});
+						$('#shadowBox').css({'visibility':'visible','width':'640px','height':'570px'});
+						$('#shadowFrame').css({'width':'600px','height':'570px'});
 						$('#shadowBox').css('left','28%');
 						$('#shadowBox').css('top','15%');
 	    				$('iframe').attr('src',link);
@@ -48,6 +49,7 @@ $('td').click(function() {
 				}else if(shadowBoxOpen == 1){
 					$('#shadowBox').css('visibility','hidden');
 					shadowBoxOpen = 0;
+					var date = $('input#datepicker').val();
 					var url = "http://localhost/crrs/?c=crr&m=getReservations&date="+date;
 					$('#dashboard_view').empty();
 					$('#dashboard_view').load(url);
@@ -110,5 +112,15 @@ $('#print').click(function(){
 	window.open(url);
 	//window.print();
 });
+
+$('#addNotes').click(function(){
+	var link = "http://localhost/crrs/?c=crr&m=addNotes";
+	$('#shadowBox').css({'visibility':'visible','width':'640px','height':'360px'});
+	$('#shadowFrame').css({'width':'600px','height':'360px'});
+	$('#shadowBox').css('left','33%');
+	$('iframe').attr('src',link);
+	shadowBoxOpen = 1;
+});
+
 
 

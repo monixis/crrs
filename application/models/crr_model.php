@@ -25,29 +25,19 @@ class crr_model extends CI_Model {
 			return FALSE;
 		}
 	}
-	public function updateStatus($rId, $status, $notes){
+	public function updateStatus($rId, $status){
 		$sql = "UPDATE reservations SET status = '$status' WHERE rId = '$rId' AND status IN (1,2);";
 		if ($this->db->simple_query($sql, array($rId, $status))){
-			if (strlen($notes) > 0){
-				$sql1 = "INSERT into notes(resId, note) VALUES ('$rId', '$notes');";	
-				if ($this->db->simple_query($sql1, array($rId, $notes))){
-					return 1;		
-				}else{
-					return 0;
-				}
-			}
-			else{
-				return 1;
-			}
+			return 1;
 		}else{
 			return 0;			
 		}
 	}
 	
-	public function updateSlotStatus($rId, $resId, $status, $notes){
+	public function updateSlotStatus($rId, $resId, $status){
 		$sql = "UPDATE reservations SET status = '$status' WHERE resId = '$resId' AND rid = '$rId';";
 		if ($this->db->simple_query($sql, array($resId, $status))){
-			if (strlen($notes) > 0){
+			/*if (strlen($notes) > 0){
 				$sql1 = "INSERT into notes(resId, note) VALUES ('$rId', '$notes');";	
 				if ($this->db->simple_query($sql1, array($rId, $notes))){
 					return 1;		
@@ -57,22 +47,13 @@ class crr_model extends CI_Model {
 			}
 			else{
 				return 1;
-			}
+			}*/
+			return 1;
 		}else{
 			return 0;			
 		}
 	}
 	
-	public function addNotes($rId, $notes){
-		$sql1 = "INSERT into notes(resId, note) VALUES ('$rId', '$notes');";	
-				if ($this->db->simple_query($sql1, array($rId, $notes))){
-					return 1;		
-				}else{
-					return 0;
-				}
-	}
-	
-
 	function getmaxid($col, $table){
 		$this -> db -> select_max($col);
 		$query = $this -> db -> get($table);
@@ -83,17 +64,17 @@ class crr_model extends CI_Model {
 		return $maxval;
 	}
 	public function getRoomDetails($roomno){
-		$sql = "SELECT roomNum, seats, computers, printers, scanners, whiteboards FROM rooms WHERE roomNum = '$roomno';";
+		$sql = "SELECT roomNum, seats, computers, windows, whiteboards FROM rooms WHERE roomNum = '$roomno';";
 		$results = $this->db->query($sql, array($roomno));
 		return $results -> result();
 	}
 	public function getResDetails($resId){
-		$sql = "SELECT resId, resDate, startTime, resEmail, resPhone, resType, roomNum, status.status, reservations.status as 'statusId', totalHours, rId, comments, numPatrons FROM reservations inner join status on reservations.status = status.statusNum WHERE resId = '$resId';";
+		$sql = "SELECT resId, resDate, startTime, resEmail, secEmail, resPhone, resType, roomNum, status.status, reservations.status as 'statusId', totalHours, rId, comments, numPatrons FROM reservations inner join status on reservations.status = status.statusNum WHERE resId = '$resId';";
 		$results = $this->db->query($sql, array($resId));
 		return $results -> result();
 	}
 	public function getResDetails1($rId){
-		$sql = "SELECT DISTINCT rId, resDate, startTime, resEmail, resPhone, resType, roomNum, status.status, reservations.status as 'statusId', totalHours, comments, numPatrons FROM reservations inner join status on reservations.status = status.statusNum WHERE rId = '$rId';";
+		$sql = "SELECT DISTINCT rId, resDate, startTime, resEmail, secEmail, resPhone, resType, roomNum, status.status, reservations.status as 'statusId', totalHours, comments, numPatrons FROM reservations inner join status on reservations.status = status.statusNum WHERE rId = '$rId';";
 		$results = $this->db->query($sql, array($rId));
 		return $results -> result();
 	}
@@ -103,18 +84,18 @@ class crr_model extends CI_Model {
 		return $results -> result();
 	}
 	public function getEmailDetails($email){
-		$sql = "SELECT DISTINCT resDate, rId, status.status as 'status', reservations.status as 'statusId' FROM reservations INNER JOIN status ON reservations.status = status.statusNum WHERE resEmail = '$email' AND reservations.status != '3' ORDER BY rId DESC;";
+		$sql = "SELECT DISTINCT resDate, rId, status.status as 'status', reservations.status as 'statusId' FROM reservations INNER JOIN status ON reservations.status = status.statusNum WHERE resEmail = '$email' AND reservations.status NOT IN (3,5) ORDER BY rId DESC;";
 		$results = $this->db->query($sql, array($email));
 		return $results -> result();
 	}
 	public function getNotes($email){
-		$sql = "SELECT note, resid FROM notes WHERE resid IN ( SELECT DISTINCT rId FROM reservations WHERE resEmail = '$email') ORDER BY resid DESC";
+		$sql = "SELECT email, notes, date FROM notes WHERE email = '$email' ORDER BY date DESC";
 		$results = $this->db->query($sql, array($email));
 		return $results -> result();
 	}
 	
 	public function getReservations($date){
-		$sql = "SELECT resId, status FROM reservations WHERE resDate = '$date' and status != 3;";
+		$sql = "SELECT resId, status, rId FROM reservations WHERE resDate = '$date' and status NOT IN (3,5);";
 		$results = $this->db->query($sql, array($date));
 		return $results -> result();
  	}
@@ -246,6 +227,16 @@ class crr_model extends CI_Model {
 	public function remove_instructions($iid){
 		$this->db->delete('hoursInstructions', array('iid' => $iid)); 
 		return 1;
+	}
+	
+	public function addANote($email, $notes){
+		$date =  date("Y/m/d");
+		$sql1 = "INSERT into notes(email, notes, date) VALUES ('$email', '$notes', '$date');";	
+				if ($this->db->simple_query($sql1, array($email, $notes, $date))){
+					return 1;		
+				}else{
+					return 0;
+				}
 	}
 	
 			

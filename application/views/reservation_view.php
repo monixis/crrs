@@ -8,6 +8,7 @@
 		$resDate = $row -> resDate;
 		$startTime = $row -> startTime;
 		$resEmail = $row -> resEmail;
+		$secEmail = $row ->secEmail;
 		$resPhone = $row -> resPhone;
 		$resType = $row -> resType;
 		$roomNum = $row -> roomNum;
@@ -39,6 +40,7 @@
 			$resDate = 1;
 			$startTime = 1;
 			$resEmail = 1;
+			$secEmail = 1;
 			$resType = 1;
 			$roomNum = 1;
 			$status = 22;
@@ -59,6 +61,8 @@
 			$("#color").addClass("unverified");
 		}else if (<?php echo $statusId; ?> == 3){
 			$("#color").addClass("canceled");
+ 		}else if (<?php echo $statusId; ?> == 5){
+			$("#color").addClass("canceled");
  		}else if (<?php echo $statusId; ?> == 4){
 			$("#color").addClass("transactionComplete");
  		}
@@ -71,14 +75,15 @@
 </script>
 <div id="details">
 	<div id="detailsType">
-		<div id="color" style="width: 60px; height: 615px; float:left; ">
+		<div id="color" style="width: 60px; height: 570px; float:left; ">
 		</div>
 		
 		<div style="float:right; width:530px; height: 38px; text-align: center; font-size: 30px; color: #b31b1b;">
-			<div id="confirmations"></div><p id="resId">#<?php echo $rId ; ?><button type="button" class="btn" id="edit">Edit</button></p>
+			<div id="confirmations"></div><p id="resId">#<?php echo $rId ; ?><a href><!--img src="./icons/edit.svg" class="shortcutlink" style="width:20px; height:20px; margin-left:5px;"/--></a></p>
 		</div>
 		
 	</div>
+		
 	<div id="invalid" hidden>
 		<center><p> The resevation ID #<?php echo $searchText; ?> is invalid.</p></center>
 	</div>
@@ -87,11 +92,12 @@
 	<p class="resDet"><label class="label">Date: </label><?php echo $resDate; ?></p>
 	<p class="resDet"><label class="label">Time:</label><?php echo $startTime; ?><label class="label" style="margin-left: 70px;">Total Hours:</label><?php echo $totalHours; ?></p>
 	<p class="resDet"><label class="label">Reserved By:</label><?php echo $resEmail; ?></p>
+	<p class="resDet"><label class="label">Secondary Patron:</label><?php echo $secEmail; ?></p>
 	<p class="resDet"><label class="label">Phone No:</label><?php echo $resPhone; ?></p>
 	<p class="resDet"><label class="label">Status:</label><?php echo $status; ?><label class="label" style="margin-left: 55px;">No. of Patrons:</label><?php echo $numPatrons; ?></p>
 	<p class="resDet"><label class="label">Comments:</label><textarea readonly rows="3" cols="50" style="margin-left:60px; margin-bottom:5px;"><?php echo $comments; ?></textarea></p>
-	<label class="label">Notes:</label>
-	<textarea id="notes" rows="3" cols="50" style="margin-left:60px; margin-bottom:5px;"></textarea>
+	<!--label class="label">Notes:</label>
+	<textarea id="notes" rows="3" cols="50" style="margin-left:60px; margin-bottom:5px;"></textarea-->
 	<?php if ($status == 'Reserved'){?>
 		<button type="button" class="btn" id="returned" style="margin-left:10%; margin-top:5px;">Keys Returned</button>
 		<button type="button" class="btn" id="canceled" style="margin-left:5px; margin-top:5px;">Cancel Reservation</button>
@@ -111,14 +117,17 @@
 		<button type="button" class="btn" id="cancelSlot" style="margin-left:10%; margin-top:5px;">Cancel this Slot</button>
 		<?php } ?>
 	<?php } ?>
+	
 	</div>
+		<div id="shadowBox"><iframe id="shadowFrame"></iframe><div style="width:25px; height:15px; float:right; margin-top:3px; margin-right: 5px;"><img id="close" src="./icons/close.png" style="width: 25px; height: 25px;"/></div></div>
+
 </div>
 <script type="text/javascript">
 $('#returned').click(function(){
 	rId= <?php echo $rId ?>;
 	var status = 4;	
-	notes = $('textarea#notes').val();
-		$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>",{rId: rId, status: status, notes: notes}).done(function(data){
+	//notes = $('textarea#notes').val();
+		$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>",{rId: rId, status: status}).done(function(data){
 							if (data == 1){
 									$('#confirmations').append("<img src='./icons/tick.png'/>");
 									$("#color").removeClass("reserved");
@@ -132,8 +141,8 @@ $('#returned').click(function(){
 $('#canceled').click(function(){
 	rId= <?php echo $rId ?>;
 	var status = 3;	
-	notes = $('textarea#notes').val();
-		$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>",{rId: rId, status: status, notes: notes}).done(function(data){
+	//notes = $('textarea#notes').val();
+		$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>",{rId: rId, status: status}).done(function(data){
 							if (data == 1){
 									$('#confirmations').append("<img src='./icons/tick.png'/>");
 									$("#color").removeClass("reserved");
@@ -149,9 +158,9 @@ $('#canceled').click(function(){
 $('#cancelSlot').click(function(){
 	rId= <?php echo $rId ?>;
 	resId = '<?php echo $resId ?>';
-	var status = 3;	
-	notes = $('textarea#notes').val();
-		$.post("<?php echo base_url("?c=crr&m=updateSlotStatus"); ?>",{rId: rId, resId: resId, status: status, notes: notes}).done(function(data){
+	var status = 5;	
+	//notes = $('textarea#notes').val();
+		$.post("<?php echo base_url("?c=crr&m=updateSlotStatus"); ?>",{rId: rId, resId: resId, status: status}).done(function(data){
 							if (data == 1){
 									$('#confirmations').append("<img src='./icons/tick.png'/>");
 									$("#color").removeClass("reserved");
@@ -168,8 +177,8 @@ $('#cancelSlot').click(function(){
 $('#verify').click(function(){
 	rId= <?php echo $rId ?>;
 	var status = 1;	
-	notes = $('textarea#notes').val();
-	$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>",{rId: rId, status: status, notes: notes}).done(function(data){
+	//notes = $('textarea#notes').val();
+	$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>",{rId: rId, status: status}).done(function(data){
 							if (data == 1){
 									$('#confirmations').append("<img src='./icons/tick.png'/>")
 									$("#color").removeClass("unverified");
@@ -180,4 +189,8 @@ $('#verify').click(function(){
 	});
 	
 });
+
+
+				
+		
 </script>

@@ -6,8 +6,7 @@
 		$roomNum = $row -> roomNum;
 		$seats = $row -> seats;
 		$computers = $row -> computers;
-		$printers = $row -> printers;
-		$scanners = $row -> scanners;
+		$windows = $row -> windows;
 		$whiteboards = $row -> whiteboards;
 	}
 ?>	
@@ -27,8 +26,7 @@
 	
 	<p class="resDet"><label class="label">Seats: </label><?php echo $seats; ?></p>
 	<p class="resDet"><label class="label">Computers: </label><?php echo $computers; ?></p>
-	<p class="resDet"><label class="label">Printers: </label><?php echo $printers; ?></p>
-	<p class="resDet"><label class="label">Scanners: </label><?php echo $scanners; ?></p>
+	<p class="resDet"><label class="label">Windows: </label><?php echo $windows; ?></p>
 	<p class="resDet"><label class="label">Whiteboards: </label><?php echo $whiteboards; ?></p>
 	
 </div>

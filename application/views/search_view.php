@@ -29,9 +29,10 @@
 		<ul>
 			<?php 
 				foreach($notes as $row1){ 
-					$note = $row1 -> note;	
+					$notes = $row1 -> notes;	
+					$date = $row1 -> date;
 			?>
-					<li style="border-bottom: 1px solid #dee5e7; padding: 5px;"><?php echo $note;?></li><br/>
+					<li style="border-bottom: 1px solid #dee5e7; padding: 5px;"><?php echo $notes;?> -- <?php echo $date; ?></li><br/>
 			<?php }	?>
 		</ul>
 	</div>

@@ -139,7 +139,7 @@ td:hover{
     overflow: hidden;
 }
 
-#close:hover,#search:hover,#notesSearch:hover, #refresh:hover, #print:hover{
+#close:hover,#search:hover,#notesSearch:hover, #refresh:hover, #print:hover, .addNotes:hover{
 	opacity:0.5;
 	cursor: pointer;
 }
@@ -160,11 +160,13 @@ iframe{
   text-decoration: none;
 }
 
-.btn:hover {
+.btn:hover, .shortcutlink:hover, img.tooltip:hover, img.viewNotes:hover{
   text-decoration: none;
   opacity:0.5;
   cursor: pointer;
 }
+
+
 .details{
 	background: #333;	
 }
@@ -231,3 +233,5 @@ th.roomno{
 .rcontents:hover{
 	cursor:pointer;
 }		
+
+

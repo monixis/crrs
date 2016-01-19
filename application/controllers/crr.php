@@ -21,9 +21,8 @@ class crr extends CI_Controller {
 	public function updateStatus(){
 		$rId = $_POST['rId'];
 		$status = $_POST['status'];
-		$notes = $_POST['notes'];
  		$this -> load -> model('crr_model');
-		$result = $this -> crr_model -> updateStatus($rId, $status, $notes);
+		$result = $this -> crr_model -> updateStatus($rId, $status);
 		echo $result;
 	}
 	
@@ -31,9 +30,8 @@ class crr extends CI_Controller {
 		$rId = $_POST['rId'];
 		$resId = $_POST['resId'];
 		$status = $_POST['status'];
-		$notes = $_POST['notes'];
  		$this -> load -> model('crr_model');
-		$result = $this -> crr_model -> updateSlotStatus($rId, $resId, $status, $notes);
+		$result = $this -> crr_model -> updateSlotStatus($rId, $resId, $status);
 		echo $result;
 	}
 	
@@ -356,6 +354,7 @@ class crr extends CI_Controller {
 	public function disclaimer(){
 		$this -> load -> view('disclaimer');	
 	}	
+	
 	public function roomDetails(){
 		$this -> load -> model('crr_model');
 		$roomNo = $this -> input -> get('roomNo');
@@ -363,9 +362,17 @@ class crr extends CI_Controller {
 		$this -> load -> view('roomdetails_view', $data);
 	}
 
+	public function tooltipRoomDetails(){
+		$this -> load -> model('crr_model');
+		$roomNo = $this -> input -> get('roomNo');
+		$data['details'] = $this -> crr_model -> getRoomDetails($roomNo);
+		$this -> load -> view('t_roomdetails_view', $data);
+	}
+	
 	public function tfq(){
 		$this -> load -> model('crr_model');
 		$data['emails'] = $this -> crr_model -> getEmails();
+		//$data['val'] = $this -> input -> get('val');
 		$this -> load -> view('tfq', $data);
 	}	
 	
@@ -419,5 +426,32 @@ class crr extends CI_Controller {
 	public function ack(){
 		$this -> load -> view('ack_view');
 	}
+	
+	public function addNotes(){
+			$this -> load -> view('addNotes_view');	
+	}
+	
+	public function addNotes1(){
+		$data['email']= $this -> input -> get('email');
+		$this -> load -> view('addNotes2_view', $data);
+		
+		
+	}
+	
+	public function addANote(){
+		$email = $_POST['email'];
+		$notes = $_POST['notes'];
+ 		$this -> load -> model('crr_model');
+		$result = $this -> crr_model -> addANote($email, $notes);
+		echo $result;
+	}
+	
+	public function tooltipNotes(){
+		$this -> load -> model('crr_model');
+		$email = $this -> input -> get('email');
+		$data['notes'] = $this -> crr_model -> getNotes($email);
+		$this -> load -> view('viewNotes', $data);
+	}
+	
 }
 ?>

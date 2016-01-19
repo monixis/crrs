@@ -1,8 +1,10 @@
-<link rel="stylesheet" type="text/css" href="./styles/main.css" />
+		<link rel="stylesheet" type="text/css" href="./styles/main.css" />
+		<link rel="stylesheet" type="text/css" href="./styles/qtip.css" />    	
     	<link rel="stylesheet" href="./styles/jquery-ui.css" type="text/css" /> 
 		<script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script> 
 		<script type="text/javascript" src="./js/jquery-ui.js"></script>
-		
+		<script type="text/javascript" src="./js/dashboard.js"></script> 
+		<script type="text/javascript" src="./js/qtip.js"></script> 
 		<script>
 			$(document).ready(function() {
 				$("#dateStart").datepicker({
@@ -40,8 +42,39 @@
         		$( "#primEmail, #secEmail" ).autocomplete({
       			source: availableTags
 			    });
+			    
 			});
 		</script>
+		
+		<script>
+		$(document).ready(function(){
+		    $('img.tooltip').each(function() {
+        		 $(this).qtip({
+            		content: {
+                	text: function(event, api) {
+                    $.ajax({
+                        url: api.elements.target.attr('id') // Use href attribute as URL
+                    })
+                    .then(function(content) {
+                        // Set the tooltip content upon successful retrieval
+                        api.set('content.text', content);
+                    }, function(xhr, status, error) {
+                        // Upon failure... set the tooltip content to error
+                        api.set('content.text', status + ': ' + error);
+                    });
+        
+                    return 'Loading...'; // Set some initial text
+                }
+            },
+            position: {
+                viewport: $(window)
+            },
+            style: 'qtip-wiki'
+         });
+     });
+			});
+		</script>
+	
 		<div style="width: 750px;">
 			
 		<div id="detailsType">
@@ -97,7 +130,7 @@
 					?>
 					<FORM NAME="theForm" ID="theForm" ACTION="#" METHOD="POST">	
 						
-						<p class="resDet"><label class="label">Room No: </label><input type="text" name="roomNum" disabled="true" style="color: #b31b1b; background: #ffffff; border: 1px solid #ffffff; font-size: 18px;" value="<?php echo $roomNum ?>"/></p>
+						<p class="resDet"><label class="label">Room No: </label><input type="text" id="roomNo" name="roomNum" disabled="true" style="color: #b31b1b; background: #ffffff; border: 1px solid #ffffff; font-size: 18px; width: 48px;" value="<?php echo $roomNum ?>"/><img src="./icons/expand.png" class="tooltip" id="http://localhost/crrs/?c=crr&m=tooltiproomdetails&roomNo=<?php echo $roomNum ?>" style="width:12px; height:12px;"/></p>
 						<p class="resDet"><label class="label">Reserve Date: </label><INPUT TYPE="text" disabled="true" NAME="resDate" style="color: #b31b1b; background: #ffffff; border: 1px solid #ffffff; font-size: 18px;" value="<?php echo $resDate?>" SIZE="13" class="ask_text_input" /></p>
 						<p class="resDet"><label class="label">Reservation Time: </label><input type="text" disabled="true" name ="timeStart" style="color: #b31b1b; background: #ffffff; border: 1px solid #ffffff; font-size: 18px;" value="<?php echo $time; ?>">
 										<label class="label" style="margin-left:0px;">for </label>
@@ -119,13 +152,16 @@
 												<option value="3">3</option>
 												<option value="4">4</option>
 												<option value="5">5</option>
+												<option value="6">6</option>
+												<option value="7">7</option>
+												<option value="8">8</option>
 											</select>
 						</p>
-						<p class="resDet"><label class="label">Primary Marist Email:</label><INPUT TYPE="text" NAME="primEmail" id="primEmail" value="<?php echo set_value('primEmail'); ?>" SIZE="40" class="ask_text_input" /><img id="notesSearch" style="width:15px; height:15px; margin-left: 10px;" src="./icons/search.png"/></br><div style="color:RED"><?php echo form_error('primEmail'); ?></div></p>
+						<p class="resDet"><label class="label">Primary Marist Email:</label><INPUT TYPE="text" NAME="primEmail" id="primEmail" value="<?php echo set_value('primEmail'); ?>" SIZE="40" class="ask_text_input" /><img src="./icons/expand.png" class="viewNotes" id="viewNotes1" style="width:12px; height:12px; margin-left: 10px;"/><img src="./icons/addNotes.png" id="addNotes1" class="addNotes" style="width:14px; height:14px; margin-left: 7px;"/></br><div style="color:RED"><?php echo form_error('primEmail'); ?></div></p>
 						<p class="resDet" id="check1"><input type="checkbox" id="checkbox1" style="margin-left:180px;" required>Check to verify that this patron has a Marist CWID.</input></p>
 						<p class="resDet"><label class="label">Primary Phone No:</label><INPUT TYPE="text" NAME="primPhone" id="primPhone" value="<?php echo set_value('primPhone'); ?>" SIZE="15" class="ask_text_input" /></br></p>
 						<p class="resDet" id="isUnverified1" hidden style="margin-left:180px;">A Marist ID must be shown when verifying a reservation.</p>
-						<p class="resDet"><label class="label">Secondary Email:</label><INPUT TYPE="text" NAME="secEmail" id="secEmail" value="<?php echo set_value('secEmail'); ?>" SIZE="40" class="ask_text_input" /></br><div style="color:RED"><?php echo form_error('secEmail'); ?></div></p>
+						<p class="resDet"><label class="label">Secondary Email:</label><INPUT TYPE="text" NAME="secEmail" id="secEmail" value="<?php echo set_value('secEmail'); ?>" SIZE="40" class="ask_text_input" /><img src="./icons/expand.png" class="viewNotes" id="viewNotes2" style="width:12px; height:12px; margin-left: 10px;"/><img src="./icons/addNotes.png" id="addNotes2" class="addNotes" style="width:14px; height:14px; margin-left: 7px;"/></br><div style="color:RED"><?php echo form_error('secEmail'); ?></div></p>
 						<p class="resDet" id="check2"><input type="checkbox" id="checkbox2" style="margin-left:180px;" required>Check to verify that this patron has a Marist CWID.</input></p>
 						<p class="resDet" id="isUnverified2" hidden style="margin-left:180px;">A Marist ID must be shown when verifying a reservation.</p>
 						<p class="resDet"><label class="label">Comments (Optional): </label><textarea NAME="Comments" ROWS="3" COLS="43" ></textarea></p>
@@ -133,7 +169,48 @@
 					<input name="submit" value="Reserve the Room" id="submit" type="submit" class="btn" style="margin-left:56px; margin-top:5px;"/>
 					<!--input name="reset" type="reset" id="reset" class="btn" style="margin-left:56px; margin-top:5px;"/-->
 					</form>
-	
+			<div id="shadowBox"><iframe id="shadowFrame"></iframe><div style="width:25px; height:15px; float:right; margin-top:3px; margin-right: 5px;"><img id="close" src="./icons/close.png" style="width: 25px; height: 25px;"/></div></div>
+			
 			</div>	
 			<script type="text/javascript" src="./js/dashboard.js"></script> 
-			
+			<script>
+				$('img#viewNotes1').click(function(){
+					var email = $("#primEmail").val();
+					var link = "http://localhost/crrs/?c=crr&m=tooltipNotes&email=" + email;
+					$('#shadowBox').css({'visibility':'visible','width':'410px','height':'340px'});
+						$('#shadowFrame').css({'width':'375px','height':'340px'});
+						$('#shadowBox').css('left','26%');
+						$('#shadowBox').css('top','14%');
+						$('iframe').attr('src',link);
+				});
+				
+				$('img#viewNotes2').click(function(){
+					var email = $("#secEmail").val();
+					var link = "http://localhost/crrs/?c=crr&m=tooltipNotes&email=" + email;
+					$('#shadowBox').css({'visibility':'visible','width':'410px','height':'340px'});
+						$('#shadowFrame').css({'width':'375px','height':'340px'});
+						$('#shadowBox').css('left','26%');
+						$('#shadowBox').css('top','14%');
+						$('iframe').attr('src',link);
+				});
+				
+				$('img#addNotes1').click(function(){
+					var email = $("#primEmail").val();
+					var link = "http://localhost/crrs/?c=crr&m=addNotes1&email=" + email;
+					$('#shadowBox').css({'visibility':'visible','width':'415px','height':'340px'});
+						$('#shadowFrame').css({'width':'385px','height':'340px'});
+						$('#shadowBox').css('left','26%');
+						$('#shadowBox').css('top','14%');
+						$('iframe').attr('src',link);
+				});
+				
+				$('img#addNotes2').click(function(){
+					var email = $("#secEmail").val();
+					var link = "http://localhost/crrs/?c=crr&m=addNotes1&email=" + email;
+					$('#shadowBox').css({'visibility':'visible','width':'415px','height':'340px'});
+						$('#shadowFrame').css({'width':'385px','height':'340px'});
+						$('#shadowBox').css('left','26%');
+						$('#shadowBox').css('top','14%');
+						$('iframe').attr('src',link);
+				});
+			</script>

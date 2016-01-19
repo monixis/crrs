@@ -17,6 +17,6 @@
    	})
 </script>
 
-<input type="text" id="tfq" class="tftextinput2" name="q" /><img id="search" style="margin-left:5px;" src="./icons/search.png"/>
+<input type="text" id="tfq" class="tftextinput2" name="q"/><img id="search" style="margin-left:5px;" src="./icons/search.png"/>
 
 <script type="text/javascript" src="./js/dashboard.js"></script>
