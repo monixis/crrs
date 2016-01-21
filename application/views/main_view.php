@@ -11,7 +11,7 @@
 		   		});
 		</script>
 		<div id="dashboard">
-			<div id="optionmenu" style="width:1010px; height: 25px; border: 1px solid #ffffff; margin-bottom: 5px; "><img id="refresh" style="width: 25px; float:left;" src="./icons/refresh.png" /><img id="print" style="width: 25px; float:right;" src="./icons/print.png" /><img id="addNotes" class="addNotes" style="width: 25px; float:right; margin-right: 5px;" src="./icons/addNotes.png" /></div>
+			<div id="optionmenu" style="width:1010px; height: 25px; border: 1px solid #ffffff; margin-bottom: 5px; "><img id="refresh" style="width: 25px; float:left;" src="./icons/refresh.png" /><img id="print" style="width: 25px; float:right;" src="./icons/print.png" /><img id="addNotes" class="addNotes" style="width: 25px; float:right; margin-right: 5px;" src="./icons/addNotes.png" /><img id="reports" class="addNotes" style="width: 25px; float:right; margin-right: 5px;" src="./icons/reports.png" /></div>
 			<div id="shadowBox"><iframe id="shadowFrame"></iframe><div style="width:36px; height:26px; float:right; margin-top:3px;"><img id="close" src="./icons/close.png"/></div></div>
 			
 			<?php 

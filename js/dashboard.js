@@ -122,5 +122,8 @@ $('#addNotes').click(function(){
 	shadowBoxOpen = 1;
 });
 
-
+$('#reports').click(function(){
+	var link = "http://localhost/crrs/?c=crr&m=report";
+    window.open(link);
+});
 

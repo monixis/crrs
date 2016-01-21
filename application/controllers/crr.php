@@ -453,5 +453,19 @@ class crr extends CI_Controller {
 		$this -> load -> view('viewNotes', $data);
 	}
 	
+	public function report(){
+		$this -> load -> model('crr_model');
+	//	$date = $this -> input -> get('date');
+		//$data['patronCount'] = $this -> crr_model -> getPatronCount($date);
+		$this -> load -> view('report_view');
+	}
+	
+	public function getPatronCount(){
+		$this -> load -> model('crr_model');
+		$date = $this -> input -> get('date');
+		$data['hours'] = $this -> crr_model -> getPatronCount($date);
+		$data['date'] = $date;
+		$this -> load -> view('patronCountReport', $data);
+	}
 }
 ?>

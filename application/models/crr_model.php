@@ -239,6 +239,12 @@ class crr_model extends CI_Model {
 				}
 	}
 	
+	public function getPatronCount($date){
+		$sql = "SELECT time, sum(numPatrons) as 'patroncount' FROM reservations WHERE resDate= '$date' GROUP BY time ORDER BY time ASC";
+		$results = $this->db->query($sql, array($date));
+		return $results -> result();
+	}
+	
 			
 }
 ?>
