@@ -95,7 +95,8 @@ class crr_model extends CI_Model {
 	}
 	
 	public function getReservations($date){
-		$sql = "SELECT resId, status, rId FROM reservations WHERE resDate = '$date' and status NOT IN (3,5);";
+		//$sql = "SELECT resId, status, rId FROM reservations WHERE resDate = '$date' and status NOT IN (3,5);";
+		$sql = "SELECT resId, status, resEmail, rId FROM reservations WHERE resDate = '$date' and status NOT IN (3,5);";
 		$results = $this->db->query($sql, array($date));
 		return $results -> result();
  	}
@@ -114,10 +115,10 @@ class crr_model extends CI_Model {
 		}
 	}
 	
-	public function getRooms($date){
+	public function getRooms(){
 		//$sql = "SELECT roomNum FROM rooms WHERE roomNum NOT IN(SELECT roomNum FROM roomInstructions WHERE '$date' BETWEEN startDate AND endDate)";
 		$sql = "SELECT roomNum FROM rooms WHERE isAvailable = 1";
-		$results = $this->db->query($sql, array($date));
+		$results = $this->db->query($sql, array());
 		return $results -> result();
 	} 
 	public function getResIds(){
@@ -240,11 +241,25 @@ class crr_model extends CI_Model {
 	}
 	
 	public function getPatronCount($date){
-		$sql = "SELECT time, sum(numPatrons) as 'patroncount' FROM reservations WHERE resDate= '$date' GROUP BY time ORDER BY time ASC";
+		$sql = "SELECT time, sum(numPatrons) as 'patroncount' FROM reservations WHERE resDate= '$date' AND status NOT IN (3,5) GROUP BY time ORDER BY time ASC";
 		$results = $this->db->query($sql, array($date));
 		return $results -> result();
 	}
 	
+	public function getBlockedRooms(){
+		$sql = "SELECT roomNum FROM rooms WHERE isAvailable = 0";
+		$results = $this->db->query($sql, array());
+		return $results -> result();
+	} 
+	
+	public function updateRoomStatus($room, $s){
+		$sql = "UPDATE rooms SET isAvailable = '$s' WHERE roomNum = '$room'";
+		if ($this->db->simple_query($sql, array($s, $room))){
+			return 1;
+		}else{
+			return 0;			
+		}
+	}
 			
 }
 ?>

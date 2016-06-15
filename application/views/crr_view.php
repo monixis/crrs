@@ -1,4 +1,3 @@
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
 	<head>
@@ -7,27 +6,7 @@
 		<link rel="shortcut icon" href="http://library.marist.edu/images/jac.png" />
 		<link rel="stylesheet" type="text/css" href="./styles/main.css" />
 		<link rel="stylesheet" type="text/css" href="http://library.marist.edu/css/menuStyle.css" />
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-		<script src="http://library.marist.edu/js/libraryMenu.js" type="text/javascript" charset="utf-8"></script>
-		<link rel="stylesheet" href="http://library.marist.edu/css/prettyPhoto.css" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
-		<script src="http://library.marist.edu/js/jquery.prettyPhoto.js" type="text/javascript" charset="utf-8"></script>
-		<script type="text/javascript" src="./js/jquery-1.6.1.min.js"></script> 
-		<script type="text/javascript" src="./js/jquery-ui.js"></script>
-		<script type="text/javascript" src="./js/jquery.prettyPhoto.js"></script> 
-		<link rel="stylesheet" type="text/css" href="./styles/prettyPhoto.css" />
-		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-		<script type="text/javascript" src="./js/dashboard.js"></script>
-		<script>
-    		$(document).ready(function(){
-    			$("#datepicker").datepicker({
-    			//	minDate : "+0"
-    			});
-    			$("#datepicker").datepicker( "setDate", new Date());
-    			$("#datepicker").empty();
-				
-			    $("#tfheader").load("http://localhost/crrs/?c=crr&m=tfq");
-    		})
-    	</script>
+		
     	<script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -66,10 +45,9 @@
 			
 				<div id="tfheader">
 					        <!--input type="text" id="tfq" class="tftextinput2" name="q" /><img id="search" style="margin-left:5px;" src="./icons/search.png"/><!--input type="submit" value=">" class="tfbutton2"><br-->
-					        
 				</div>
 					
-  			<p id="pickDate">Select a date: <input type="text" name="viewDate" id="datepicker" value="" /></p>
+  			<p id="pickDate">Select a date: <input type="text" name="viewDate" id="datepicker" value="" /><img src="./icons/admin.png" style="width: 20px; height: 20px; margin-left: 5px;" id="admin"/><!--a href="#" id="admin">Admin</a--></p>
  			<!--p id="viewDate">Date Being Viewed: 
  				<script type="text/javascript">
  				document.write($("#datepicker").val());
@@ -79,9 +57,15 @@
 				});
  				</script> 
  			</p-->
- 			</div>
-		
-		
+ 			<!--div id="admin-authentication" style="border: 1px solid grey; width: 360px; margin-left: auto; margin-right: auto; padding: 12px;">
+				Admin Passcode: <input type="text" name="fname" />
+ 				<input type="submit" value="Submit">	 			
+ 			</div-->
+ 		<div id="admin-authentication" style="border: 1px solid grey; width: 360px; margin-left: auto; margin-right: auto; padding: 12px; ">
+				<strong>ADMIN PASSCODE: </strong><input type="password" name="Apcode" id="Apasscode" />
+ 				<button type="button" class="btn" id="adminsubmit" style="margin-left:37%; margin-top:5px;">Submit</button>	 			
+ 		</div>
+ 		</div>
 		<div id="dashboard_view">
 			
 		
@@ -97,9 +81,25 @@
 				</p>
 
 			</div>
-			<script type="text/javascript" src="./js/dashboard.js"></script> 
-			<script type="text/javascript">
-			
+		
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+		<script src="http://library.marist.edu/js/libraryMenu.js" type="text/javascript" charset="utf-8"></script>
+		<!--script type="text/javascript" src="./js/jquery-1.6.1.min.js"></script--> 
+		<script type="text/javascript" src="./js/jquery-ui.js"></script>
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+		<script type="text/javascript" src="./js/dashboard.js"></script> 
+		<script type="text/javascript">
+		
+			$(document).ready(function(){
+    			$("#datepicker").datepicker({
+    				maxDate: "+1w"
+    			});
+    			$("#datepicker").datepicker( "setDate", new Date());
+    			$("#datepicker").empty();
+			    $("#tfheader").load("http://localhost/crrs/?c=crr&m=tfq");
+			    $("#admin-authentication").hide();
+    		});
+    			
 			$("input#submit").click(function(){
 				var passcode = <?php print_r($passcode);?>;
 				var pcode = $("input#passcode").val();
@@ -132,6 +132,23 @@
 				}}
 			});
 			
+			jQuery(function($){
+				$("#adminsubmit").click(function(){
+					var Apasscode = <?php print_r($Apasscode);?>;
+					var Apcode = $("#Apasscode").val();
+					if (Apasscode == Apcode){
+						$("#datepicker").datepicker( "option", "maxDate", "+1y" );
+						$("#admin-authentication").hide();
+						$("input#Apasscode").val('');
+						$("#hdresTable").css("margin-top", "0px");
+					}else{
+						$("#Apasscode").css('border', '3px solid red');
+							setTimeout(function(){
+								$("#Apasscode").css('border', '1px solid grey');
+							}, 2000)
+					}	
+				});
+			});
 			
 			</script>
 	</body>

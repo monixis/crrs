@@ -5,6 +5,8 @@
 		<script type="text/javascript" src="./js/jquery-ui.js"></script>
 		<script type="text/javascript" src="./js/dashboard.js"></script> 
 		<script type="text/javascript" src="./js/qtip.js"></script> 
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/json2/20110223/json2.js"></script>
+		<script type="text/javascript" src="https://raw.github.com/andris9/jStorage/master/jstorage.js"></script>
 		<script>
 			$(document).ready(function() {
 				$("#dateStart").datepicker({
@@ -174,6 +176,7 @@
 			</div>	
 			<script type="text/javascript" src="./js/dashboard.js"></script> 
 			<script>
+			
 				$('img#viewNotes1').click(function(){
 					var email = $("#primEmail").val();
 					var link = "http://localhost/crrs/?c=crr&m=tooltipNotes&email=" + email;
@@ -195,6 +198,8 @@
 				});
 				
 				$('img#addNotes1').click(function(){
+					//test = 1;
+					//alert(test);
 					var email = $("#primEmail").val();
 					var link = "http://localhost/crrs/?c=crr&m=addNotes1&email=" + email;
 					$('#shadowBox').css({'visibility':'visible','width':'415px','height':'340px'});

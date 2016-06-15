@@ -139,7 +139,7 @@ td:hover{
     overflow: hidden;
 }
 
-#close:hover,#search:hover,#notesSearch:hover, #refresh:hover, #print:hover, .addNotes:hover{
+#close:hover,#search:hover,#notesSearch:hover, #refresh:hover, #print:hover, .addNotes:hover, #admin:hover{
 	opacity:0.5;
 	cursor: pointer;
 }

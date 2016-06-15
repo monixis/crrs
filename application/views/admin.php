@@ -40,16 +40,16 @@
 
 		<div class = "container_home">
 			<h1 style="color: #b31b1b; text-align: center;">Admin - JAC Collaboration Room Reservation System</h1>
-			<div id="adminSelection">
-				<p><label class="label">Deselect Hours to Freeze: </label></p>
-								
-					<table style="width:250px; margin-left: 50px;">
+			<div id="adminSelection" style="margin-bottom: 10px;">
+				<div id="hours" style="float: left; width: 300px; height: 500px; border-bottom: 1px solid black;">
+					<p><label class="label">Select Hours to Freeze: </label></p>
+					<table style="width:250px; margin-left: 27px;">
 						<tbody style="height:300px; overflow-y:scroll; display:block;">	  
 							<?php 
 						foreach($hours as $row){
 						?>					
   							<tr>
-    							<td><input type="checkbox" name="hours" value="<?php echo $row -> id?>" checked /></td>
+    							<td><input type="checkbox" name="hours" value="<?php echo $row -> id?>" /></td>
     							<td><?php echo $row -> displayhrs?></td> 
   							</tr>
   							<?php		
@@ -57,15 +57,14 @@
 						?>
   						</tbody>	
 					</table>
-			<p><label class="label">From: <input type="text" name="fromDate" id="datepicker" value="" /></label></p>
-			<p><label class="label">To: <input type="text" name="toDate" id="datepicker1" value="" style="margin-left:20px;" /></label></p></br>
-			<button type="button" class="btn" id="freeze" style="margin-left:56px; margin-top:5px;">Freeze</button>
-			
-			<p><label class="label">Current Active Instructions: </label></p>
-				<table style="margin-left: 50px; width: 500px;">
-							
-							
-						<tbody style="height:300px; overflow-y:scroll; display:block;">	
+					<p><label class="label">From: <input type="text" name="fromDate" id="datepicker" value="" style="width: 140px;"/></label></p>
+					<p><label class="label">To: <input type="text" name="toDate" id="datepicker1" value="" style="margin-left: 25px; width: 140px;" /></label></p>
+					<button type="button" class="btn" id="freeze" style="margin-left:56px;">Freeze</button>
+				</div>
+				<div id="frozenhours" style="float: right; width: 494px; height: 500px; border-bottom: 1px solid black;">
+						<p><label class="label">Frozen Hours: </label></p>
+						<table style="margin-left: 10px; width: 475px;">
+							<tbody style="height:300px; overflow-y:scroll; display:block;">	
 							<tr>
 								<th></th>
 								<th>Hours</th>
@@ -84,17 +83,61 @@
   							<?php		
 							}
 						?>
+  							</tbody>	
+						</table>
+						<button type="button" class="btn" id="deleteInst" style="margin-left:10px; margin-top:21px;">Remove Instructions</button>
+				</div>
+				
+				<div id="rooms" style="float: left; width: 300px; height: 440px; border-bottom: 1px solid black;">
+					<p><label class="label">Select Rooms to Block: </label></p>
+					<table style="width:250px; margin-left: 27px;">
+						<tbody style="height:300px; overflow-y:scroll; display:block;">	  
+							<?php 
+						foreach($rooms as $row){
+						?>					
+  							<tr>
+    							<td><input type="checkbox" name="rooms" value="<?php echo $row -> roomNum ?>" /></td>
+    							<td><?php echo $row -> roomNum?></td> 
+  							</tr>
+  							<?php		
+							}
+						?>
   						</tbody>	
-				</table>
-				<button type="button" class="btn" id="deleteInst" style="margin-left:56px; margin-top:25px; margin-bottom:10px;">Remove Instructions</button>
-			</div>	
-		</div>
+					</table>
+					<button type="button" class="btn" id="block" style="margin-left:56px; margin-top: 21px;">Block</button>
+				</div>	
+				
+				<div id="frozenrooms" style="float: right; width: 494px; height: 440px;border-bottom: 1px solid black;">
+					<p><label class="label">Blocked Rooms: </label></p>
+						<table style="margin-left: 10px; width: 475px;">
+							<tbody style="height:300px; overflow-y:scroll; display:block;">	
+							<tr>
+								<th></th>
+								<th>Rooms</th>
+							</tr>  
+							<?php 
+						foreach($blockedrooms as $row){
+						?>					
+  							<tr>
+    							<td><input type="checkbox" name="blockedrooms" value="<?php echo $row -> roomNum?>" /></td>
+    							<td><?php echo $row -> roomNum ?></td>
+  							</tr>
+  							<?php		
+							}
+						?>
+  							</tbody>	
+						</table>
+						<button type="button" class="btn" id="unblock" style="margin-left:10px; margin-top:21px;">Unblock</button>
+				</div>
+			</div> <!-- adminSelection ends -->
+			
+		</div><br/>
 
 			<div class="bottom">
-				<p class = "foot">
+				<p class = "foot"  style="padding-top: 10px;">
 					Marist College, 3399 North Road, Poughkeepsie, NY 12601; 845-575-3000
 					<br />
-					&#169; Copyright 2007-2014 Marist College. All Rights Reserved.
+					&#169; Copyright 2007-2016 Marist College. All Rights Reserved.
 
 					<a href="http://www.marist.edu/disclaimers.html" target="_blank" rel="prettyphoto[iframes]">Disclaimers</a> | <a href="http://www.marist.edu/privacy.html" target="_blank" >Privacy Policy </a> 
 				</p>
@@ -107,10 +150,13 @@
 	var cnt = 0;
 	var hoursId = [];
 	var iidArray = [];
+	var roomNo = [];
+	var roomNumArray = [];
 	$('#freeze').click(function(){
 			var startDate = $('input#datepicker').val();
 			var endDate = $('input#datepicker1').val();
-			$("input[name=hours]:checkbox:not(:checked)").each(function(){
+			//$("input[name=hours]:checkbox:not(:checked)").each(function(){
+			$("input[name=hours]:checked").each(function(){	
 				var hourId = $(this).attr('value');
 				hoursId.push(hourId);
 			});
@@ -139,6 +185,38 @@
 					}
 			});
 		
+	});
+	
+	$('#block').click(function(){
+			$("input[name=rooms]:checked").each(function(){	
+				var roomNum = $(this).attr('value');
+				roomNo.push(roomNum);
+				
+			});
+			$.post("<?php echo base_url("?c=crr&m=blockRooms&s=0"); ?>",{roomNo: roomNo}).done(function(data){
+					if (data == 1){
+						alert("Instructions set successfully");
+						location.reload();
+					}else{
+						alert('Error in setting the instructions');
+					}
+			});
+	});
+	
+	$('#unblock').click(function(){
+			$("input[name=blockedrooms]:checked").each(function(){	
+				var roomNum = $(this).attr('value');
+				roomNo.push(roomNum);
+				
+			});
+			$.post("<?php echo base_url("?c=crr&m=blockRooms&s=1"); ?>",{roomNo: roomNo}).done(function(data){
+					if (data == 1){
+						alert("Instructions set successfully");
+						location.reload();
+					}else{
+						alert('Error in setting the instructions');
+					}
+			});
 	});
 		
 	</script>		

@@ -1,7 +1,9 @@
 /**
  * @author Monish.Singh1
  */
+
 var shadowBoxOpen = 0;
+//var test = 0;
 $('#datepicker').change(function() {
 	 var date = $('input#datepicker').val();
 	var url = "http://localhost/crrs/?c=crr&m=getReservations&date="+date;
@@ -127,3 +129,14 @@ $('#reports').click(function(){
     window.open(link);
 });
 
+jQuery(function($){
+	$('#admin').click(function(){
+	$("#admin-authentication").toggle();
+	if($("#admin-authentication").is(":visible") == true){
+		$("#hdresTable").css("margin-top", "93px");
+	}else{
+		$("#hdresTable").css("margin-top", "0px");
+	};
+		//$("#datepicker").datepicker( "option", "maxDate", "+1y" );
+	});	
+ });

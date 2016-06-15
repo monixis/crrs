@@ -5,15 +5,18 @@
 			.blocked{
 				display: none;
 			}
-			#resTable{
-				min-width: 100%;
+			#pResTable{
+				width: 1000px; 
+  				border-collapse: collapse;
+  				overflow-x: hidden;
+  				font-size: 60%;
 			}
 			td, th { 
 			  padding: 5px; 
 			  width: 20px;
 			}
+			@media print{@page {size: landscape}}
 		</style>
-		
 		<div id="dashboard">
 			<div id="shadowBox"><iframe id="shadowFrame"></iframe><div style="width:36px; height:26px; float:right; margin-top:3px;"><img id="close" src="./icons/close.png"/></div></div>
 			
@@ -30,14 +33,16 @@
 			foreach ($slots as $row2){
 				$reservedslots[$cnt1][0] = $row2 -> resId;
 				$reservedslots[$cnt1][1] = $row2 -> status;
+				$reservedslots[$cnt1][2] = $row2 -> resEmail;
+				$reservedslots[$cnt1][3] = $row2 -> rId;
 				$cnt1 = $cnt1 + 1;
 				}
 			//print_r(sizeof($reservedslots));
 			
 		
 			?>
-			<div id="rTable">
-			<table id="resTable">
+			<div>
+			<table id="pResTable">
 				
   				<thead>
   					
@@ -99,11 +104,20 @@
 										if ($slotid == $reservedslots[$j][0]){
 											if($reservedslots[$j][1] == 1){
 												$slotclass = "reserved";
+												//reserver with @marist.edu chopped off
+												$reserver = substr($reservedslots[$j][2], 0, strrpos($reservedslots[$j][2], "@"));
+												$rId = $reservedslots[$j][3];
 											}elseif($reservedslots[$j][1] == 2){
 												$slotclass = "unverified";
+												//reserver with @marist.edu chopped off
+												$reserver = substr($reservedslots[$j][2], 0, strrpos($reservedslots[$j][2], "@"));
+												$rId = $reservedslots[$j][3];
 											}
 											elseif($reservedslots[$j][1] == 4){
 												$slotclass = "transactionComplete";
+												//reserver with @marist.edu chopped off
+												$reserver = substr($reservedslots[$j][2], 0, strrpos($reservedslots[$j][2], "@"));
+												$rId = $reservedslots[$j][3];
 											}
 											//print_r($slotid);
 											break;
@@ -113,7 +127,7 @@
 									}						
 							 
 						?>
-						<td class=<?php echo $slotclass; ?> id="<?php echo $slotid; ?>"><?php if($slotclass == "reserved"){echo "Res";}else if($slotclass == "unverified"){echo "Unver";}else if($slotclass == "transactionComplete"){echo "Comp";}?></td>
+						<td class=<?php echo $slotclass; ?> id="<?php echo $slotid; ?>"><?php if($slotclass == "reserved"){echo "RES: #" . $rId . " " . $reserver;}else if($slotclass == "unverified"){echo "UN: #" . $rId . " " .$reserver;}else if($slotclass == "transactionComplete"){echo "TC: #" . $resId . " " .$reserver;}?></td>
 						<?php
 							}					  						
   						?>
@@ -121,11 +135,7 @@
 				<?php } ?>
   				
   				</tbody>
-  				
-  				
-  			  				
 			</table>
-			
 		</div>	
 		</div>
 		<script>

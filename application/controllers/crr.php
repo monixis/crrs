@@ -15,7 +15,9 @@ class crr extends CI_Controller {
 	public function admin() {
 		$this -> load -> model('crr_model');
 		$data['hours'] = $this -> crr_model -> getHours();
+		$data['rooms'] = $this -> crr_model -> getRooms();
 		$data['instructions'] = $this -> crr_model -> getInstructions();
+		$data['blockedrooms'] = $this -> crr_model -> getBlockedRooms();
 		$this -> load -> view('admin', $data);
 	}
 	public function updateStatus(){
@@ -46,6 +48,17 @@ class crr extends CI_Controller {
 		$data['date'] = $date;
 		$this -> load -> view('main_view', $data);
 	}
+	
+	//testing with json
+	public function reservations(){
+		$this -> load -> model('crr_model');
+		$date = date("m/d/Y");
+		$data['slots'] = $this -> crr_model -> getReservations($date);
+		$date = str_replace("/", "", $date);
+		$data['date'] = $date;
+		echo json_encode($data);
+	}
+	
 	public function getReservations(){
 		$this -> load -> model('crr_model');
 		$date = $this -> input -> get('date');
@@ -394,16 +407,6 @@ class crr extends CI_Controller {
 		echo $result;
 	}
 	
-	public function removeInstructions(){
-		$this -> load -> model('crr_model');
-		$iidArray = $_POST['iidArray'];
-		for ($i = 0; $i < sizeof($iidArray); $i++){
-			$iid = $iidArray[$i];
-			$result = $this->crr_model->remove_instructions($iid);	
-		}
-		echo $result;
-	}
-	
 	public function printTable(){
 		$this -> load -> model('crr_model');
 		$date = $this -> input -> get('date');
@@ -467,5 +470,31 @@ class crr extends CI_Controller {
 		$data['date'] = $date;
 		$this -> load -> view('patronCountReport', $data);
 	}
-}
+	
+	public function removeInstructions(){
+		$this -> load -> model('crr_model');
+		$iidArray = $_POST['iidArray'];
+		for ($i = 0; $i < sizeof($iidArray); $i++){
+			$iid = $iidArray[$i];
+			$result = $this->crr_model->remove_instructions($iid);	
+		}
+		echo $result;
+	}
+	
+	public function blockRooms(){
+		$this -> load -> model('crr_model');
+		$s = $this -> input -> get('s');
+		$roomNo = $_POST['roomNo'];
+		for ($i = 0; $i < sizeof($roomNo); $i++){
+			$room = $roomNo[$i];
+			$result = $this->crr_model->updateRoomStatus($room, $s);	
+		}
+		echo $result;
+	}
+	
+	public function admin_auth(){
+			$this -> load -> view('admin_auth');	
+	}
+	
+	}
 ?>
