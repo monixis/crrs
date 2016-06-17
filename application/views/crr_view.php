@@ -148,6 +148,25 @@
 							}, 2000)
 					}	
 				});
+				
+				$('#Apasscode').keypress(function(e){
+				var key = e.which;
+				if(key == 13){
+				var Apasscode = <?php print_r($Apasscode);?>;
+				var Apcode = $("input#Apasscode").val();
+				if (Apasscode == Apcode){
+						$("#datepicker").datepicker( "option", "maxDate", "+1y" );
+						$("#admin-authentication").hide();
+						$("input#Apasscode").val('');
+						$("#hdresTable").css("margin-top", "0px");
+					}else{
+						$("#Apasscode").css('border', '3px solid red');
+							setTimeout(function(){
+								$("#Apasscode").css('border', '1px solid grey');
+							}, 2000)
+					}
+				}
+			});
 			});
 			
 			</script>
