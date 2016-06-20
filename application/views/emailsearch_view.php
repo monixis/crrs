@@ -27,7 +27,7 @@ data:   [
 			$hours = substr($startTime,0,1);
 			$minutes = substr($startTime,2);
 		}
-echo ("{date: new Date(" . substr($resId,4,4) . "," . substr($resId,0,2) . "," . substr($resId, 2, 2) . "," . $hours . "," . $minutes . "), type: 'someType', title: '<a href=http://localhost/collabRoomReserveSystem/?c=crr&m=reservationDetails&resId=". $resId . ">". $resId . "</a>', description: '<a href=http://localhost/collabRoomReserveSystem/?c=crr&m=reservationDetails&resId=". $resId . ">Reservation</a>'},");
+echo ("{date: new Date(" . substr($resId,4,4) . "," . substr($resId,0,2) . "," . substr($resId, 2, 2) . "," . $hours . "," . $minutes . "), type: 'someType', title: '<a http://localhost:9090/collabRoomReserveSystem/?c=crr&m=reservationDetails&resId=". $resId . ">". $resId . "</a>', description: '<a href=http://localhost:9090/crrsmaster/?c=crr&m=reservationDetails&resId=". $resId . ">Reservation</a>'},");
  }?>
 ],
 height: 600

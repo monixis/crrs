@@ -4,7 +4,7 @@
 <script>
     		$(document).ready(function(){
     			$("#color").addClass("details");			
-			    $("#tfheader").load("http://localhost/crrs/?c=crr&m=tfq");
+			    $("#tfheader").load("<?php echo base_url("?c=crr&m=tfq");?>");//http://localhost/crrs/?c=crr&m=tfq
 			    			    
 			  });
 </script>

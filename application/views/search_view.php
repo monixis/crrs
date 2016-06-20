@@ -67,7 +67,7 @@
 $(document).ready(function(){
 	$('.rcontents').click(function(){
 			var rId = $(this).text();
-			var link = "http://localhost/crrs/?c=crr&m=reservationDetails1&rId=" + rId;
+			var link = "<?php echo base_url("?c=crr&m=reservationDetails1&rId="+$rId);?>";//http://localhost/crrs/?c=crr&m=reservationDetails1&rId="
 			$('#details').load(link);
 					
 	

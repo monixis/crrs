@@ -1,4 +1,6 @@
+<?php
 
+?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
 	<head>
@@ -11,9 +13,11 @@
 		<script src="http://library.marist.edu/js/libraryMenu.js" type="text/javascript" charset="utf-8"></script>
 		<link rel="stylesheet" href="http://library.marist.edu/css/prettyPhoto.css" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
 		<script src="http://library.marist.edu/js/jquery.prettyPhoto.js" type="text/javascript" charset="utf-8"></script>
-		<script type="text/javascript" src="./js/jquery-1.6.1.min.js"></script> 
+		<!--script type="text/javascript" src="./js/jquery-1.6.1.min.js"></script-->
+		<script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script>
+
 		<script type="text/javascript" src="./js/jquery-ui.js"></script>
-		<script type="text/javascript" src="./js/jquery.prettyPhoto.js"></script> 
+		<script type="text/javascript" src="./js/jquery.prettyPhoto.js"></script>
 		<link rel="stylesheet" type="text/css" href="./styles/prettyPhoto.css" />
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 		<script type="text/javascript" src="./js/dashboard.js"></script>
@@ -25,7 +29,7 @@
     			$("#datepicker").datepicker( "setDate", new Date());
     			$("#datepicker").empty();
 				
-			    $("#tfheader").load("http://localhost/crrs/?c=crr&m=tfq");
+			    $("#tfheader").load("<?php echo base_url("?c=crr&m=tfq");?>");//http://localhost:9090/crrs/?c=crr&m=tfq
     		})
     	</script>
     	<script>
@@ -38,7 +42,7 @@
   ga('send', 'pageview');
 
 </script>
-		
+
 		<style type="text/css">
 		
 		</style>
@@ -83,8 +87,7 @@
 		
 		
 		<div id="dashboard_view">
-			
-		
+
 		</div>
 				
 			<div class="bottom">
@@ -93,7 +96,7 @@
 					<br />
 					&#169; Copyright 2007-2016 Marist College. All Rights Reserved.
 
-					<a href="http://www.marist.edu/disclaimers.html" target="_blank" >Disclaimers</a> | <a href="http://www.marist.edu/privacy.html" target="_blank" >Privacy Policy</a> | <a href="http://localhost/crrs/?c=crr&m=ack" target="_blank" >Acknowledgement</a> 
+					<a href="http://www.marist.edu/disclaimers.html" target="_blank" >Disclaimers</a> | <a href="http://www.marist.edu/privacy.html" target="_blank" >Privacy Policy</a> | <a href="<?php echo base_url("?c=crr&m=ack");?>" target="_blank" >Acknowledgement</a>
 				</p>
 
 			</div>
@@ -106,7 +109,9 @@
 				if (passcode == pcode){
 					$("#date, #dashboard_view").css("visibility", "visible");
 					$("div#passcode").css("visibility", "hidden");
-					$('#dashboard_view').load('http://localhost/crrs/?c=crr&m=todayReservation');
+					/* Create date object. */
+					$('#dashboard_view').load('<?php echo base_url("?c=crr&m=todayReservation"); ?>');
+					//http://localhost/crrs/?c=crr&m=todayReservation
 				}else{
 					$("input#passcode").css('border', '3px solid red');
 					setTimeout(function(){
@@ -123,7 +128,10 @@
 				if (passcode == pcode){
 					$("#date, #dashboard_view").css("visibility", "visible");
 					$("div#passcode").css("visibility", "hidden");
-					$('#dashboard_view').load('http://localhost/crrs/?c=crr&m=todayReservation');
+					/* Create date object. */
+
+					$('#dashboard_view').load('<?php echo base_url("?c=crr&m=todayReservation"); ?>');//http://localhost/crrs/?c=crr&m=todayReservation
+
 				}else{
 					$("input#passcode").css('border', '3px solid red');
 					setTimeout(function(){
@@ -131,8 +139,7 @@
 					}, 2000)
 				}}
 			});
-			
-			
 			</script>
 	</body>
 </html>
+

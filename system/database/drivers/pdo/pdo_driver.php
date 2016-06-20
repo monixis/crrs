@@ -93,7 +93,9 @@ class CI_DB_pdo_driver extends CI_DB {
 	 */
 	function db_connect()
 	{
+
 		$this->options['PDO::ATTR_ERRMODE'] = PDO::ERRMODE_SILENT;
+		//return new PDO("mysql:host=db-1.archive.library.marist.edu;port=3306;dbname=crrs", 'crrs', 'hXgqe2EDAu');
 
 		return new PDO($this->hostname, $this->username, $this->password, $this->options);
 	}
@@ -110,7 +112,8 @@ class CI_DB_pdo_driver extends CI_DB {
 	{
 		$this->options['PDO::ATTR_ERRMODE'] = PDO::ERRMODE_SILENT;
 		$this->options['PDO::ATTR_PERSISTENT'] = TRUE;
-	
+		//return new PDO("mysql:host=db-1.archive.library.marist.edu;port=3306;dbname=crrs", 'crrs', 'hXgqe2EDAu');
+
 		return new PDO($this->hostname, $this->username, $this->password, $this->options);
 	}
 

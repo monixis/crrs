@@ -22,7 +22,6 @@ body, html {
 	bottom: 30px;
 }
 
-
 /* 
 Generic Styling, for Desktops/Laptops 
 */
@@ -79,13 +78,18 @@ td, th {
 	margin-right:auto;
 	overflow-x: scroll;
 }
+.tentative{
 
+	background: rgba(254, 253, 255, 0);
+
+}
 .slots{
 	background: green;
 }
 .reserved{
 	background: #b31b1b;
 }
+
 .canceled{
 	background: #4C4C43;
 }

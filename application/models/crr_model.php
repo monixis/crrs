@@ -4,38 +4,44 @@ class crr_model extends CI_Model {
 	function __construct() {
 		// Call the Model constructor
 		parent::__construct();
-		// $this->load->database();
+		//$db = new PDO('mysql:host=db-1.archive.library.marist.edu;dbname=crrs', 'crrs', 'hXgqe2EDAu');
+		//$this->load->database($db);
 	}
-	
+
 	function getreserver($res) {
 		$sql = "SELECT email FROM reserver WHERE email = '$res';";
 		$results = $this->db->query($sql, array($res));
-		if($results == $res)
+		$row =$results -> row_array();
+		if(sizeof($row)>0 && $row['email'] == $res) {
 			return false;
-		else {
+
+		}else {
 			return true;
 		}
+
 	}
 	function isreserved($res) {
 		$sql = "SELECT resId FROM reservations WHERE resId = '$res';";
 		$results = $this->db->query($sql, array($res));
-		if($results == $res)
+		$result = json_decode(json_encode($results), true);
+		//	print_r($result);
+		if($result == $res)
 			return TRUE;
 		else {
 			return FALSE;
 		}
 	}
-	public function updateStatus($rId, $status){
-		$sql = "UPDATE reservations SET status = '$status' WHERE rId = '$rId' AND status IN (1,2);";
+	public function updateStatus($rId, $status,$currentTimeStamp){
+		$sql = "UPDATE reservations SET status = '$status' , createdDttm = '$currentTimeStamp' WHERE rId = '$rId' AND status IN (1,2);";
 		if ($this->db->simple_query($sql, array($rId, $status))){
 			return 1;
 		}else{
-			return 0;			
+			return 0;
 		}
 	}
-	
-	public function updateSlotStatus($rId, $resId, $status){
-		$sql = "UPDATE reservations SET status = '$status' WHERE resId = '$resId' AND rid = '$rId';";
+
+	public function updateSlotStatus($rId, $resId, $status,$currentTimeStamp){
+		$sql = "UPDATE reservations SET status = '$status' , createdDttm = '$currentTimeStamp' WHERE resId = '$resId' AND rid = '$rId';";
 		if ($this->db->simple_query($sql, array($resId, $status))){
 			/*if (strlen($notes) > 0){
 				$sql1 = "INSERT into notes(resId, note) VALUES ('$rId', '$notes');";	
@@ -50,10 +56,10 @@ class crr_model extends CI_Model {
 			}*/
 			return 1;
 		}else{
-			return 0;			
+			return 0;
 		}
 	}
-	
+
 	function getmaxid($col, $table){
 		$this -> db -> select_max($col);
 		$query = $this -> db -> get($table);
@@ -93,33 +99,39 @@ class crr_model extends CI_Model {
 		$results = $this->db->query($sql, array($email));
 		return $results -> result();
 	}
-	
+
 	public function getReservations($date){
 		$sql = "SELECT resId, status, rId FROM reservations WHERE resDate = '$date' and status NOT IN (3,5);";
 		$results = $this->db->query($sql, array($date));
 		return $results -> result();
- 	}
-	
+	}
+
 	public function insert_user($email) {
 		$this->db->insert('reserver', $email);
 	}
 	public function insert_reservation($data, $table){
-		$this->db->insert($table, $data);	
+		$this->db->insert($table, $data);
 		if($this->db->affected_rows()>0)
 		{
-			return 1;			
+			return 1;
 		}else{
 			return 0;
 			//return $this->db->_error_number();
 		}
 	}
-	
+	public function getNewReservations($timestamp){
+
+		$sql =  "SELECT resId, status, rId FROM reservations WHERE  createdDttm >='$timestamp' ;" ;
+		$results = $this -> db -> query($sql);
+		return $results -> result();
+
+	}
 	public function getRooms($date){
 		//$sql = "SELECT roomNum FROM rooms WHERE roomNum NOT IN(SELECT roomNum FROM roomInstructions WHERE '$date' BETWEEN startDate AND endDate)";
 		$sql = "SELECT roomNum FROM rooms WHERE isAvailable = 1";
 		$results = $this->db->query($sql, array($date));
 		return $results -> result();
-	} 
+	}
 	public function getResIds(){
 		$sql = "SELECT resId FROM reservations;";
 		$results = $this->db->query($sql);
@@ -129,13 +141,22 @@ class crr_model extends CI_Model {
 		$sql = "SELECT id, hours, isAvailable, displayhrs FROM operationHours ORDER BY id ASC";
 		$results = $this->db->query($sql);
 		return $results -> result();
-	} 
+	}
+
+	public function getUnavailableHours(){
+
+		$sql = "SELECT  hours FROM operationHours WHERE  id in (SELECT hourId from hoursInstructions);" ;
+		$results = $this->db->query($sql);
+		return $results -> result();
+
+	}
+
 	public function getBlockedHours($date){
-		$sql = "SELECT hourid FROM hoursInstructions WHERE '$date' BETWEEN startDate AND endDate";
+		$sql = "SELECT hourId FROM hoursInstructions WHERE '$date' BETWEEN startDate AND endDate";
 		//$sql = "SELECT hourid FROM hoursInstructions WHERE 12/29/2015 >= startDate AND 12/29/2015 <= endDate";
 		$results = $this->db->query($sql, array($date));
 		return $results -> result();
-	} 
+	}
 	public function getDisplayHours($hour){
 		$sql = "SELECT displayhrs FROM operationHours WHERE hours = '$hour';";
 		$results = $this->db->query($sql, array($hour));
@@ -145,25 +166,29 @@ class crr_model extends CI_Model {
 		$sql = "SELECT email, userID FROM reserver";
 		$results = $this->db->query($sql);
 		return $results -> result();
-	} 
+	}
 
 	public function getPwd($id){
+		$this->load->database('crrs');
 		$this -> db -> select('pwd');
 		$query = $this -> db -> get_where('passcode', array('id' => $id));
+
 		foreach ($query -> result() as $row){
+
 			$passcode = $row -> pwd;
+
 		}
-		return $passcode;		
- 	}
-	
+		return $passcode;
+	}
+
 	public function getAssociatedResId($rId){
 		$sql = "SELECT max(resId) FROM reservations WHERE rId='$rId'";
 		$results = $this->db->query($sql, array($rId));
 		return $results -> result();
 	}
-		
+
 	function updatetable($timeData, $unavailData){
-		$this->db->empty_table('hours'); 
+		$this->db->empty_table('hours');
 		$this->db->insert('hours', $timeData);
 		$unavail = array(
 			'isAvailable' => 0
@@ -197,54 +222,74 @@ class crr_model extends CI_Model {
 			$this -> db -> update('rooms', $unavail);
 		}
 	}
-	
-	public function deleteRes($rId){
-		$this->db->delete('reservations', array('rId' => $rId)); 
+    public function updateResDetails($rId,$resEmail,$secEmail,$resPhone, $numPatrons ,$comments){
+
+        $sql = "UPDATE reservations SET resEmail = '$resEmail', secEmail= '$secEmail',resPhone ='$resPhone', numPatrons = '$numPatrons' , comments = '$comments' WHERE  rId = '$rId'";
+
+        if($this -> db -> simple_query($sql,array($rId))){
+
+			return 1;
+		}else{
+
+			return 0;
+		}
+
 	}
-	
+	public function deleteRes($rId){
+		$this->db->delete('reservations', array('rId' => $rId));
+	}
+
+	public function getReservedSlots($rId){
+
+        $sql = "SELECT rId,resId,resDate FROM reservations WHERE rId = '$rId'";
+		$results = $this->db->query($sql,array($rId));
+		return $results -> result();
+
+      }
 	public function checkResId($resId){
 		$sql = "SELECT resId FROM reservedSlots where resId = '$resId'";
 		$results = $this->db->query($sql, array($resId));
 		return $results->result();
 	}
-	
+
 	public function getInstructions(){
-		$sql = "SELECT startDate, endDate, hourId, displayhrs, instDate, iid FROM hoursInstructions INNER JOIN operationHours on hoursInstructions.hourId = operationHours.id ORDER BY instDate DESC"; 
+		$sql = "SELECT startDate, endDate, hourId, displayhrs, instDate, iid FROM hoursInstructions INNER JOIN operationHours on hoursInstructions.hourId = operationHours.id ORDER BY instDate DESC";
 		$results = $this->db->query($sql);
 		return $results -> result();
- 	}
-	
+	}
+
 	public function insert_instructions($data){
-		$this->db->insert_batch('hoursInstructions', $data);	
+		$this->db->insert_batch('hoursInstructions', $data);
 		if($this->db->affected_rows()>0)
 		{
-			return 1;			
+			return 1;
 		}else{
 			return 0;
 		}
 	}
-	
+
 	public function remove_instructions($iid){
-		$this->db->delete('hoursInstructions', array('iid' => $iid)); 
+		$this->db->delete('hoursInstructions', array('iid' => $iid));
 		return 1;
 	}
-	
+
 	public function addANote($email, $notes){
 		$date =  date("Y/m/d");
-		$sql1 = "INSERT into notes(email, notes, date) VALUES ('$email', '$notes', '$date');";	
-				if ($this->db->simple_query($sql1, array($email, $notes, $date))){
-					return 1;		
-				}else{
-					return 0;
-				}
+		$sql1 = "INSERT into notes(email, notes, date) VALUES ('$email', '$notes', '$date');";
+		if ($this->db->simple_query($sql1, array($email, $notes, $date))){
+			return 1;
+		}else{
+			return 0;
+		}
 	}
-	
+
 	public function getPatronCount($date){
 		$sql = "SELECT time, sum(numPatrons) as 'patroncount' FROM reservations WHERE resDate= '$date' GROUP BY time ORDER BY time ASC";
 		$results = $this->db->query($sql, array($date));
 		return $results -> result();
 	}
-	
-			
+
+
+
 }
 ?>

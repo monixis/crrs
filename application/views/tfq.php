@@ -1,3 +1,8 @@
+<?php
+
+
+?>
+
 <link rel="stylesheet" type="text/css" href="./styles/main.css" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
