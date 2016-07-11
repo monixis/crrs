@@ -7,30 +7,44 @@ class crr extends CI_Controller {
 		parent::__construct();
 
 	}
-
+ /*
+  * Retrieve passcodes,resids,emails from db
+  * Load data into crr_view
+  *
+  */
 	public function index() {
-
 		$this -> load -> model('crr_model');
 		$data['title'] = "JAC Collaboration Rooms";
 		$date = date("m/d/Y");
-		$data['rooms'] = $this -> crr_model -> getRooms($date);
-		$data['hours'] = $this -> crr_model -> getHours();
+		//$data['rooms'] = $this -> crr_model -> getRooms($date);
+		//$data['hours'] = $this -> crr_model -> getHours();
 		$data['resId'] = $this -> crr_model -> getResIds();
 		$data['passcode'] = $this -> crr_model -> getPwd(1);
 		$data['Apasscode'] = $this -> crr_model -> getPwd(2);
 		$data['emails'] = $this -> crr_model -> getEmails();
-		$data['blockedHours'] = $this -> crr_model -> getBlockedHours($date) ;
 		$this -> load -> view('crr_view', $data);
 	}
 
+	/*
+	 * Retrieve hours, rooms, instructions and blocked rooms information from db.
+	 * Loads admin view with the retrieved data.
+	 *
+	 */
 	public function admin() {
 		$this -> load -> model('crr_model');
-		$data['hours'] = $this ->data['hours'];
 		$data['hours'] = $this -> crr_model -> getHours();
+		$data['rooms'] = $this -> crr_model -> getRooms();
 		$data['instructions'] = $this -> crr_model -> getInstructions();
+		$data['blockedrooms'] = $this -> crr_model -> getBlockedRooms();
 		$this -> load -> view('admin', $data);
 	}
-
+	/*
+	 * updates the reservation status of a slot.
+	 * new feature: automatic cancellation of slots >>
+	 * checks the present timestamp value and slot time.
+	 * if slot time > present timestamp, status = 5 (cancelled slot) or status = 6 (no show).
+	 * if slot time < present timestamp, status = 4 Transaction Complete.
+	 */
 	public function updateStatus(){
 		$rId = $_POST['rId'];
 		$status = $_POST['status'];
@@ -46,7 +60,6 @@ class crr extends CI_Controller {
 		$currentMin = date('i',$dateString);
 		$currentTime = $currentHours.$currentMin;
 
-
 		foreach($slots as $slot){
 			$resId = $slot['resId'];
 			if (substr($resId, 11, 1) == "A" || substr($resId, 11, 1) == "B" || substr($resId, 11, 1) == "C" || substr($resId, 11, 1) == "D") {
@@ -56,7 +69,13 @@ class crr extends CI_Controller {
 					$SlotTime = $SlotTime * 100;
 				}
 				if ($SlotTime > $currentTime) {
-					$status = 5;
+					if($_POST['status']==6){
+						$status = 6;
+					}else{
+
+						$status = 5;
+					}
+
 					$result = $this->crr_model->updateSlotStatus($rId, $resId, $status, $currentTimeStamp);
 
 				} else {
@@ -71,7 +90,11 @@ class crr extends CI_Controller {
 					$SlotTime = $SlotTime*100;
 				}
 				if ($SlotTime > $currentTime) {
-					$status = 5;
+					if($_POST['status']==6){
+						$status = 6;
+					}else{
+						$status = 5;
+					}
 					$result = $this->crr_model->updateSlotStatus($rId, $resId, $status, $currentTimeStamp);
 
 				} else {
@@ -79,70 +102,30 @@ class crr extends CI_Controller {
 					$result = $this->crr_model->updateStatus($rId, $status, $currentTimeStamp);
 
 				}
-
 			}
 
 		}
 
 		echo $result;
 	}
-    public function update(){
-
-       $rId = $this -> input -> get('rId');
-
-	    $this -> load -> model('crr_model');
-		$result = $this ->crr_model -> getReservedSlots($rId) ;
-		$slots = json_decode(json_encode($result), true);
-		date_default_timezone_set('US/Eastern');
-		$date = new DateTime();
-        $date =  $date->format('Y-m-d H:i:s');
-
-		$dateString = strtotime($date);
-		$currentHours = date('H', $dateString);
-        $currentMin = date('i',$dateString);
-		$currentTime = $currentHours.$currentMin;
-
-		foreach($slots as $slot){
-				$resId = $slot['resId'];
-
-			if (substr($resId, 11, 1) == "A" || substr($resId, 11, 1) == "B" || substr($resId, 11, 1) == "C" || substr($resId, 11, 1) == "D") {
-				$SlotTime = substr($resId, 12);
-				if(strlen($SlotTime) == 2 ){
-					$SlotTime = $SlotTime*100;
-				}
-				if ($SlotTime > $currentTime) {
-					$status = 5;
-					$result = $this->crr_model->updateSlotStatus($rId, $resId, $status, $date);
-
-				} else {
-
-					$status = 4;
-					$result = $this->crr_model->updateStatus($rId, $status, $date);
-
-				}
-			} else
-			{
-				$SlotTime = substr($resId, 11);
-				if(strlen($SlotTime) == 2 ){
-					$SlotTime = $SlotTime*100;
-				}
-				if ($SlotTime > $currentTime) {
-					$status = 5;
-					$result = $this->crr_model->updateSlotStatus($rId, $resId, $status, $date);
-
-				} else {
-
-					$status = 4;
-					$result = $this->crr_model->updateStatus($rId, $status, $date);
-
-				}
-			}
-
-			}
-
-       echo $result;
-
+	/*
+	 * Updates the slot status from 2 to 1(unverified to reserved)
+	 *
+	 */
+	public function verifyStatus(){
+		$currentTimeStamp = date("Y-m-d H:i:s");
+		$rId = $_POST['rId'];
+		$status = $_POST['status'];
+		$this -> load -> model('crr_model');
+		$result = $this -> crr_model -> updateStatus($rId, $status,$currentTimeStamp);
+		echo $result;
 	}
+    /*
+     * Updates the reservation details
+     * Request: resEmail, secEmail, resPhone, num Patrons, comments.
+     * Checks the resEmail is an existing one or not.
+     * And inserts the new resEmail in reserver.
+     */
 
 	public function updateResDetails(){
 
@@ -152,7 +135,13 @@ class crr extends CI_Controller {
 		$resPhone = $_POST['resPhone'];
 		$numPatrons = $_POST['numPatrons'];
 		$comments = $_POST['comments'];
-
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules('resEmail', 'Email', 'required|valid_email');
+		$this->form_validation->set_rules('secEmail', 'Email', 'required|valid_email');
+		if ($this->form_validation->run() == FALSE)
+		{
+			$this->load->view('reservation_view');
+		}
 		$this ->load -> model('crr_model');
 		if($this->crr_model->getreserver($resEmail)){
 			$reserverData = array(
@@ -165,8 +154,12 @@ class crr extends CI_Controller {
 		$result = $this ->crr_model -> updateResDetails($rId,$resEmail,$secEmail,$resPhone,$numPatrons,$comments);
 
 		echo $result;
-
 	}
+	/*
+	 * Update the selected slot status
+	 *
+	 *
+	 */
 	public function updateSlotStatus(){
 		$rId = $_POST['rId'];
 		$resId = $_POST['resId'];
@@ -177,16 +170,19 @@ class crr extends CI_Controller {
 		$result = $this -> crr_model -> updateSlotStatus($rId, $resId, $status,$currentTimeStamp);
 		echo $result;
 	}
-
+	/*
+	 * Retrieve all the reservations of today.
+	 * Reads ini file for tentative slots.
+	 */
 	public function todayReservation(){
 		$this -> load -> model('crr_model');
 		$date = date("m/d/Y");
-		//$dateFormat = date("Y-m-d");
+		$dateFormat = date("Y-m-d");//use this variable '$dateFormat' for mysql database. Needed for getBlockedHours($date)
 		//	echo $dateFormat;
 		$data['rooms'] = $this -> crr_model -> getRooms($date);
 		$data['hours'] = $this -> crr_model -> getHours();
 		$data['slots'] = $this -> crr_model -> getReservations($date);
-		$data['blockedHours'] = $this -> crr_model -> getBlockedHours($date);
+		$data['blockedHours'] = $this -> crr_model -> getBlockedHours($dateFormat);//use $dateFormat for mysql database
 		$data['emails'] = $this -> crr_model -> getEmails();
 		$date = str_replace("/", "", $date);
 		$data['date'] = $date;
@@ -203,31 +199,50 @@ class crr extends CI_Controller {
 		$this -> load -> view('main_view', $data);
 	}
 
+	//testing with json
+/***********	public function reservations(){
+		$this -> load -> model('crr_model');
+		$date = date("m/d/Y");
+		$data['slots'] = $this -> crr_model -> getReservations($date);
+		$date = str_replace("/", "", $date);
+		$data['date'] = $date;
+		echo json_encode($data);
+	}**************/
 
-
+	/*
+	 *
+	 * Retrieve All the reservations of selected date.
+	 * Checks the reservations.ini file
+	 *
+	 */
 	public function getReservations(){
 		$this -> load -> model('crr_model');
 		$date = $this -> input -> get('date');
+		$slotId = $this -> input -> get('slotId');
 		$strings = explode("/",$date);
-		/*$dateFormat="$strings[2]-$strings[0]-$strings[1]";*/
+		$dateFormat="$strings[2]-$strings[0]-$strings[1]";//use this variable '$dateFormat' for mysql database. Needed for getBlockedHours($date)
 		$data['rooms'] = $this -> crr_model -> getRooms($date);
 		$data['hours'] = $this -> crr_model -> getHours();
 		$data['slots'] = $this -> crr_model -> getReservations($date);
-		$data['blockedHours'] = $this -> crr_model -> getBlockedHours($date);//use $dateFormat for mysql database
+		$data['blockedHours'] = $this -> crr_model -> getBlockedHours($dateFormat);//use $dateFormat for mysql database
 		$date = str_replace("/", "", $date);
 		$data['date'] = $date;
 		$reservation = parse_ini_file('reservation.ini');
 		$size = sizeof($reservation);
 		$data['tentativeSlots']    = null;
 		$data['NewSlots'] = null;
-		if($size>0 ) {
+/*		if($size>0 ) {
 			$data['tentativeSlots'] = $reservation;
-		}
-		//}
+		}*/
+
+
+
+		$data['tentativeSlots'] = $reservation;
+
 		$this -> load -> view('main_view', $data);
 	}
 
-	public function reservations(){
+/*	public function reservations(){
 		$this -> load -> model('crr_model');
 		$date = $this -> input -> get('date');
 		$strings = explode("/",$date);
@@ -242,25 +257,62 @@ class crr extends CI_Controller {
 			//fopen("reservation.ini", 'w');
 		}
 		$this -> load -> view('main_view', $data);
-	}
+	}*/
+	/*
+	 * Receives search text as an email.
+	 * Retrieve details and notes of the received email
+	 *
+	 */
 	public function search(){
 		$this -> load -> model('crr_model');
-		$email = $this -> input -> get('q');
-		$data['email'] = $email;
-		$data['details'] = $this -> crr_model -> getEmailDetails($email);
-		$data['notes'] = $this -> crr_model -> getNotes($email);
+		$searchText = $this -> input -> get('q');
+        if(is_numeric($searchText)){
+			$result = $this -> crr_model -> getresIdDetails($searchText);
+			$data['details'] = $result;
+			$result =json_decode(json_encode($result), true);
+			if($result!=null) {
+				foreach ($result as $res) {
+
+					$email = $res['resEmail'];
+				}
+				$data['notes'] = $this->crr_model->getNotes($email);
+			}else{
+				$data['notes'] = $this -> crr_model -> getNotes($searchText);
+
+			}
+		}
+        else{
+			$data['details'] = $this -> crr_model -> getEmailDetails($searchText);
+			$data['notes'] = $this -> crr_model -> getNotes($searchText);
+
+		}
+		$data['email'] = $searchText;
+
 		$this -> load -> view('search_view', $data);
 	}
 
+	/*
+	 *
+	 * Receive resId of selected reservation
+	 * Retrieve reservation details, emails, Admin Passcode from db.
+	 * Return reservation_view with data
+	 */
 	public function reservationDetails(){
 		$this -> load -> model('crr_model');
 		$resId = $this -> input -> get('resId');
 		$data['details'] = $this -> crr_model -> getResDetails($resId);
 		$data['emails'] = $this -> crr_model ->getEmails();
+		$data['Apasscode'] = $this -> crr_model -> getPwd(2);
 		$data['resId'] = $resId;
 		$this -> load -> view('reservation_view', $data);
 	}
-
+	/*
+ *
+ * Receive resId of selected reservation
+ * Retrieve reservation details from db.
+ * Return readonlyreservation_view with data
+ */
+	
 	public function readonlyReservationDetails(){
 		$this -> load -> model('crr_model');
 		$resId = $this -> input -> get('resId');
@@ -269,13 +321,39 @@ class crr extends CI_Controller {
 		$this -> load -> view('readonlyreservation_view', $data);
 	}
 
+/*
+* Receive resId of selected reservation
+* Retrieve reservation details from db.
+* Return reservation_view with data
+*/
+
 	public function reservationDetails1(){
 		$this -> load -> model('crr_model');
 		$rId = $this -> input -> get('rId');
 		$data['details'] = $this -> crr_model -> getResDetails1($rId);
+		$data['emails'] = $this -> crr_model ->getEmails();
+		$data['Apasscode'] = $this -> crr_model -> getPwd(2);
 		$data['resId'] = 0;
 		$this -> load -> view('reservation_view', $data);
 	}
+ /*
+  *Receive resId from request.
+  *Fetch non-operating hours from db.
+  *Reads reservation.ini file.
+  * Check if it is tentative or already reserved and save in reservation.ini file.
+  *    ⇒ If resId found in INI file → Return reservation_conflict view.
+  *    ⇒ Else if resId found in db → Return reservation_conflict view.
+  *    ⇒ Else → create 6 consecutive slotIds(or resIds) as tentative
+  *          slotIds.
+  *           → for each tentative slotId →Check if hour of
+  *                                         tentative slotId is not
+  *                                         available in  non-operating
+  *                                         hours
+  *           →  Save the slotId in reservation.ini file and also in
+  *           array[tentativeSlots]
+  *           → return reservationForm_view with array[tentativeSlots].
+  */
+
 
 	public function verifyReservations(){
 
@@ -290,7 +368,13 @@ class crr extends CI_Controller {
 		$resId = $this->input->get('resId');
 		$data['resId'] = $this->input->get('resId');
 		$reservation = parse_ini_file('reservation.ini');
-
+		$NonOperatinghours= $this -> crr_model -> getUnavailableHours();
+		$NonOperatinghours = json_decode(json_encode($NonOperatinghours), true);
+		$unavailableHours = array();
+		foreach($NonOperatinghours as $hour){
+			$hour = str_replace(":","",$hour['hours']);
+			array_push($unavailableHours,$hour);
+		}
 		if (in_array($resId, $reservation)) {
 
 			$this->load->view('reserve_conflict');
@@ -420,45 +504,38 @@ class crr extends CI_Controller {
 					$resDate = $month . "/" . $day . "/" . $year;
 				} else if ($timeLim == 24.5) {
 					$resTime = "00.5";
-					//$resId = substr($resId, 0, 8) . $roomNum . $resTime;
 				} else if ($timeLim == 25) {
 					$resTime = 1;
-					//$resId = substr($resId, 0, 8) . $roomNum . $resTime;
 				} else if ($timeLim == 25.5) {
 					$resTime = 1.5;
-					//$resId = substr($resId, 0, 8) . $roomNum . $resTime;
 				} else if ($timeLim == 26) {
 					$resTime = 2;
-					//$resId = substr($resId, 0, 8) . $roomNum . $resTime;
 				} else if ($timeLim == 26.5) {
 					$resTime = 2.5;
-					//$resId = substr($resId, 0, 8) . $roomNum . $resTime;
 				} else {
 					$resTime = $timeLim;
-					//$resId = substr($resId, 0, 8) . $roomNum . $resTime;
 				}
 				if (strpos($resTime, ".") > 0) {
 					if (substr($resTime, 1, 1) == ".") {
 						if (substr($resTime, 0, 1) == "0") {
-							$inResTime = substr($resTime, 0, 1) . ":30";
+							$inResTime = substr($resTime, 0, 1) . "30";
 							$resId = $month . $day . $year . $roomNum . "0" . substr($resTime, 0, 1) . "30";
 						} else {
-							$inResTime = substr($resTime, 0, 1) . ":30";
+							$inResTime = substr($resTime, 0, 1) . "30";
 							$resId = $month . $day . $year . $roomNum . substr($resTime, 0, 1) . "30";
 						}
 					} else {
-						$inResTime = substr($resTime, 0, 2) . ":30";
+						$inResTime = substr($resTime, 0, 2) . "30";
 						$resId = $month . $day . $year . $roomNum . substr($resTime, 0, 2) . "30";
 					}
 				} else {
-					$inResTime = $resTime . ":00";
+					$inResTime = $resTime;
 					$resId = $month . $day . $year . $roomNum . $resTime;
 				}
-				array_push($tentativeSlots, $resId);
-
+				if (in_array($inResTime, $unavailableHours) == false) {
+					array_push($tentativeSlots, $resId);
+				}
 			}
-
-
 			$reservation = parse_ini_file('reservation.ini');
 			$size = sizeof($reservation);
 			if($size>0){
@@ -476,54 +553,21 @@ class crr extends CI_Controller {
 			$this->load->view('reserveform_view', $data);
 		}
 
-
 	}
- public function getBlockedHours(){
+	/*
+	 * Receive resId from request.
+     *  Fetch non-operating hours from db.
+     *  Load Form-Validation Library.
+     *      If Form -Validation run false → return reserveForm_view with data.
+     * Else → verify existence of primary email in reserver table and save if it is not available.
+     *   Define limit and timelimit on the basis of number of hours requested for reservation.
+     *     Limit =  number of hours from selected time.
+     *     TimeLimit = hour of selected slot time.
+     * For each TimeLimit< Limit → check if the slot time is available in non-operating hours.
+     *  If it not found in non-operating hours insert new reservation
+	 *
+	 */
 
-	 $resId= $this ->input -> get('resId');
-	 $this -> load -> model('crr_model');
-	 $time = substr($resId,11);
-     $totalHours = 3;
-	 $NonOperatinghours= $this -> crr_model -> getUnavailableHours();
-	 $NonOperatinghours = json_decode(json_encode($NonOperatinghours), true);
-	 $unavailableHours = array();
-	 foreach($NonOperatinghours as $hour){
-		 $hour = str_replace(":","",$hour['hours']);
-		 array_push($unavailableHours,$hour);
-	 }
-	 $availableTime = $totalHours;
-	 echo $time;
-     for($i=0;$i<$totalHours;$i+= 0.5){
-        echo "___";
-		 if(in_array($time,$unavailableHours)){
-			 $availableTime = $availableTime - 0.5;
-		 }
-		 if(strlen($time) == 1 || strlen($time) == 2) {
-			 if($time == 0){
-				 $time = $time+30;
-
-			 }elseif($time ==30){
-				 $time = $time + 70;
-				 $time = $time / 100;
-			 }else {
-				 $time = $time * 100;
-				 $time = $time + 30;
-			 }
-            echo $time;
-
-		 }elseif(strlen($time)==4 || strlen($time)==3 ){
-
-			 $time = $time + 70;
-			 $time = $time / 100;
-			 echo $time;
-		 }
-
-	 }
-	 echo "___";
-
-	 echo $availableTime;
-
- }
 	public function reserveForm() {
 		date_default_timezone_set('US/Eastern');
 		$date = new DateTime();
@@ -531,10 +575,10 @@ class crr extends CI_Controller {
 		/*
          * Below changes are to match with the date format in mysql
          */
-		//$endDate = $date->format('Y-m-d H:i:s');
-		$endDate = $date->format('m/d/Y H:i:s');
+		$endDate = $date->format('Y-m-d H:i:s');//uncomment this line to work with mysql
+		//$endDate = $date->format('m/d/Y H:i:s');//uncomment this line to work with sqlite
 		$this -> load -> model('crr_model');
-		$data['title'] = "JAC Collaboraseservation System";
+		$data['title'] = "JAC Collaboration reservation System";
 		$data['emails'] = $this -> crr_model -> getEmails();
 		$NonOperatinghours= $this -> crr_model -> getUnavailableHours();
 		$NonOperatinghours = json_decode(json_encode($NonOperatinghours), true);
@@ -560,16 +604,16 @@ class crr extends CI_Controller {
 				'email' => $this->input->post('primEmail')
 			);
 			$reserver = $this->input->post('primEmail');
-
 			if($this->crr_model->getreserver($reserver)){
+				//echo ("in");
 				$this->crr_model->insert_user($reserverData);
 			}
 
 			/*
              * Below changes are to match with the date format in mysql
              */
-			$resDate = substr($resId, 0, 2) . "/" . substr($resId, 2, 2) . "/" . substr($resId, 4, 4);
-			//$resDate =  substr($resId, 4, 4) . "-" . substr($resId, 0, 2). "-" . substr($resId, 2, 2);
+			$resDate = substr($resId, 0, 2) . "/" . substr($resId, 2, 2) . "/" . substr($resId, 4, 4);//uncomment this line for sqlite
+			//$resDate =  substr($resId, 4, 4) . "-" . substr($resId, 0, 2). "-" . substr($resId, 2, 2);//uncomment this line for mysql
 			if(substr($resId,11,1) == "A" || substr($resId,11,1) == "B"|| substr($resId,11,1) == "C" || substr($resId,11,1) == "D"){
 				$roomNum = substr($resId,8,4);
 				$time = substr($resId,12);
@@ -577,7 +621,7 @@ class crr extends CI_Controller {
 				if(strlen($time) == 4){
 					$timeLim = substr($time, 0, 2) + .5;
 					$limit = $this->input->post('numHours') + $timeLim;
-
+					
 				}
 				else if(strlen($time) == 3) {
 					$timeLim = substr($time, 0, 1) + .5;
@@ -595,7 +639,7 @@ class crr extends CI_Controller {
 				if(strlen($time) == 4){
 					$timeLim = substr($time, 0, 2) + .5;
 					$limit = $this->input->post('numHours') + $timeLim;
-
+					
 				}
 				else if(strlen($time) == 3) {
 					$timeLim = substr($time, 0, 1) + .5;
@@ -615,11 +659,9 @@ class crr extends CI_Controller {
             else
                 $isFinals = FALSE;
             */
-
 			$secEmail = $this->input->post('secEmail');
 			$comments = $this->input->post('Comments');
 			$totalHours = $this->input->post('numHours');
-
 			if(strlen($startTime) == 4){
 				$startTime = substr($startTime, 0, 2) . ":" . substr($startTime, 2);
 			}
@@ -651,9 +693,8 @@ class crr extends CI_Controller {
 					$time = $time + 70;
 					$time = $time / 100;
 				}
-
-
 			}
+			$result1 = array();
 			for($timeLim; $timeLim < $limit; $timeLim = $timeLim + .5) {
 				$day = substr($resId, 2, 2);
 				$month = substr($resId, 0, 2);
@@ -783,12 +824,6 @@ class crr extends CI_Controller {
 						$availableSlot = false;
 					}
 				}
-				$bookedHours = 0;
-				if($totalHours < ($this -> input -> post('numHours'))){
-
-					$bookedHours = ($this -> input -> post('numHours')) - $totalHours;
-
-				}
 				if ($availableSlot) {
 					$currentTimeStamp = $date->format('Y-m-d H:i:s');
 					$resData = array(
@@ -817,17 +852,23 @@ class crr extends CI_Controller {
 							$data['info'] = "Reservation Conflict. The slot $resId is already reserved.";
 							$this->crr_model->deleteRes($rId);
 							break;
-						} else {
+						 } else {
                             if( $availableTime < $totalHours) {
 								$data['header'] = "Confirmation Page";
-								$data['info'] = "The reservation is complete. Reservation id: " . $rId." As We cannot make reservation in closing hours, Room is reserved for ".$availableTime." hours.";
+								$info = "The reservation is complete. As we cannot make reservation in closing hours, Room is reserved for ".$availableTime." hour(s) only.";
+								$data['info'] ="The reservation is complete. Reservation id: " . $rId.". As we cannot make reservation in closing hours, Room is reserved for ".$availableTime." hour(s) only.";
 								$data['result'] = $result;
 
 							}else{
 								$data['header'] = "Confirmation Page";
-								$data['info'] = "The reservation is complete. Reservation id: " . $rId;
+								$info = "The reservation is complete.";
+								$data['info'] ="The reservation is complete. Reservation id: " . $rId;
 								$data['result'] = $result;
+
 							}
+
+
+
 						}
 					} else {
 						$data['header'] = "Confirmation Page";
@@ -837,10 +878,75 @@ class crr extends CI_Controller {
 					}
 				}
 			}
+			$numPatrons = $this->input->post('numPatrons');
+
+			if(sizeof($result1) == 0){
+
+					$this->load->library('email');
+					$config['protocol'] = "smtp";
+					$config['smtp_host'] = "ssl://smtp.googlemail.com";
+					$config['smtp_port'] = "465";
+					$config['smtp_user'] = "cannavinolibrary@gmail.com";
+					$config['smtp_pass'] = "845@jac3419";
+					$config['charset'] = "utf-8";
+					$config['mailtype'] = "html";
+					$config['newline'] = "\r\n";
+					$this->email->initialize($config);
+					$this->email->from('cannavinolibrary@gmail.com', 'James A. Cannavino Library (Collaboration Room Reservation System)');
+					//$this->email->to($this->input->post('primEmail'));
+					$list = array('cannavinolibrary@gmail.com', $this->input->post('primEmail'));
+					$this->email->to($list);
+					$this->email->cc('dheeraj.karnati1@marist.edu');
+					$this->email->subject('Reservation Confirmation. ReservationID:'.$rId);
+					$message = "<h4> $info </h4></br></br>";
+					$message .= "<table cellspacing=\"0\" cellpadding=\"0\" style=\"width:100%; border-bottom:1px solid #eee; font-size:12px; line-height:135%\">
+                                             <tr style=\"background-color:#f5f5f5\">
+                                             <th style=\"vertical-align:top ;color:#222; text-align:left; padding:7px 9px 7px 9px; border-top:1px solid #eee\">Reservation Id</th>
+                                             <td style=\"vertical-align:top; color:#333; width:60%; padding:7px 9px 7px 0; border-top:1px solid #eee\">$rId</td>
+                                             </tr>
+       										 <tr style=\"\">
+               								 <th style=\"vertical-align: top;color:#222; text-align:left; padding:7px 9px 7px 9px; border-top:1px solid #eee\">Room Number</th>
+                      					     <td style=\"vertical-align:top;color:#333;width:60%;padding:7px 9px 7px 0;border-top:1px solid #eee\">$roomNum</td>
+                                             </tr>
+                                             <tr style=\"background-color:#f5f5f5\">
+                                             <th style=\"vertical-align:top; color:#222; text-align:left; padding:7px 9px 7px 9px; border-top:1px solid #eee\">Reservation Date</th>
+                                             <td style=\"vertical-align:top;color:#333;width:60%;padding:7px 9px 7px 0;border-top:1px solid #eee\">$resDate</td>
+                                             </tr>
+                                             <tr style=\"\">
+                                             <th style=\"vertical-align:top; color:#222; text-align:left; padding:7px 9px 7px 9px; border-top:1px solid #eee\">Start Time</th>
+                                             <td style=\"vertical-align:top;color:#333;width:60%;padding:7px 9px 7px 0;border-top:1px solid #eee\">$startTime</td>
+                                             </tr>
+                                            <tr style=\"background-color:#f5f5f5\">
+                                            <th style=\"vertical-align:top; color:#222; text-align:left; padding:7px 9px 7px 9px; border-top:1px solid #eee\">Duration </th>
+                                            <td style=\"vertical-align:top;c olor:#333; width:60%; padding:7px 9px 7px 0; border-top:1px solid #eee\">$availableTime hr(s)</td>
+                              				</tr>
+        									<tr style=\"\">
+         							        <th style=\"vertical-align:top; color:#222; text-align:left; padding:7px 9px 7px 9px; border-top:1px solid #eee\">Date & Time Reserved</th>
+                      						<td style=\"vertical-align:top; color:#333; width:60%; padding:7px 9px 7px 0; border-top:1px solid #eee\">$currentTimeStamp</td>
+        									</tr>
+                                            <tr style=\"background-color:#f5f5f5\">
+                                            <th style = \"vertical-align:top; color:#222; text-align:left; padding:7px 9px 7px 9px; border-top:1px solid #eee\" > Number of patrons</th >
+                                         	<td style = \"vertical-align:top;c olor:#333; width:60%; padding:7px 9px 7px 0; border-top:1px solid #eee\" > $numPatrons </td >
+       										</tr >
+										   </table>";
+
+					$this ->email -> message($message);
+					$this ->email ->send();
+
+			}
+
 			$this->load->view('verify_view', $data);
 		}
 	}
-
+/*
+ *
+ * Receive date and slotId and timestamp from request.
+ * Fetch slots(timestamp greater than received timestamp) from db.
+ * If received slotId found in reservation.ini file → delete 6 consecutive slots from ini file and
+ * -update ini file with existing remaining tentative slots.
+ * Return data of slots and tentative slots
+ *
+ */
 	public function refreshReservations(){
 		$this -> load -> model('crr_model');
 		$date = $this -> input -> get('date');
@@ -859,7 +965,6 @@ class crr extends CI_Controller {
 		$tentativeIni = array();
 		for($i=0; $i<$size;$i++){
 			if($slotId == $reservation[$i]){
-
 				$i= $i+5;
 
 			}else if($i < $size){
@@ -885,13 +990,20 @@ class crr extends CI_Controller {
 		echo json_encode($data);
 
 	}
-
+/*
+ * Receive date and timestamp from request.
+ * Fetch slots(timestamp greater than received timestamp) from db.
+ * Fetch tentative slots from reservation.ini file.
+ * Return data of slots and tentative slots.
+ *
+ */
 	public function getNewReservations(){
 		$date = $this -> input -> get('date');
 		$timestamp = $this -> input -> get('time');
 		$currentTimeStamp = substr($timestamp, 0,10)." ". substr($timestamp, 11,19);
 		$this -> load -> model('crr_model');
 		$data['slots'] = $this -> crr_model -> getNewReservations($currentTimeStamp);
+
 		//	print_r($data['slots']);
 		//$date = str_replace("/", "", $date);
 		//$data['date'] = $date;
@@ -904,24 +1016,43 @@ class crr extends CI_Controller {
 		}
 		echo json_encode($data);
 	}
+   /*
+    *
+    * Returns verify_view with header and info
+    *
+    */
 
 	public function displayInfo(){
 		$data['header'] = "Reservation Failed";
 		$data['info'] = "Unfortunately we cannot go back on time to make a reservation :)";
 		$this->load->view('verify_view', $data);
 	}
+	/*
+     *
+     * Returns disclaimer
+     *
+     */
 
 	public function disclaimer(){
-		$this -> load -> view('disclaimer');
-	}
+		$this -> load -> view('disclaimer');	
+	}	
 
+	/*
+	 * Receives selected room number
+	 * Returns roomdetails_view with room details from db.
+	 *
+	 */
 	public function roomDetails(){
 		$this -> load -> model('crr_model');
 		$roomNo = $this -> input -> get('roomNo');
 		$data['details'] = $this -> crr_model -> getRoomDetails($roomNo);
 		$this -> load -> view('roomdetails_view', $data);
 	}
-
+   /*
+    * Receives selected room number
+	* Returns roomdetails_view with room details from db.
+    *
+    */
 	public function tooltipRoomDetails(){
 		$this -> load -> model('crr_model');
 		$roomNo = $this -> input -> get('roomNo');
@@ -929,17 +1060,24 @@ class crr extends CI_Controller {
 		$this -> load -> view('t_roomdetails_view', $data);
 	}
 
+	/*
+	 * Returns all the emails from reserver to tfq
+	 */
 	public function tfq(){
 		$this -> load -> model('crr_model');
 		$data['emails'] = $this -> crr_model -> getEmails();
 		//$data['val'] = $this -> input -> get('val');
 		$this -> load -> view('tfq', $data);
-	}
+	}	
 
+	/*
+	 * Recieve instructions(i.e start date,end date, hourId etc).
+	 * Inserts the above information into hourInstructions table in db.
+	 */
 	public function setInstructions(){
-		date_default_timezone_set('US/Eastern');
+		date_default_timezone_set('US/Eastern');	
 		$date = new DateTime();
-		$iDate = $date->format('m/d/Y H:i:s');
+		$iDate = $date->format('m/d/Y H:i:s');	
 		$this -> load -> model('crr_model');
 		$startDate = $_POST['startDate'];
 		$endDate = $_POST['endDate'];
@@ -949,21 +1087,14 @@ class crr extends CI_Controller {
 			$data['enddate'] = $endDate;
 			$data['hourId'] = $hoursId[$i];
 			$data['instDate'] = $iDate;
-			$result = $this->crr_model->insert_reservation($data,'hoursInstructions');
+			$result = $this->crr_model->insert_reservation($data,'hoursInstructions');	
 		}
 		echo $result;
 	}
-
-	public function removeInstructions(){
-		$this -> load -> model('crr_model');
-		$iidArray = $_POST['iidArray'];
-		for ($i = 0; $i < sizeof($iidArray); $i++){
-			$iid = $iidArray[$i];
-			$result = $this->crr_model->remove_instructions($iid);
-		}
-		echo $result;
-	}
-
+   /*
+    * Retrieve the reservation details of the recieved date.
+    * Load the retrieved details into printPage view
+    */
 	public function printTable(){
 		$this -> load -> model('crr_model');
 		$date = $this -> input -> get('date');
@@ -975,51 +1106,70 @@ class crr extends CI_Controller {
 		$data['date'] = $date;
 		$this -> load -> view('printPage', $data);
 	}
-
+	/*
+	 * Recieves the resId and deletes the reservation slot of 'resId' in db.
+	 */
 	public function deleteSlot(){
 		$resId = $_POST['resId'];
 		$this -> load -> model('crr_model');
 		$result = $this -> crr_model -> deleteSlot($resId);
 		echo $result;
 	}
-
+	/*
+	 * Loads ack_view
+	 */
 	public function ack(){
 		$this -> load -> view('ack_view');
 	}
-
+	/*
+	 * Loads addNotes_view
+	 */
 	public function addNotes(){
-		$this -> load -> view('addNotes_view');
+			$this -> load -> view('addNotes_view');	
 	}
-
+	/*
+ * Loads addNotes2_view
+ */
 	public function addNotes1(){
 		$data['email']= $this -> input -> get('email');
 		$this -> load -> view('addNotes2_view', $data);
-
-
+		
 	}
-
+	/*
+	 * Recieve email and notes
+     * Save in database.
+     */
 	public function addANote(){
 		$email = $_POST['email'];
 		$notes = $_POST['notes'];
-		$this -> load -> model('crr_model');
+ 		$this -> load -> model('crr_model');
 		$result = $this -> crr_model -> addANote($email, $notes);
 		echo $result;
 	}
-
+	/*
+	 * Recieve email
+	 * Retrieve notes of 'email' form db
+	 * Loads viewNotes.
+	 */
 	public function tooltipNotes(){
 		$this -> load -> model('crr_model');
 		$email = $this -> input -> get('email');
 		$data['notes'] = $this -> crr_model -> getNotes($email);
 		$this -> load -> view('viewNotes', $data);
 	}
-
+	/*
+	 * Loads report_view
+	 *
+	 */
 	public function report(){
 		$this -> load -> model('crr_model');
-		//	$date = $this -> input -> get('date');
-		//$data['patronCount'] = $this -> crr_model -> getPatronCount($date);
 		$this -> load -> view('report_view');
 	}
-
+	/*
+	 * Recieves date.
+	 * Retrieve patron count for recieved date
+	 * Loads patronCountReport view.
+	 */
 	public function getPatronCount(){
 		$this -> load -> model('crr_model');
 		$date = $this -> input -> get('date');
@@ -1028,6 +1178,44 @@ class crr extends CI_Controller {
 		$this -> load -> view('patronCountReport', $data);
 	}
 
+	/*
+	 * Recieves array of iids
+	 * Remove each iid from hourInstructions table
+	 *
+	 */
+	public function removeInstructions(){
+		$this -> load -> model('crr_model');
+		$iidArray = $_POST['iidArray'];
+		for ($i = 0; $i < sizeof($iidArray); $i++){
+			$iid = $iidArray[$i];
+			$result = $this->crr_model->remove_instructions($iid);
+		}
+		echo $result;
+	}
+	/*
+	 * Recieves 's'(value of isAvailable) and array of room numbers
+	 * Updates each room status as recieved the value 's'
+	 *
+	 */
 
-}
+	public function blockRooms(){
+		$this -> load -> model('crr_model');
+		$s = $this -> input -> get('s');
+		$roomNo = $_POST['roomNo'];
+		for ($i = 0; $i < sizeof($roomNo); $i++){
+			$room = $roomNo[$i];
+			$result = $this->crr_model->updateRoomStatus($room, $s);
+		}
+		echo $result;
+	}
+
+
+  public function data_viz(){
+
+
+  }
+
+
+
+	}
 ?>

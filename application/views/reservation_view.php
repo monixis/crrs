@@ -7,6 +7,7 @@
 <script type="text/javascript" src="./js/qtip.js"></script>
 <?php
 $resId =$resId;
+$emails = $emails;
 foreach($details as $row){
 	$resDate = $row -> resDate;
 	$startTime = $row -> startTime;
@@ -92,7 +93,7 @@ else {
 		<div id="color" style="width: 60px; height: 570px; float:left; ">
 		</div>
 
-		<div style="float:right; width:530px; height: 38px; text-align: center; font-size: 30px; color: #b31b1b;">
+		<div id="inf" style="float:right; width:530px; height: 38px; text-align: center; font-size: 30px; color: #b31b1b;">
 			<div id="confirmations"></div><p id="resId">#<?php echo $rId ; ?><a><img src="./icons/edit-icon.png" id="editReservation" class="shortcutlink" style="width:25px; height:25px; margin-left:10px;"/></a></p>
 		</div>
 
@@ -101,6 +102,7 @@ else {
 	<div id="invalid" hidden>
 		<center><p> The resevation ID #<?php echo $searchText; ?> is invalid.</p></center>
 	</div>
+
 	<div id="valid">
 		<p class="resDet"><label class="label">Room No: </label><?php echo $roomNum; ?></p>
 		<p class="resDet"><label class="label">Date: </label><?php echo $resDate; ?></p>
@@ -132,7 +134,23 @@ else {
 			<?php } ?>
 		<?php } ?>
 
+	</div></br>
+	<div align="center" id="noshow_check" hidden  ">
+	<strong >Is it a No-Show ? </strong><br>
+	<button type="button" class="btn" id="yes" style=" margin-top:5px;">Yes</button>
+	<button type="button" class="btn" id="no" style=" margin-top:5px;">No</button>
+
+</div>
+	<div align="center" id="admin-authentication" hidden  ">
+		<strong >ADMIN PASSCODE: </strong><input type="password" name="Apcode" id="Apasscode" />
+		<button type="button" class="btn" id="adminsubmit" style=" margin-top:5px;">Submit</button>
 	</div>
+
+<div align="center" id="noshow" hidden  ">
+<strong >Is this a no show reservation: </strong></br>
+<button type="button" class="btn" id="yes" style=" margin-top:5px;">Yes</button>
+<button type="button" class="btn" id="no" style=" margin-top:5px;">No</button>
+</div>
 	<div id="updateReservation" hidden>
 		<p class="resDet"><label class="label">Room No: </label><?php echo $roomNum; ?></p>
 		<p class="resDet"><label class="label">Date: </label><?php echo $resDate; ?></p>
@@ -152,9 +170,9 @@ else {
         </div>
 
 	</div>
-	<div id="shadowBox"><iframe id="shadowFrame"></iframe><div style="width:25px; height:15px; float:right; margin-top:3px; margin-right: 5px;"><img id="close" src="./icons/close.png" style="width: 25px; height: 25px;"/></div></div>
 
 </div>
+
 <script type="text/javascript">
 	$('#returned').click(function(){
 		var rId= <?php echo $rId ?>;
@@ -172,6 +190,9 @@ else {
 				$('#confirmations').append("<img src='./icons/tick.png'/>");
 				$("#color").removeClass("reserved");
 				$("#color").addClass("transactionComplete");
+				$('#returned').hide();
+				$('#cancelSlot').hide();
+				$('#canceled').hide();
 			}else{
 				$('#confirmations').append("<img src='./icons/error.png'/>");
 			}
@@ -181,10 +202,16 @@ else {
 		$('img#editReservation').click(function () {
 			if($('#updateReservation').is(":hidden")) {
 				$('#valid').hide();
+				$('#admin-authentication').hide();
 				$('#updateReservation').show();
+				$('#noshow').hide();
+
 			}else{
 				$('#valid').show();
+				$('#admin-authentication').hide();
 				$('#updateReservation').hide();
+				$('#noshow').hide();
+
 
 			}
 
@@ -196,11 +223,13 @@ else {
 		var resPhone = $('#primPhone').val();
 		var comments = $('#comments').val();
 		var numPatrons = $('#numPatrons').val();
-       if(resEmail==""){
+		var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+       if(resEmail=="" || !re.test(resEmail)){
 
 		   resEmail = "<?php echo $resEmail ?>";
 	   }
-		if(secEmail ==""){
+		if(secEmail =="" || !re.test(secEmail)){
 			secEmail = "<?php echo $secEmail ?>";
 
 		}
@@ -222,48 +251,265 @@ else {
 				$('#confirmations').append("<img src='./icons/error.png'/>");
 			}
 		});
+
 	});
 
-	$('#canceled').click(function(){
-		var rId= <?php echo $rId ?>;
-		var status = 3;
-		//notes = $('textarea#notes').val();
-		$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>",{rId: rId, status: status}).done(function(data){
-			if (data == 1){
-				$('#confirmations').append("<img src='./icons/tick.png'/>");
-				$("#color").removeClass("reserved");
-				$("#color").removeClass("unverified");
-				$("#color").addClass("slots");
-			}else{
-				$('#confirmations').append("<img src='./icons/error.png'/>");
+	$('#canceled').click(function() {
+
+		$('#valid').hide();
+		$('#admin-authentication').show();
+
+		$("#adminsubmit").click(function () {
+			var rId = '<?php echo $rId ?>';
+			var slotStatus = '<?php echo $statusId ?>';
+			var status = 3;
+			var Apasscode = '<?php echo $Apasscode ?>';
+			var Apcode = $("#Apasscode").val();
+			if (Apasscode == Apcode) {
+				$('#admin-authentication').hide();
+				$('#noshow_check').show();
+				if(slotStatus == 2) {
+					$("#yes").click(function () {
+						status = 6;
+						$('#noshow_check').hide();
+						$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>", {
+							rId: rId,
+							status: status
+						}).done(function (data) {
+							if (data == 1) {
+								$('#confirmations').append("<img src='./icons/tick.png'/>");
+								$("#color").removeClass("reserved");
+								$("#color").removeClass("unverified");
+								$("#color").addClass("slots");
+								$('#valid').show();
+								$('#returned').hide();
+								$('#cancelSlot').hide();
+								$('#canceled').hide();
+
+							} else {
+								$('#confirmations').append("<img src='./icons/error.png'/>");
+							}
+						});
+
+					});
+					$("#no").click(function () {
+						status = 3;
+						$('#noshow_check').hide();
+						$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>", {
+							rId: rId,
+							status: status
+						}).done(function (data) {
+							if (data == 1) {
+								$('#confirmations').append("<img src='./icons/tick.png'/>");
+								$("#color").removeClass("reserved");
+								$("#color").removeClass("unverified");
+								$("#color").addClass("slots");
+								$('#valid').show();
+								$('#returned').hide();
+								$('#cancelSlot').hide();
+								$('#canceled').hide();
+
+							} else {
+								$('#confirmations').append("<img src='./icons/error.png'/>");
+							}
+						});
+
+					});
+				}else {
+					$('#noshow_check').hide();
+					$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>", {
+						rId: rId,
+						status: status
+					}).done(function (data) {
+						if (data == 1) {
+							$('#confirmations').append("<img src='./icons/tick.png'/>");
+							$("#color").removeClass("reserved");
+							$("#color").removeClass("unverified");
+							$("#color").addClass("slots");
+							$('#valid').show();
+							$('#returned').hide();
+							$('#cancelSlot').hide();
+							$('#canceled').hide();
+						} else {
+							$('#confirmations').append("<img src='./icons/error.png'/>");
+						}
+					});
+				}
+			} else {
+				$("#Apasscode").css('border', '3px solid red');
+				setTimeout(function () {
+					$("#Apasscode").css('border', '1px solid grey');
+				}, 2000)
+			}
+		});
+		$('#Apasscode').keypress(function (e) {
+			var rId = '<?php echo $rId ?>';
+			var status = 3;
+			var slotStatus = '<?php echo $statusId ?>';
+			var Apasscode = '<?php echo $Apasscode ?>';
+			var Apcode = $("#Apasscode").val();
+			if (Apasscode == Apcode) {
+				$('#admin-authentication').hide();
+               if(slotStatus == 2){
+				$('#noshow_check').show();
+				$("#yes").click(function () {
+					status = 6;
+					$('#noshow_check').hide();
+					$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>", {
+						rId: rId,
+						status: status
+					}).done(function (data) {
+						if (data == 1) {
+							$('#confirmations').append("<img src='./icons/tick.png'/>");
+							$("#color").removeClass("reserved");
+							$("#color").removeClass("unverified");
+							$("#color").addClass("slots");
+							$('#valid').show();
+							$('#returned').hide();
+							$('#cancelSlot').hide();
+							$('#canceled').hide();
+
+						} else {
+							$('#confirmations').append("<img src='./icons/error.png'/>");
+						}
+					});
+
+				});
+				$("#no").click(function () {
+					status = 3;
+					$('#noshow_check').hide();
+					$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>", {
+						rId: rId,
+						status: status
+					}).done(function (data) {
+						if (data == 1) {
+							$('#confirmations').append("<img src='./icons/tick.png'/>");
+							$("#color").removeClass("reserved");
+							$("#color").removeClass("unverified");
+							$("#color").addClass("slots");
+							$('#valid').show();
+							$('#returned').hide();
+							$('#cancelSlot').hide();
+							$('#canceled').hide();
+
+						} else {
+							$('#confirmations').append("<img src='./icons/error.png'/>");
+						}
+					});
+
+				});
+              } else {
+				   $('#noshow_check').hide();
+				   $.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>", {
+					rId: rId,
+					status: status
+				}).done(function (data) {
+					if (data == 1) {
+						$('#confirmations').append("<img src='./icons/tick.png'/>");
+						$("#color").removeClass("reserved");
+						$("#color").removeClass("unverified");
+						$("#color").addClass("slots");
+						$('#valid').show();
+						$('#returned').hide();
+						$('#cancelSlot').hide();
+						$('#canceled').hide();
+
+					} else {
+						$('#confirmations').append("<img src='./icons/error.png'/>");
+					}
+				});
+
+				 }
+			} else {
+				$("#Apasscode").css('border', '3px solid red');
+				setTimeout(function () {
+					$("#Apasscode").css('border', '1px solid grey');
+				}, 2000)
 			}
 		});
 	});
 
 	$('#cancelSlot').click(function(){
-		var rId= <?php echo $rId ?>;
-		var resId = '<?php echo $resId ?>';
-		var status = 5;
+
 		//notes = $('textarea#notes').val();
-		$.post("<?php echo base_url("?c=crr&m=updateSlotStatus"); ?>",{rId: rId, resId: resId, status: status}).done(function(data){
-			if (data == 1){
-				$('#confirmations').append("<img src='./icons/tick.png'/>");
-				$("#color").removeClass("reserved");
-				$("#color").removeClass("unverified");
-				$("#color").removeClass("transactionComplete");
-				$("#color").addClass("slots");
-			}else{
-				$('#confirmations').append("<img src='./icons/error.png'/>");
-			}
-		});
+		$('#valid').hide();
+		$('#admin-authentication').show();
+		$("#adminsubmit").click(function () {
+			var rId= '<?php echo $rId ?>';
+			var resId = '<?php echo $resId ?>';
+			var status = 5;
+			var Apasscode = "<?php echo $Apasscode ?>";
+				var Apcode = $("#Apasscode").val();
+				if (Apasscode == Apcode) {
+					$('#admin-authentication').hide();
+					$('#valid').show();
+
+						$.post("<?php echo base_url("?c=crr&m=updateSlotStatus"); ?>", {
+							rId: rId,
+							resId: resId,
+							status: status
+						}).done(function (data) {
+							if (data == 1) {
+								$('#confirmations').append("<img src='./icons/tick.png'/>");
+								$("#color").removeClass("reserved");
+								$("#color").removeClass("unverified");
+								$("#color").removeClass("transactionComplete");
+								$("#color").addClass("slots");
+							} else {
+								$('#confirmations').append("<img src='./icons/error.png'/>");
+							}
+						});
+
+				} else {
+					$("#Apasscode").css('border', '3px solid red');
+					setTimeout(function () {
+						$("#Apasscode").css('border', '1px solid grey');
+					}, 2000)
+				}
+
+			});
+			$('#Apasscode').keypress(function (e) {
+				var rId= '<?php echo $rId ?>';
+				var resId = '<?php echo $resId ?>';
+				var status = 5;
+				var key = e.which;
+				if (key == 13) {
+					var Apasscode = '<?php echo $Apasscode ?>';
+					var Apcode = $("input#Apasscode").val();
+					if (Apasscode == Apcode) {
+						$('#valid').show();
+						$('#admin-authentication').hide();
+						$.post("<?php echo base_url("?c=crr&m=updateSlotStatus"); ?>", {
+							rId: rId,
+							resId: resId,
+							status: status
+						}).done(function (data) {
+							if (data == 1) {
+								$('#confirmations').append("<img src='./icons/tick.png'/>");
+								$("#color").removeClass("reserved");
+								$("#color").removeClass("unverified");
+								$("#color").removeClass("transactionComplete");
+								$("#color").addClass("slots");
+							} else {
+								$('#confirmations').append("<img src='./icons/error.png'/>");
+							}
+						});
+					} else {
+						$("#Apasscode").css('border', '3px solid red');
+						setTimeout(function () {
+							$("#Apasscode").css('border', '1px solid grey');
+						}, 2000)
+					}
+				}
+			});
 
 	});
 
 	$('#verify').click(function(){
-		var rId= <?php echo $rId ?>;
+		var rId= '<?php echo $rId ?>';
 		var status = 1;
 		//notes = $('textarea#notes').val();
-		$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>",{rId: rId, status: status}).done(function(data){
+		$.post("<?php echo base_url("?c=crr&m=verifyStatus"); ?>",{rId: rId, status: status}).done(function(data){
 			if (data == 1){
 				$('#confirmations').append("<img src='./icons/tick.png'/>")
 				$("#color").removeClass("unverified");

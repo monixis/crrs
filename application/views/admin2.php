@@ -29,16 +29,9 @@
 				<div id="header"></div>
 			</a>	
 		</div>
-		
-		<div id="menu">
-			<div id="menuItems">
-
-			</div>
-		</div>
 
 		<div class = "container_home">
-				
-					
+
 						
 			<h1 style="color: #b31b1b; text-align: center;">Admin - JAC Collaboration Room Reservation System</h1>
 			<div id="adminSelection">

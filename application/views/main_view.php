@@ -18,11 +18,7 @@
 			('00' + date.getHours()).slice(-2) + ':' +
 			('00' + date.getMinutes()).slice(-2) + ':' +
 			('00' + date.getSeconds()).slice(-2);
-		/*var d = new Date();
-		 var n = d.toUTCString();
-		 var string = n.split(',');
-		 var timestamp = string[1];
-		 var finalTimestamp = timestamp.replace(" ", "%");*/
+
 		localStorage.setItem("timestamp", date);
 		var blocked = [];
 		localStorage.setItem("blocked", JSON.stringify(blocked));
@@ -367,10 +363,7 @@
 								elseif($reservedslots[$j][1] == 4){
 									$slotclass = "transactionComplete";
 								}
-								/*elseif($reservedslots[$j][1] == 6){
-									$slotclass = "tentative";
 
-								}*/
 								$slotrid = $reservedslots[$j][2];
 								break;
 							}
@@ -389,10 +382,7 @@
 								localStorage.setItem("blocked", JSON.stringify(blocked));
 							</script>
 						<?php  }else{ ?>
-							<!--?php /*  if($slotclass == "tentative" ) { */?><!--
-                                <td style="visibility:hidden;" class=<!--?php /*echo $slotclass; */?> id="<!--?php /*echo $slotid; */?>"><!--?php /*echo $slotrid; */?></td>
 
-                            --><!--?php /*} else { */?-->
 
 							<td class=<?php echo $slotclass; ?> id="<?php echo $slotid; ?>"><?php echo $slotrid; ?></td>
 							<script>

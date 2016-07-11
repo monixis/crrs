@@ -7,14 +7,13 @@
     	<link rel="stylesheet" href="./styles/jquery-ui.css" type="text/css" /> 
 		<script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script> 
 		<script type="text/javascript" src="./js/jquery-ui.js"></script>
-		<script type="text/javascript" src="./js/dashboard.js"></script>
+		<script type="text/javascript" src="./js/dashboard.js"></script> 
 		<script type="text/javascript" src="./js/qtip.js"></script>
 
 		<script>
 			$(document).ready(function() {
 				$("#dateStart").datepicker({
 					minDate : "+0"
-
 				});
 			})
 		</script>
@@ -148,7 +147,7 @@
 					?>
 					<FORM NAME="theForm" ID="theForm" ACTION="<?php echo base_url("?c=crr&m=reserveForm&resId=$resId")?>"  METHOD="POST">
 						
-						<p class="resDet"><label class="label">Room No: </label><input type="text" id="roomNo" name="roomNum" disabled="true" style="color: #b31b1b; background: #ffffff; border: 1px solid #ffffff; font-size: 18px; width: 48px;" value="<?php echo $roomNum ?>"/><img src="./icons/expand.png" class="tooltip" id="http://localhost:9090/crrs/?c=crr&m=tooltiproomdetails&roomNo=<?php echo $roomNum ?>" style="width:12px; height:12px;"/></p>
+						<p class="resDet"><label class="label">Room No: </label><input type="text" id="roomNo" name="roomNum" disabled="true" style="color: #b31b1b; background: #ffffff; border: 1px solid #ffffff; font-size: 18px; width: 48px;" value="<?php echo $roomNum ?>"/><img src="./icons/expand.png" class="tooltip" id="<?php echo base_url("?c=crr&m=tooltiproomdetails&roomNo=".$roomNum)  ?>" style="width:12px; height:12px;"/></p>
 						<p class="resDet"><label class="label">Reserve Date: </label><INPUT TYPE="text" disabled="true" NAME="resDate" style="color: #b31b1b; background: #ffffff; border: 1px solid #ffffff; font-size: 18px;" value="<?php echo $resDate?>" SIZE="13" class="ask_text_input" /></p>
 						<p class="resDet"><label class="label">Reservation Time: </label><input type="text" disabled="true" name ="timeStart" style="color: #b31b1b; background: #ffffff; border: 1px solid #ffffff; font-size: 18px;" value="<?php echo $time; ?>">
 										<label class="label" style="margin-left:0px;">for </label>
@@ -190,13 +189,14 @@
 					<!--input name="reset" type="reset" id="reset" class="btn" style="margin-left:56px; margin-top:5px;"/-->
 					</form>
 			<div id="shadowBox"><iframe id="shadowFrame"></iframe><div style="width:25px; height:15px; float:right; margin-top:3px; margin-right: 5px;"><img id="close" src="./icons/close.png" style="width: 25px; height: 25px;"/></div></div>
+			
 			</div>	
-			<script type="text/javascript" src="./js/dashboard.js"></script>
+			<script type="text/javascript" src="./js/dashboard.js"></script> 
 			<script>
-
 				$('img#viewNotes1').click(function(){
 					var email = $("#primEmail").val();
-					var link = "http://localhost:9090/crrs/?c=crr&m=tooltipNotes&email=" + email;
+					var link = "<?php echo base_url("?c=crr&m=tooltipNotes&email=") ?>"+email;
+					//var link = "http://localhost/crrs/?c=crr&m=tooltipNotes&email=" + email;
 					$('#shadowBox').css({'visibility':'visible','width':'410px','height':'340px'});
 						$('#shadowFrame').css({'width':'375px','height':'340px'});
 						$('#shadowBox').css('left','26%');
@@ -206,18 +206,23 @@
 				
 				$('img#viewNotes2').click(function(){
 					var email = $("#secEmail").val();
-					var link = "http://localhost:9090/crrs/?c=crr&m=tooltipNotes&email=" + email;
+					var link = "<?php echo base_url("?c=crr&m=tooltipNotes&email=") ?>"+email;
+
+					//var link = "http://localhost/crrs/?c=crr&m=tooltipNotes&email=" + email;
 					$('#shadowBox').css({'visibility':'visible','width':'410px','height':'340px'});
 						$('#shadowFrame').css({'width':'375px','height':'340px'});
 						$('#shadowBox').css('left','26%');
 						$('#shadowBox').css('top','14%');
 						$('iframe').attr('src',link);
-
 				});
 				
 				$('img#addNotes1').click(function(){
+					//test = 1;
+					//alert(test);
 					var email = $("#primEmail").val();
-					var link = "http://localhost:9090/crrs/?c=crr&m=addNotes1&email=" + email;
+					var link = "<?php echo base_url("?c=crr&m=addNotes1&email=") ?>"+email;
+
+					//var link = "http://localhost/crrs/?c=crr&m=addNotes1&email=" + email;
 					$('#shadowBox').css({'visibility':'visible','width':'415px','height':'340px'});
 						$('#shadowFrame').css({'width':'385px','height':'340px'});
 						$('#shadowBox').css('left','26%');
@@ -227,12 +232,12 @@
 				
 				$('img#addNotes2').click(function(){
 					var email = $("#secEmail").val();
-					var link = "http://localhost:9090/crrs/?c=crr&m=addNotes1&email=" + email;
+					var link = "<?php echo base_url("?c=crr&m=addNotes1&email=") ?>"+email;
+					//var link = "http://localhost/crrs/?c=crr&m=addNotes1&email=" + email;
 					$('#shadowBox').css({'visibility':'visible','width':'415px','height':'340px'});
 						$('#shadowFrame').css({'width':'385px','height':'340px'});
 						$('#shadowBox').css('left','26%');
 						$('#shadowBox').css('top','14%');
 						$('iframe').attr('src',link);
 				});
-
 			</script>

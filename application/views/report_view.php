@@ -21,7 +21,7 @@
     			$("#reportDatePicker").datepicker( "setDate", new Date());
     			$("#reportDatePicker").empty();
     			var date = $('input#reportDatePicker').val();
-				var url = <?php echo base_url("?c=crr&m=getPatronCount&date=")?>+date;
+				var url = "<?php echo base_url("?c=crr&m=getPatronCount&date=")?>"+date;
     			//var url = "http://localhost:9090/crrs/?c=crr&m=getPatronCount&date="+date;
 	$('#report_view').empty();
 	$('#report_view').load(url);

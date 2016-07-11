@@ -1,12 +1,13 @@
 /**
  * @author Monish.Singh1
  */
-
 var shadowBoxOpen = 0;
+//var test = 0;
 var baseUrl = "http://localhost/crrs/";
 $('#datepicker').change(function() {
 	 var date = $('input#datepicker').val();
-	var url = baseUrl.concat("?c=crr&m=getReservations&date="+date);//http://localhost:9090/crrs/?c=crr&m=getReservations&date="+date
+	var slotId = localStorage.getItem("slotId");
+	var url = baseUrl.concat("?c=crr&m=getReservations&date="+date+"&slotId="+slotId);//http://localhost:9090/crrs/?c=crr&m=getReservations&date="+date
 	$('#dashboard_view').empty();
 	$('#dashboard_view').load(url);
 
@@ -39,10 +40,10 @@ $('td').click(function() {
 						if (today > selecteddate){
 							var link =baseUrl.concat("?c=crr&m=readonlyReservationDetails&resId="+ slotid) ;
 
-								//"http://localhost:9090/crrs/?c=crr&m=readonlyReservationDetails&resId=" + slotid;
+								//"http://localhost/crrs/?c=crr&m=readonlyReservationDetails&resId=" + slotid;
 						}else{
 							var link =baseUrl.concat("?c=crr&m=reservationDetails&resId="+ slotid);
-						//	var link = "http://localhost:9090/crrs/?c=crr&m=reservationDetails&resId=" + slotid;
+						//	var link = "http://localhost/crrs/?c=crr&m=reservationDetails&resId=" + slotid;
 						}	
 						
 						$('#shadowBox').css({'visibility':'visible','width':'640px','height':'570px'});
@@ -57,7 +58,7 @@ $('td').click(function() {
 					shadowBoxOpen = 0;
 					var date = $('input#datepicker').val();
 					var url = baseUrl.concat("?c=crr&m=getReservations&date="+date);
-						//"http://localhost:9090/crrs/?c=crr&m=getReservations&date="+date;
+						//"http://localhost/crrs/?c=crr&m=getReservations&date="+date;
 					//$('#dashboard_view').empty();
 					$('#dashboard_view').load(url);
 					$("#tfheader").load(baseUrl.concat("?c=crr&m=tfq"));//"http://localhost:9090/crrs/?c=crr&m=tfq"
@@ -65,9 +66,6 @@ $('td').click(function() {
 			}
 		}
 });
-
-
-
 
 $('#search').click(function() {
 	var searchText = $("#tfq").val();
@@ -81,13 +79,28 @@ $('#search').click(function() {
 		$('iframe').attr('src',link);
 		shadowBoxOpen = 1;
 	}
-})
+});
+$('#tfq').keypress(function(e){
+	var key = e.which;
+	if(key == 13){
+		var searchText = $("#tfq").val();
+		if(shadowBoxOpen == 0){
+			var link =  baseUrl.concat("?c=crr&m=search&q="+ searchText);
+			$('#shadowBox').css({'visibility':'visible','width':'840px','height':'575px'});
+			$('#shadowFrame').css({'width':'797px','height':'575px'});
+			$('#shadowBox').css('left','25%');
+			$('iframe').attr('src',link);
+			shadowBoxOpen = 1;
+		}
+
+	}
+
+});
 $('#close').click(function() {
 	$('#shadowBox').css('visibility','hidden');
 	shadowBoxOpen = 0;
-	/*var timestamp =localStorage.getItem("timestamp");
 	var date = $('input#datepicker').val();
-
+/*	var timestamp =localStorage.getItem("timestamp");
 	$.ajax({url: baseUrl.concat("?c=crr&m=refreshReservations&time=" + timestamp + "&date=" + date),
 		success: function (result) {
 			//var res = $.json(result);
@@ -95,6 +108,7 @@ $('#close').click(function() {
 
 			alert(arr);
 		}
+
 	});*/
 
 	/*
@@ -114,14 +128,14 @@ $(document).on('click', 'th.roomno', function(){
 	var roomNo = $(this).text();
 	var link =baseUrl.concat("?c=crr&m=roomDetails&roomNo=" + roomNo);
 
-		//"http://localhost:9090/crrs/?c=crr&m=roomDetails&roomNo=" + roomNo;
+		//"http://localhost/crrs/?c=crr&m=roomDetails&roomNo=" + roomNo;
 	$('#shadowBox').css({'visibility':'visible','width':'640px','height':'440px'});
 	$('#shadowFrame').css({'width':'600px','height':'440px'});
 	$('#shadowBox').css('left','33%');
 	$('iframe').attr('src',link);
 	shadowBoxOpen = 1;
 });
-
+	
 $('#notesSearch').click(function(){
 	var searchText = $("#primEmail").val();
 	var link = baseUrl.concat("?c=crr&m=search&q=" + searchText);
@@ -129,12 +143,19 @@ $('#notesSearch').click(function(){
 	window.open(link);
 });
 
+/*$('#refresh').click(function(){
+	var date = $('input#datepicker').val();
+	var url = "http://localhost/crrs/?c=crr&m=getReservations&date="+date;
+	$('#dashboard_view').empty();
+	$('#dashboard_view').load(url);
+	$("#tfheader").load("http://localhost/crrs/?c=crr&m=tfq");
+});*/
 
 
 $('#print').click(function(){
 	var date = $('input#datepicker').val();
 	var url = baseUrl.concat("?c=crr&m=printTable&date="+date);
-		//"http://localhost:9090/crrs/?c=crr&m=printTable&date="+date;
+		//"http://localhost/crrs/?c=crr&m=printTable&date="+date;
 	window.open(url);
 	//window.print();
 });
@@ -142,17 +163,29 @@ $('#print').click(function(){
 $('#addNotes').click(function(){
 	var link = baseUrl.concat("?c=crr&m=addNotes");
 
-		//"http://localhost:9090/crrs/?c=crr&m=addNotes";
+		//"http://localhost/crrs/?c=crr&m=addNotes";
 	$('#shadowBox').css({'visibility':'visible','width':'640px','height':'360px'});
 	$('#shadowFrame').css({'width':'600px','height':'360px'});
 	$('#shadowBox').css('left','33%');
 	$('iframe').attr('src',link);
 	shadowBoxOpen = 1;
 });
+
 $('#reports').click(function(){
 	var link = baseUrl.concat("?c=crr&m=report");
 
-		//"http://localhost:9090/crrs/?c=crr&m=report";
+		//"http://localhost/crrs/?c=crr&m=report";
     window.open(link);
 });
 
+jQuery(function($){
+	$('#admin').click(function(){
+	$("#admin-authentication").toggle();
+	if($("#admin-authentication").is(":visible") == true){
+		$("#hdresTable").css("margin-top", "93px");
+	}else{
+		$("#hdresTable").css("margin-top", "0px");
+	};
+		//$("#datepicker").datepicker( "option", "maxDate", "+1y" );
+	});
+ });

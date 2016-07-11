@@ -53,7 +53,8 @@
 				?>		
 						$("#element").timeline("add",
 							[
-								{	time: new Date(),
+								{
+									time: new Date(),
 									css: '<?php echo $class;?>',
 									content: '<?php echo $rId ;?>',
 									date: '<?php echo $resDate;?>'}
@@ -67,10 +68,9 @@
 $(document).ready(function(){
 	$('.rcontents').click(function(){
 			var rId = $(this).text();
-			var link = "<?php echo base_url("?c=crr&m=reservationDetails1&rId="+$rId);?>";//http://localhost/crrs/?c=crr&m=reservationDetails1&rId="
+			var link = "<?php echo base_url("?c=crr&m=reservationDetails1&rId=");?>"+rId;//http://localhost/crrs/?c=crr&m=reservationDetails1&rId="
 			$('#details').load(link);
-					
-	
+
 	});	
 });
 </script>
