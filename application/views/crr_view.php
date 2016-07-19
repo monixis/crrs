@@ -7,7 +7,7 @@
 		<link rel="stylesheet" type="text/css" href="./styles/main.css" />
 		<link rel="stylesheet" type="text/css" href="http://library.marist.edu/css/menuStyle.css" />
 
-    	<script>
+		<script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -16,15 +16,15 @@
   ga('create', 'UA-67370973-1', 'auto');
   ga('send', 'pageview');
 
+
 </script>
-		
+
 		<style type="text/css">
 		
 		</style>
 	</head>
 	<body>
-
-		<div id="headerContainer">
+	<div id="headerContainer">
 			<a href="<?php echo base_url(); ?>" target="_self"> <div id="header"></div> </a>
 		</div>
 		<div id="menu">
@@ -67,9 +67,10 @@
  				<button type="button" class="btn" id="adminsubmit" style="margin-left:37%; margin-top:5px;">Submit</button>
  		</div>
  		</div>
+
 		<div id="dashboard_view">
-			
-		
+
+
 		</div>
 				
 			<div class="bottom">
@@ -99,6 +100,8 @@
     			$("#datepicker").empty();
 			    $("#tfheader").load('<?php echo base_url("?c=crr&m=tfq");?>');//http://localhost/crrs/?c=crr&m=tfq");
 			    $("#admin-authentication").hide();
+
+
     		});
 
 			$("input#submit").click(function(){
@@ -108,7 +111,22 @@
 					$("#date, #dashboard_view").css("visibility", "visible");
 					$("div#passcode").css("visibility", "hidden");
 					/* Create date object. */
-					$('#dashboard_view').load('<?php echo base_url("?c=crr&m=todayReservation"); ?>');
+					$("#dashboard_view").html('<div id="searching" style="margin-top: 155px; text-align: center;"><img src="./icons/page-loader.gif" /><br/><p style="text-align: center;"></p></div>');
+					var url="<?php echo base_url("?c=crr&m=todayReservation"); ?>";
+					console.log(url);
+					setTimeout (function(){
+
+						$('#dashboard_view').load(url);//http://localhost/crrs/?c=crr&m=todayReservation
+
+						//$('#emplist').load(url);
+						breadcrumb();
+						//$('#emplist').load("http://library.marist.edu/roadtoworkplace/?c=rtw&m=getrefinedemployers");
+						// $('#breadcrumbs').empty().html('<p id="searchlimit">'+ url +'</p>');
+
+					}, 1500);
+					//$('#dashboard_view').load('<!--?php echo base_url("?c=crr&m=todayReservation"); ?-->');
+
+
 					//http://localhost/crrs/?c=crr&m=todayReservation
 				}else{
 					$("input#passcode").css('border', '3px solid red');
@@ -127,8 +145,19 @@
 					$("#date, #dashboard_view").css("visibility", "visible");
 					$("div#passcode").css("visibility", "hidden");
 					/* Create date object. */
+					$("#dashboard_view").html('<div id="searching" style="margin-top: 155px; text-align: center;"><img src="./icons/page-loader.gif" /><br/><p style="text-align: center;"></p></div>');
+                     var url="<?php echo base_url("?c=crr&m=todayReservation"); ?>";
+					 console.log(url);
+					setTimeout (function(){
 
-					$('#dashboard_view').load('<?php echo base_url("?c=crr&m=todayReservation"); ?>');//http://localhost/crrs/?c=crr&m=todayReservation
+						$('#dashboard_view').load(url);//http://localhost/crrs/?c=crr&m=todayReservation
+
+						//$('#emplist').load(url);
+						breadcrumb();
+						//$('#emplist').load("http://library.marist.edu/roadtoworkplace/?c=rtw&m=getrefinedemployers");
+						// $('#breadcrumbs').empty().html('<p id="searchlimit">'+ url +'</p>');
+
+					}, 1500);
 
 				}else{
 					$("input#passcode").css('border', '3px solid red');
@@ -174,7 +203,7 @@
 				}
 			});
 			});
-			
+
 			</script>
 	</body>
 </html>

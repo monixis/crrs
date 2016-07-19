@@ -241,7 +241,37 @@ class crr extends CI_Controller {
 
 		$this -> load -> view('main_view', $data);
 	}
+	public function updateTenativeSlots(){
+		$slotId = $this ->input ->get('slotId');
+		$reservation = parse_ini_file('reservation.ini');
+		$size = sizeof($reservation);
+			$data['tentativeSlots'] = array();
 
+		$tentativeIni = array();
+		for($i=0; $i<$size;$i++){
+			if($slotId == $reservation[$i]){
+				$i= $i+5;
+
+			}else if($i < $size){
+				array_push($tentativeIni,$reservation[$i]);
+			}
+		}
+		$newSize = sizeof($tentativeIni);
+		if($newSize == 0){
+			fopen("reservation.ini", 'w');
+		}
+		if($newSize>0) {
+			$fp = fopen("reservation.ini", 'w');
+
+			for($i=0;$i<$newSize;$i++){
+				if($tentativeIni[$i] != null) {
+					$string = "$i = $tentativeIni[$i] \n";
+					fwrite($fp, $string);
+				}
+			}
+		}
+
+	}
 /*	public function reservations(){
 		$this -> load -> model('crr_model');
 		$date = $this -> input -> get('date');
@@ -990,6 +1020,8 @@ class crr extends CI_Controller {
 		echo json_encode($data);
 
 	}
+
+
 /*
  * Receive date and timestamp from request.
  * Fetch slots(timestamp greater than received timestamp) from db.
@@ -1075,18 +1107,23 @@ class crr extends CI_Controller {
 	 * Inserts the above information into hourInstructions table in db.
 	 */
 	public function setInstructions(){
-		date_default_timezone_set('US/Eastern');	
+		date_default_timezone_set('US/Eastern');
+		$dateFormat = date('Y-m-d H:i:s');
 		$date = new DateTime();
 		$iDate = $date->format('m/d/Y H:i:s');	
 		$this -> load -> model('crr_model');
 		$startDate = $_POST['startDate'];
+		$strings = explode("/",$startDate);
+		$formattedStartDate="$strings[2]-$strings[0]-$strings[1]";
 		$endDate = $_POST['endDate'];
+		$strings = explode("/",$endDate);
+		$formattedEndDate="$strings[2]-$strings[0]-$strings[1]";
 		$hoursId = $_POST['hoursId'];
 		for ($i = 0; $i < sizeof($hoursId); $i++){
-			$data['startdate'] = $startDate;
-			$data['enddate'] = $endDate;
+			$data['startdate'] = $formattedStartDate;
+			$data['enddate'] = $formattedEndDate;
 			$data['hourId'] = $hoursId[$i];
-			$data['instDate'] = $iDate;
+			$data['instDate'] = $dateFormat;
 			$result = $this->crr_model->insert_reservation($data,'hoursInstructions');	
 		}
 		echo $result;
@@ -1214,7 +1251,22 @@ class crr extends CI_Controller {
 
 
   }
+public function clearini(){
+	$reservation = parse_ini_file('reservation.ini');
+	$size = sizeof($reservation);
+	if($size > 0) {
+		fopen("reservation.ini", 'w');
+	}
+	$reservation = parse_ini_file('reservation.ini');
+	$newsize = sizeof($reservation);
+if($newsize ==0) {
+	echo 1;
+}else{
 
+	echo 0;
+}
+
+}
 
 
 	}

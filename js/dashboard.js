@@ -3,18 +3,29 @@
  */
 var shadowBoxOpen = 0;
 //var test = 0;
-var baseUrl = "http://localhost/crrs/";
+var baseUrl = "http://localhost:9090/crrs/";
 $('#datepicker').change(function() {
 	 var date = $('input#datepicker').val();
 	var slotId = localStorage.getItem("slotId");
 	var url = baseUrl.concat("?c=crr&m=getReservations&date="+date+"&slotId="+slotId);//http://localhost:9090/crrs/?c=crr&m=getReservations&date="+date
 	$('#dashboard_view').empty();
-	$('#dashboard_view').load(url);
+	$("#dashboard_view").html('<div id="searching" style="margin-top: 155px; text-align: center;"><img src="./icons/page-loader.gif" /><br/><p style="text-align: center;"></p></div>');
+	console.log(url);
+	setTimeout (function(){
+
+		$('#dashboard_view').load(url);//http://localhost/crrs/?c=crr&m=todayReservation
+
+		//$('#emplist').load(url);
+		breadcrumb();
+		//$('#emplist').load("http://library.marist.edu/roadtoworkplace/?c=rtw&m=getrefinedemployers");
+		// $('#breadcrumbs').empty().html('<p id="searchlimit">'+ url +'</p>');
+
+	}, 1500);
+	//$('#dashboard_view').load(url);
 
 });
 $('td').click(function() {
 	var slotid = $(this).attr('id');
-	localStorage.setItem("slotId", slotid);
 	var slotclass = $(this).attr('class');
 	var selecteddate = new Date($('input#datepicker').val());
 	Date.parse(selecteddate);
@@ -24,6 +35,7 @@ $('td').click(function() {
 		if ($(this).parent().attr('class') == 'active'){
 			if (slotclass != 'time'){
 				if(shadowBoxOpen == 0){
+					localStorage.setItem("slotId", slotid);
 					if ($(this).attr('class') == 'slots'){
 						if (today > selecteddate){
 							var link = baseUrl.concat("?c=crr&m=displayInfo");//http://localhost:9090/crrs/?c=crr&m=displayInfo
@@ -53,16 +65,32 @@ $('td').click(function() {
 	    				$('iframe').attr('src',link);
 	    				shadowBoxOpen = 1;
 					}
-				}else if(shadowBoxOpen == 1){
+				}/*else if(shadowBoxOpen == 1){
 					$('#shadowBox').css('visibility','hidden');
 					shadowBoxOpen = 0;
 					var date = $('input#datepicker').val();
+					var slotId = localStorage.getItem("slotId");
+					var tentative = localStorage.getItem("tentative");
+					if(tentative == 1) {
+						$.ajax({
+							type: "GET",
+							url: baseUrl.concat("?c=crr&m=updateTenativeSlots&slotId=" + slotId),
+							data: $(this).serialize(),
+							success: function (data) {
+
+							}
+						});
+					}
+					//var url = baseUrl.concat("?c=crr&m=updateTenativeSlots&time=" + timestamp + "&date=" + date + "&slotId=" + slotId);
 					var url = baseUrl.concat("?c=crr&m=getReservations&date="+date);
-						//"http://localhost/crrs/?c=crr&m=getReservations&date="+date;
-					//$('#dashboard_view').empty();
+
+					//"http://localhost/crrs/?c=crr&m=getReservations&date="+date;
+					$('#dashboard_view').empty();
 					$('#dashboard_view').load(url);
-					$("#tfheader").load(baseUrl.concat("?c=crr&m=tfq"));//"http://localhost:9090/crrs/?c=crr&m=tfq"
-				}
+					$("#tfheader").load(baseUrl.concat("?c=crr&m=tfq"));
+
+            //"http://localhost:9090/crrs/?c=crr&m=tfq"
+				}*/
 			}
 		}
 });
@@ -71,7 +99,6 @@ $('#search').click(function() {
 	var searchText = $("#tfq").val();
 	if(shadowBoxOpen == 0){
 		var link =  baseUrl.concat("?c=crr&m=search&q="+ searchText);
-
 			//"http://localhost:9090/crrs/?c=crr&m=search&q=" + searchText;
 		$('#shadowBox').css({'visibility':'visible','width':'840px','height':'575px'});
 		$('#shadowFrame').css({'width':'797px','height':'575px'});
@@ -170,6 +197,7 @@ $('#addNotes').click(function(){
 	$('iframe').attr('src',link);
 	shadowBoxOpen = 1;
 });
+
 
 $('#reports').click(function(){
 	var link = baseUrl.concat("?c=crr&m=report");

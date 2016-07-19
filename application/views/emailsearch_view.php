@@ -1,6 +1,5 @@
 <link rel="stylesheet" type="text/css" href="./styles/main.css" />
-<script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script> 		
-<script type="text/javascript" src="./js/dashboard.js"></script> 
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script><script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>

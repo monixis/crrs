@@ -127,7 +127,7 @@
 									}						
 							 
 						?>
-						<td class=<?php echo $slotclass; ?> id="<?php echo $slotid; ?>"><?php if($slotclass == "reserved"){echo "RES: #" . $rId . " " . $reserver;}else if($slotclass == "unverified"){echo "UN: #" . $rId . " " .$reserver;}else if($slotclass == "transactionComplete"){echo "TC: #" . $resId . " " .$reserver;}?></td>
+						<td class=<?php echo $slotclass; ?> id="<?php echo $slotid; ?>"><?php if($slotclass == "reserved"){echo "RES: #" . $rId . " " . $reserver;}else if($slotclass == "unverified"){echo "UN: #" . $rId . " " .$reserver;}else if($slotclass == "transactionComplete"){echo "TC: #" . $rId . " " .$reserver;}?></td>
 						<?php
 							}					  						
   						?>

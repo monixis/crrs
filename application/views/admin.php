@@ -132,6 +132,11 @@
 			</div> <!-- adminSelection ends -->
 			
 		</div><br/>
+		<div align='center' id='tentative'>
+
+			<button type="button" class="btn" id="resetTenative" style="margin-left:10px; margin-top:21px;">Reset Tentative Slots</button>
+
+		</div></br>
 
 			<div class="bottom">
 				<p class = "foot"  style="padding-top: 10px;">
@@ -169,8 +174,20 @@
 					}
 			});
 	});
-	
-	$('#deleteInst').click(function(){
+	$('#resetTenative').click(function() {
+
+		$.get("<?php echo base_url("?c=crr&m=clearini"); ?>").done(function(data){
+			if (data == 1){
+				alert("Reset Successful");
+				location.reload();
+			}else{
+				alert('Failed to reset tentative slots');
+			}
+
+
+	    });
+	});
+		$('#deleteInst').click(function(){
 		$("input[name=instructions]:checked").each(function(){
 				var iid = $(this).attr('value');
 				iidArray.push(iid);

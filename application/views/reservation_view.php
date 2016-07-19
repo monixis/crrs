@@ -246,6 +246,7 @@ else {
 		$.post("<?php echo base_url("?c=crr&m=updateResDetails"); ?>",{rId: rId, resEmail: resEmail,secEmail: secEmail, resPhone: resPhone, numPatrons:numPatrons,comments:comments }).done(function(data){
 			if (data == 1){
 				$('#confirmations').append("<img src='./icons/tick.png'/>");
+				$('#update').prop('disabled', true);
 
 			}else{
 				$('#confirmations').append("<img src='./icons/error.png'/>");
@@ -368,7 +369,7 @@ else {
 							$('#returned').hide();
 							$('#cancelSlot').hide();
 							$('#canceled').hide();
-
+                            $('#verify').hide();
 						} else {
 							$('#confirmations').append("<img src='./icons/error.png'/>");
 						}
@@ -391,6 +392,7 @@ else {
 							$('#returned').hide();
 							$('#cancelSlot').hide();
 							$('#canceled').hide();
+							$('#verify').hide();
 
 						} else {
 							$('#confirmations').append("<img src='./icons/error.png'/>");
@@ -514,6 +516,7 @@ else {
 				$('#confirmations').append("<img src='./icons/tick.png'/>")
 				$("#color").removeClass("unverified");
 				$("#color").addClass("reserved");
+				$("#verify").prop("disabled", true);
 			}else{
 				$('#confirmations').append("<img src='./icons/error.png'/>");
 			}

@@ -33,6 +33,7 @@ $('#add').click(function(){
 	$.post("<?php echo base_url("?c=crr&m=addANote"); ?>",{email: email, notes: notes}).done(function(data){
 							if (data == 1){
 									$('#confirmations').append("<img src='./icons/tick.png'/>");
+								    $('#add').prop("disabled", true);
 							}else{
 									$('#confirmations').append("<img src='./icons/error.png'/>");	
 							}

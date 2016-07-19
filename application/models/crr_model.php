@@ -86,7 +86,7 @@ class crr_model extends CI_Model
 
 	public function getResDetails($resId)
 	{
-		$sql = "SELECT resId, resDate, startTime, resEmail, secEmail, resPhone, resType, roomNum, status.status, reservations.status as 'statusId', totalHours, rId, comments, numPatrons FROM reservations inner join status on reservations.status = status.statusNum WHERE resId = '$resId';";
+		$sql = "SELECT resId, resDate, startTime, resEmail, secEmail, resPhone, resType, roomNum, status.status, reservations.status as 'statusId', totalHours, rId, comments, numPatrons FROM reservations inner join status on reservations.status = status.statusNum WHERE resId = '$resId' ORDER BY rId ASC;";
 		$results = $this->db->query($sql, array($resId));
 		return $results->result();
 	}
