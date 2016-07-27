@@ -1,6 +1,6 @@
 
 <link rel="stylesheet" type="text/css" href="./styles/main.css" />
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="./js/dashboard.js"></script>
 <script type="text/javascript" src="./js/freezeheader.js"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -9,7 +9,6 @@
 	$(document).ready(function(){
 		//$("div#loader").css("visibility", "hidden");
 	//	$(".loader").fadeOut("slow");
-
 		$("#resTable").freezeHeader({'height': '600px'});
 		var currHour = new Date().getHours();
 		var element = document.getElementsByName(currHour)[0];
@@ -272,10 +271,36 @@
 
 		localStorage.setItem("timestamp", date);
 	});
+	$('#print').click(function(){
+		var date = $('input#datepicker').val();
+		var url = "<?php echo base_url("?c=crr&m=printTable&date=") ?>"+date;
+		//"http://localhost/crrs/?c=crr&m=printTable&date="+date;
+		window.open(url);
+		//window.print();
+	});
+
+	$('#addNotes').click(function(){
+		var link = "<?php echo base_url("?c=crr&m=addNotes")?>";
+
+		//"http://localhost/crrs/?c=crr&m=addNotes";
+		$('#shadowBox').css({'visibility':'visible','width':'640px','height':'360px'});
+		$('#shadowFrame').css({'width':'600px','height':'360px'});
+		$('#shadowBox').css('left','33%');
+		$('iframe').attr('src',link);
+		shadowBoxOpen = 1;
+	});
+
+
+	$('#reports').click(function(){
+
+		var link = "<?php echo base_url("?c=crr&m=report")?>";
+		//"http://localhost/crrs/?c=crr&m=report";
+		window.open(link);
+	});
 
 </script>
 
-<div id="dashboard" >
+<div id="dashboard">
 	<div id="optionmenu" style="width:1010px; height: 25px; border: 1px solid #ffffff; margin-bottom: 5px; "><img id="refresh" style="width: 25px; float:left;" src="./icons/refresh.png" /><img id="print" style="width: 25px; float:right;" src="./icons/print.png" /><img id="addNotes" class="addNotes" style="width: 25px; float:right; margin-right: 5px;" src="./icons/addNotes.png" /><img id="reports" class="addNotes" style="width: 25px; float:right; margin-right: 5px;" src="./icons/reports.png" /></div>
 	<div id="shadowBox"><iframe id="shadowFrame"></iframe><div style="width:36px; height:26px; float:right; margin-top:3px;"><img id="close"  src="./icons/close.png"/>
 		</div></div>

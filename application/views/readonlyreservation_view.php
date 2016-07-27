@@ -18,6 +18,7 @@
 		$rId = $row -> rId;
 		$comments = $row -> comments;
 		$numPatrons = $row -> numPatrons;
+		$timestamp  = $row -> createdDttm;
 	}
 	//time format converter
 		$index = strpos($startTime, ":");		
@@ -88,7 +89,7 @@
 	</div>
 	<div id="valid">
 	<p class="resDet"><label class="label">Room No: </label><?php echo $roomNum; ?></p>
-	<p class="resDet"><label class="label">Date: </label><?php echo $resDate; ?></p>
+	<p class="resDet"><label class="label">Date: </label><?php echo $resDate; ?><label class="label" style="margin-left: 70px;">Last Updated:</label><?php echo $timestamp; ?></p>
 	<p class="resDet"><label class="label">Time:</label><?php echo $startTime; ?><label class="label" style="margin-left: 70px;">Total Hours:</label><?php echo $totalHours; ?></p>
 	<p class="resDet"><label class="label">Reserved By:</label><?php echo $resEmail; ?></p>
 	<p class="resDet"><label class="label">Secondary Patron:</label><?php echo $secEmail; ?></p>

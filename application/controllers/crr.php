@@ -45,22 +45,23 @@ class crr extends CI_Controller {
 	 * if slot time > present timestamp, status = 5 (cancelled slot) or status = 6 (no show).
 	 * if slot time < present timestamp, status = 4 Transaction Complete.
 	 */
-	public function updateStatus(){
+	public function updateStatus()
+	{
 		$rId = $_POST['rId'];
 		$status = $_POST['status'];
 		//$timestamp = $_POST['time'];
 		//$currentTimeStamp = substr($timestamp, 0,10)." ". substr($timestamp, 11,19);
 		date_default_timezone_set('US/Eastern');
 		$currentTimeStamp = date("Y-m-d H:i:s");
-		$this -> load -> model('crr_model');
-		$result = $this ->crr_model -> getReservedSlots($rId) ;
+		$this->load->model('crr_model');
+		$result = $this->crr_model->getReservedSlots($rId);
 		$slots = json_decode(json_encode($result), true);
 		$dateString = strtotime($currentTimeStamp);
 		$currentHours = date('H', $dateString);
-		$currentMin = date('i',$dateString);
-		$currentTime = $currentHours.$currentMin;
+		$currentMin = date('i', $dateString);
+		$currentTime = $currentHours . $currentMin;
 
-		foreach($slots as $slot){
+		foreach ($slots as $slot) {
 			$resId = $slot['resId'];
 			if (substr($resId, 11, 1) == "A" || substr($resId, 11, 1) == "B" || substr($resId, 11, 1) == "C" || substr($resId, 11, 1) == "D") {
 
@@ -69,9 +70,9 @@ class crr extends CI_Controller {
 					$SlotTime = $SlotTime * 100;
 				}
 				if ($SlotTime > $currentTime) {
-					if($_POST['status']==6){
+					if ($_POST['status'] == 6) {
 						$status = 6;
-					}else{
+					} else {
 
 						$status = 5;
 					}
@@ -83,16 +84,16 @@ class crr extends CI_Controller {
 					$status = $_POST['status'];
 					$result = $this->crr_model->updateStatus($rId, $status, $currentTimeStamp);
 				}
-			}else{
+			} else {
 
 				$SlotTime = substr($resId, 11);
-				if(strlen($SlotTime) == 2 ){
-					$SlotTime = $SlotTime*100;
+				if (strlen($SlotTime) == 2) {
+					$SlotTime = $SlotTime * 100;
 				}
 				if ($SlotTime > $currentTime) {
-					if($_POST['status']==6){
+					if ($_POST['status'] == 6) {
 						$status = 6;
-					}else{
+					} else {
 						$status = 5;
 					}
 					$result = $this->crr_model->updateSlotStatus($rId, $resId, $status, $currentTimeStamp);
@@ -108,6 +109,22 @@ class crr extends CI_Controller {
 
 		echo $result;
 	}
+
+	/*
+	 * Cancel the reservation by updating slot status to 3 or 6
+	 *
+	 */
+	public function cancelReservation(){
+		$currentTimeStamp = date("Y-m-d H:i:s");
+		$rId = $_POST['rId'];
+		$status = $_POST['status'];
+		$this -> load -> model('crr_model');
+		$result = $this -> crr_model -> updateStatus($rId, $status,$currentTimeStamp);
+		echo $result;
+
+	}
+
+
 	/*
 	 * Updates the slot status from 2 to 1(unverified to reserved)
 	 *
@@ -897,8 +914,6 @@ class crr extends CI_Controller {
 
 							}
 
-
-
 						}
 					} else {
 						$data['header'] = "Confirmation Page";
@@ -924,7 +939,8 @@ class crr extends CI_Controller {
 					$this->email->initialize($config);
 					$this->email->from('cannavinolibrary@gmail.com', 'James A. Cannavino Library (Collaboration Room Reservation System)');
 					//$this->email->to($this->input->post('primEmail'));
-					$list = array('cannavinolibrary@gmail.com', $this->input->post('primEmail'));
+			     	$primPatron= $this->input->post('primEmail');
+					$list = array('cannavinolibrary@gmail.com', $primPatron);
 					$this->email->to($list);
 					$this->email->cc('dheeraj.karnati1@marist.edu');
 					$this->email->subject('Reservation Confirmation. ReservationID:'.$rId);
@@ -942,6 +958,14 @@ class crr extends CI_Controller {
                                              <th style=\"vertical-align:top; color:#222; text-align:left; padding:7px 9px 7px 9px; border-top:1px solid #eee\">Reservation Date</th>
                                              <td style=\"vertical-align:top;color:#333;width:60%;padding:7px 9px 7px 0;border-top:1px solid #eee\">$resDate</td>
                                              </tr>
+                                              <tr style=\"\">
+                                             <th style=\"vertical-align:top; color:#222; text-align:left; padding:7px 9px 7px 9px; border-top:1px solid #eee\">Primary Patron</th>
+                                             <td style =\"vertical-align:top;color:#333;width:60%;padding:7px 9px 7px 0;border-top:1px solid #eee\">$primPatron</td>
+                                             </tr >
+                                             <tr style=\"background-color:#f5f5f5\">
+                                             <th style=\"vertical-align:top; color:#222; text-align:left; padding:7px 9px 7px 9px; border-top:1px solid #eee\">Secondary Patron</th>
+                                             <td style =\"vertical-align:top;color:#333;width:60%;padding:7px 9px 7px 0;border-top:1px solid #eee\">$secEmail</td>
+                                             </tr >
                                              <tr style=\"\">
                                              <th style=\"vertical-align:top; color:#222; text-align:left; padding:7px 9px 7px 9px; border-top:1px solid #eee\">Start Time</th>
                                              <td style=\"vertical-align:top;color:#333;width:60%;padding:7px 9px 7px 0;border-top:1px solid #eee\">$startTime</td>
@@ -1191,8 +1215,16 @@ class crr extends CI_Controller {
 	public function tooltipNotes(){
 		$this -> load -> model('crr_model');
 		$email = $this -> input -> get('email');
-		$data['notes'] = $this -> crr_model -> getNotes($email);
-		$this -> load -> view('viewNotes', $data);
+		if(empty($email)){
+			$data['error']="Please select an email to view the associated notes";
+			$data['notes'] = array();
+		}else {
+			$data['error']=null;
+
+			$data['notes'] = $this->crr_model->getNotes($email);
+		}
+		$this->load->view('viewNotes', $data);
+
 	}
 	/*
 	 * Loads report_view

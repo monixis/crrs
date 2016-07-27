@@ -19,7 +19,6 @@
 	</div>
 	<label class="label">Email:</label><!--input type="text"/-->
 	<div id="tfheader" style="width: 375px; height: 42px;">
-	
 	</div>	
 	<label class="label" style="margin-top:10px;">Notes:</label>
 	<textarea id="notes" rows="5" cols="50" style="margin-left:60px; margin-bottom:5px;"></textarea>

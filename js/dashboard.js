@@ -3,7 +3,7 @@
  */
 var shadowBoxOpen = 0;
 //var test = 0;
-var baseUrl = "http://localhost:9090/crrs/";
+var baseUrl = "http://localhost/crrs/";
 $('#datepicker').change(function() {
 	 var date = $('input#datepicker').val();
 	var slotId = localStorage.getItem("slotId");
@@ -16,7 +16,7 @@ $('#datepicker').change(function() {
 		$('#dashboard_view').load(url);//http://localhost/crrs/?c=crr&m=todayReservation
 
 		//$('#emplist').load(url);
-		breadcrumb();
+		//breadcrumb();
 		//$('#emplist').load("http://library.marist.edu/roadtoworkplace/?c=rtw&m=getrefinedemployers");
 		// $('#breadcrumbs').empty().html('<p id="searchlimit">'+ url +'</p>');
 
@@ -201,7 +201,6 @@ $('#addNotes').click(function(){
 
 $('#reports').click(function(){
 	var link = baseUrl.concat("?c=crr&m=report");
-
 		//"http://localhost/crrs/?c=crr&m=report";
     window.open(link);
 });

@@ -22,6 +22,7 @@ foreach($details as $row){
 	$rId = $row -> rId;
 	$comments = $row -> comments;
 	$numPatrons = $row -> numPatrons;
+	$dateAndTime =$row -> createdDttm;
 }
 //time format converter
 $index = strpos($startTime, ":");
@@ -105,7 +106,7 @@ else {
 
 	<div id="valid">
 		<p class="resDet"><label class="label">Room No: </label><?php echo $roomNum; ?></p>
-		<p class="resDet"><label class="label">Date: </label><?php echo $resDate; ?></p>
+		<p class="resDet"><label class="label">Date: </label><?php echo $resDate; ?><label class="label" style="margin-left: 70px;">Last Updated:</label><?php echo $dateAndTime; ?></p>
 		<p class="resDet"><label class="label">Time:</label><?php echo $startTime; ?><label class="label" style="margin-left: 70px;">Total Hours:</label><?php echo $totalHours; ?></p>
 		<p class="resDet"><label class="label">Reserved By:</label><?php echo $resEmail?></p>
 		<p class="resDet"><label class="label">Secondary Patron:</label><?php echo $secEmail; ?></p>
@@ -175,7 +176,7 @@ else {
 
 <script type="text/javascript">
 	$('#returned').click(function(){
-		var rId= <?php echo $rId ?>;
+		var rId= "<?php echo $rId ?>";
 		var status = 4;
 		var date = new Date();
 		date = date.getFullYear() + '-' +
@@ -190,6 +191,7 @@ else {
 				$('#confirmations').append("<img src='./icons/tick.png'/>");
 				$("#color").removeClass("reserved");
 				$("#color").addClass("transactionComplete");
+				$('img#editReservation').hide();
 				$('#returned').hide();
 				$('#cancelSlot').hide();
 				$('#canceled').hide();
@@ -259,7 +261,7 @@ else {
 
 		$('#valid').hide();
 		$('#admin-authentication').show();
-
+		$('img#editReservation').hide();
 		$("#adminsubmit").click(function () {
 			var rId = '<?php echo $rId ?>';
 			var slotStatus = '<?php echo $statusId ?>';
@@ -273,7 +275,7 @@ else {
 					$("#yes").click(function () {
 						status = 6;
 						$('#noshow_check').hide();
-						$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>", {
+						$.post("<?php echo base_url("?c=crr&m=cancelReservation"); ?>", {
 							rId: rId,
 							status: status
 						}).done(function (data) {
@@ -286,6 +288,9 @@ else {
 								$('#returned').hide();
 								$('#cancelSlot').hide();
 								$('#canceled').hide();
+								$('img#editReservation').hide();
+								document.getElementById("cancelSlot").style.display ="none";
+								document.getElementById("canceled").style.display ="none";
 
 							} else {
 								$('#confirmations').append("<img src='./icons/error.png'/>");
@@ -296,7 +301,7 @@ else {
 					$("#no").click(function () {
 						status = 3;
 						$('#noshow_check').hide();
-						$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>", {
+						$.post("<?php echo base_url("?c=crr&m=cancelReservation"); ?>", {
 							rId: rId,
 							status: status
 						}).done(function (data) {
@@ -309,6 +314,9 @@ else {
 								$('#returned').hide();
 								$('#cancelSlot').hide();
 								$('#canceled').hide();
+								$('img#editReservation').hide();
+								document.getElementById("cancelSlot").style.display ="none";
+								document.getElementById("canceled").style.display ="none";
 
 							} else {
 								$('#confirmations').append("<img src='./icons/error.png'/>");
@@ -318,7 +326,7 @@ else {
 					});
 				}else {
 					$('#noshow_check').hide();
-					$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>", {
+					$.post("<?php echo base_url("?c=crr&m=cancelReservation"); ?>", {
 						rId: rId,
 						status: status
 					}).done(function (data) {
@@ -330,7 +338,9 @@ else {
 							$('#valid').show();
 							$('#returned').hide();
 							$('#cancelSlot').hide();
-							$('#canceled').hide();
+							$('img#editReservation').hide();
+							document.getElementById("cancelSlot").style.display ="none";
+							document.getElementById("canceled").style.display ="none";
 						} else {
 							$('#confirmations').append("<img src='./icons/error.png'/>");
 						}
@@ -356,7 +366,7 @@ else {
 				$("#yes").click(function () {
 					status = 6;
 					$('#noshow_check').hide();
-					$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>", {
+					$.post("<?php echo base_url("?c=crr&m=cancelReservation"); ?>", {
 						rId: rId,
 						status: status
 					}).done(function (data) {
@@ -370,6 +380,9 @@ else {
 							$('#cancelSlot').hide();
 							$('#canceled').hide();
                             $('#verify').hide();
+							$('img#editReservation').hide();
+							document.getElementById("cancelSlot").style.display ="none";
+							document.getElementById("canceled").style.display ="none";
 						} else {
 							$('#confirmations').append("<img src='./icons/error.png'/>");
 						}
@@ -379,7 +392,7 @@ else {
 				$("#no").click(function () {
 					status = 3;
 					$('#noshow_check').hide();
-					$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>", {
+					$.post("<?php echo base_url("?c=crr&m=cancelReservation"); ?>", {
 						rId: rId,
 						status: status
 					}).done(function (data) {
@@ -393,6 +406,9 @@ else {
 							$('#cancelSlot').hide();
 							$('#canceled').hide();
 							$('#verify').hide();
+							$('img#editReservation').hide();
+							document.getElementById("cancelSlot").style.display ="none";
+							document.getElementById("canceled").style.display ="none";
 
 						} else {
 							$('#confirmations').append("<img src='./icons/error.png'/>");
@@ -402,7 +418,7 @@ else {
 				});
               } else {
 				   $('#noshow_check').hide();
-				   $.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>", {
+				   $.post("<?php echo base_url("?c=crr&m=cancelReservation"); ?>", {
 					rId: rId,
 					status: status
 				}).done(function (data) {
@@ -415,6 +431,9 @@ else {
 						$('#returned').hide();
 						$('#cancelSlot').hide();
 						$('#canceled').hide();
+						$('img#editReservation').hide();
+						document.getElementById("cancelSlot").style.display ="none";
+						document.getElementById("canceled").style.display ="none";
 
 					} else {
 						$('#confirmations').append("<img src='./icons/error.png'/>");
@@ -435,6 +454,7 @@ else {
 
 		//notes = $('textarea#notes').val();
 		$('#valid').hide();
+		$('img#editReservation').hide();
 		$('#admin-authentication').show();
 		$("#adminsubmit").click(function () {
 			var rId= '<?php echo $rId ?>';
@@ -457,6 +477,11 @@ else {
 								$("#color").removeClass("unverified");
 								$("#color").removeClass("transactionComplete");
 								$("#color").addClass("slots");
+								$('#returned').hide();
+								$('img#editReservation').hide();
+								document.getElementById("cancelSlot").style.display ="none";
+								document.getElementById("canceled").style.display ="none";
+								//document.getElementById("editReservation").style.display ="none";
 							} else {
 								$('#confirmations').append("<img src='./icons/error.png'/>");
 							}
@@ -492,6 +517,10 @@ else {
 								$("#color").removeClass("unverified");
 								$("#color").removeClass("transactionComplete");
 								$("#color").addClass("slots");
+								$('#returned').hide();
+								document.getElementById("cancelSlot").style.display ="none";
+								document.getElementById("canceled").style.display ="none";
+							//	document.getElementById("editReservation").style.display ="none";
 							} else {
 								$('#confirmations').append("<img src='./icons/error.png'/>");
 							}
@@ -510,13 +539,17 @@ else {
 	$('#verify').click(function(){
 		var rId= '<?php echo $rId ?>';
 		var status = 1;
+		$('img#editReservation').hide();
 		//notes = $('textarea#notes').val();
 		$.post("<?php echo base_url("?c=crr&m=verifyStatus"); ?>",{rId: rId, status: status}).done(function(data){
 			if (data == 1){
 				$('#confirmations').append("<img src='./icons/tick.png'/>")
 				$("#color").removeClass("unverified");
 				$("#color").addClass("reserved");
-				$("#verify").prop("disabled", true);
+				document.getElementById("cancelSlot").style.display ="none";
+				document.getElementById("canceled").style.display ="none";
+				document.getElementById("verify").style.display ="none";
+
 			}else{
 				$('#confirmations').append("<img src='./icons/error.png'/>");
 			}

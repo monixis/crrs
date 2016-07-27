@@ -86,14 +86,14 @@ class crr_model extends CI_Model
 
 	public function getResDetails($resId)
 	{
-		$sql = "SELECT resId, resDate, startTime, resEmail, secEmail, resPhone, resType, roomNum, status.status, reservations.status as 'statusId', totalHours, rId, comments, numPatrons FROM reservations inner join status on reservations.status = status.statusNum WHERE resId = '$resId' ORDER BY rId ASC;";
+		$sql = "SELECT resId, resDate, startTime, resEmail, secEmail, resPhone, resType, roomNum, status.status, reservations.status as 'statusId', totalHours, rId, comments, numPatrons,createdDttm FROM reservations inner join status on reservations.status = status.statusNum WHERE resId = '$resId' ORDER BY rId ASC;";
 		$results = $this->db->query($sql, array($resId));
 		return $results->result();
 	}
 
 	public function getResDetails1($rId)
 	{
-		$sql = "SELECT DISTINCT rId, resDate, startTime, resEmail, secEmail, resPhone, resType, roomNum, status.status, reservations.status as 'statusId', totalHours, comments, numPatrons FROM reservations inner join status on reservations.status = status.statusNum WHERE rId = '$rId';";
+		$sql = "SELECT DISTINCT rId, resDate, startTime, resEmail, secEmail, resPhone, resType, roomNum, status.status, reservations.status as 'statusId', totalHours, comments, numPatrons,createdDttm FROM reservations inner join status on reservations.status = status.statusNum WHERE rId = '$rId';";
 		$results = $this->db->query($sql, array($rId));
 		return $results->result();
 	}
@@ -339,7 +339,7 @@ class crr_model extends CI_Model
 
 	public function getPatronCount($date)
 	{
-		$sql = "SELECT time, sum(numPatrons) as 'patroncount' FROM reservations WHERE resDate= '$date' AND status NOT IN (3,5,6) GROUP BY time ORDER BY time ASC";
+		$sql = "SELECT time, sum(numPatrons) as 'patroncount' FROM reservations WHERE resDate= '$date' AND status NOT IN (2,3,5,6) GROUP BY time ORDER BY time ASC";
 		$results = $this->db->query($sql, array($date));
 		return $results->result();
 	}
