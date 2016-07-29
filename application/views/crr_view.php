@@ -5,6 +5,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="shortcut icon" href="http://library.marist.edu/images/jac.png" />
 		<link rel="stylesheet" type="text/css" href="./styles/main.css" />
+		<script type="text/javascript" src="./js/dashboard.js"></script>
 		<link rel="stylesheet" type="text/css" href="http://library.marist.edu/css/menuStyle.css" />
 
 		<script>
@@ -193,7 +194,17 @@
 				}
 			});
 			});
-
+			jQuery(function($){
+				$('#admin').click(function(){
+					$("#admin-authentication").toggle();
+					if($("#admin-authentication").is(":visible") == true){
+						$("#hdresTable").css("margin-top", "93px");
+					}else{
+						$("#hdresTable").css("margin-top", "0px");
+					};
+					//$("#datepicker").datepicker( "option", "maxDate", "+1y" );
+				});
+			});
 			</script>
 	</body>
 </html>
