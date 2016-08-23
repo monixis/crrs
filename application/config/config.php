@@ -14,12 +14,12 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost/crrs/';
+$config['base_url']	= 'http://library.marist.edu/crrs/';
 
 /*
-|--------------------------------------------------------------------------
+|----------------------------------------------------------------------------
 | Index File
-|--------------------------------------------------------------------------
+|----------------------------------------------------------------------------
 |
 | Typically this will be your index.php file, unless you've renamed it to
 | something else. If you are using mod_rewrite to remove the page set this
@@ -180,7 +180,7 @@ $config['directory_trigger']	= 'd'; // experimental not currently in use
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 4;
+$config['log_threshold'] = 1;
 
 /*
 |--------------------------------------------------------------------------

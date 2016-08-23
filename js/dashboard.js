@@ -3,7 +3,7 @@
  */
 var shadowBoxOpen = 0;
 //var test = 0;
-var baseUrl = "http://localhost/crrs/";
+var baseUrl = "http://library.marist.edu/crrs/";
 $('#datepicker').change(function() {
 	 var date = $('input#datepicker').val();
 	var slotId = localStorage.getItem("slotId");
@@ -12,7 +12,6 @@ $('#datepicker').change(function() {
 	$("#dashboard_view").html('<div id="searching" style="margin-top: 155px; text-align: center;"><img src="./icons/page-loader.gif" /><br/><p style="text-align: center;"></p></div>');
 	console.log(url);
 	setTimeout (function(){
-
 		$('#dashboard_view').load(url);//http://localhost/crrs/?c=crr&m=todayReservation
 
 		//$('#emplist').load(url);
@@ -40,7 +39,7 @@ $('td').click(function() {
 						if (today > selecteddate){
 							var link = baseUrl.concat("?c=crr&m=displayInfo");//http://localhost:9090/crrs/?c=crr&m=displayInfo
 						}else{
-							var link = baseUrl.concat("?c=crr&m=verifyReservations&resId="+slotid);//"http://localhost:9090/crrs/?c=crr&m=reserveForm&resId="+slotid;
+							var link = baseUrl.concat("?c=crr&m=verifyReservations&resId="+slotid+"&date="+selecteddate);//"http://localhost:9090/crrs/?c=crr&m=reserveForm&resId="+slotid;
 						}
 						$('#shadowBox').css({'visibility':'visible','width':'840px','height':'640px'});
 						$('#shadowFrame').css({'width':'800px','height':'640px'});

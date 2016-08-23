@@ -159,7 +159,15 @@ class crr_model extends CI_Model
 
 	}
 
+  public function getReservation($rId){
 
+	 $sql = "SELECT resId FROM reservations where id=(SELECT max(id) FROM reservations where rid='$rId' and status not in (3,5))";
+	  //$sql ="SELECT max(id),resId FROM reservations where rId='$rId'";
+	  $results = $this->db->query($sql);
+
+	  return $results->result();
+
+  }
 	public function getRooms()
 	{
 		//$sql = "SELECT roomNum FROM rooms WHERE roomNum NOT IN(SELECT roomNum FROM roomInstructions WHERE '$date' BETWEEN startDate AND endDate)";
@@ -182,11 +190,18 @@ class crr_model extends CI_Model
 		return $results->result();
 	}
 
-	public function getUnavailableHours()
+	public function getUnavailableHours($date)
 	{
 
-		$sql = "SELECT  hours FROM operationHours WHERE  id in (SELECT hourId from hoursInstructions);";
+		$sql = "SELECT  hours FROM operationHours WHERE  id in (SELECT hourId from hoursInstructions WHERE '$date' BETWEEN startDate AND endDate);";
 		$results = $this->db->query($sql);
+		return $results->result();
+
+	}
+	public function checkBlockedHour($date,$hour){
+
+		$sql = "SELECT  hours FROM operationHours WHERE hours='$hour' and id in (SELECT hourId from hoursInstructions WHERE '$date' BETWEEN startDate AND endDate);";
+		$results = $this->db->query($sql,array($hour));
 		return $results->result();
 
 	}
@@ -298,7 +313,7 @@ class crr_model extends CI_Model
 
 	public function checkResId($resId)
 	{
-		$sql = "SELECT resId FROM reservedSlots where resId = '$resId'";
+			$sql = "SELECT resId FROM reservedSlots where resId = '$resId'";
 		$results = $this->db->query($sql, array($resId));
 		return $results->result();
 	}
@@ -360,7 +375,6 @@ class crr_model extends CI_Model
 			return 0;
 		}
 	}
-
 	public function data()
 	{
 		$sql = "SELECT resId FROM reservations";

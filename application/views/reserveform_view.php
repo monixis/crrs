@@ -19,6 +19,7 @@
 		</script>
 		<script>
 			$(document).ready(function() {
+
 				$("#bookType").change(function(){
 								if($(this).find('option:selected').val() == "person"){
 									$("#check2").removeAttr('hidden');
@@ -151,10 +152,29 @@
 						<p class="resDet"><label class="label">Reserve Date: </label><INPUT TYPE="text" disabled="true" NAME="resDate" style="color: #b31b1b; background: #ffffff; border: 1px solid #ffffff; font-size: 18px;" value="<?php echo $resDate?>" SIZE="13" class="ask_text_input" /></p>
 						<p class="resDet"><label class="label">Reservation Time: </label><input type="text" disabled="true" name ="timeStart" style="color: #b31b1b; background: #ffffff; border: 1px solid #ffffff; font-size: 18px;" value="<?php echo $time; ?>">
 										<label class="label" style="margin-left:0px;">for </label>
-										<select name ="numHours" value="<?php echo set_value('numHours'); ?>" SIZE="1">
+										<select name ="numHours" id="numHours" value="<?php echo set_value('numHours'); ?>" SIZE="1">
+											<?php if($timeAvailalbe==1){?>
+											<option value="1">1 hour</option>
+											<?php } else if($timeAvailalbe==1.5){?>
+												<option value="1">1 hour</option>
+												<option value="1.5">1.5 hours</option>
+											<?php }else if($timeAvailalbe==2){?>
+												<option value="1">1 hour</option>
+												<option value="2">2 hours</option>
+											<?php } else if($timeAvailalbe==2.5){ ?>
+												<option value="1">1 hour</option>
+												<option value="2">2 hours</option>
+												<option value="2.5">2.5 hours</option>
+
+											<?php }else if($timeAvailalbe==3){?>
 											<option value="1">1 hour</option>
 											<option value="2">2 hours</option>
 											<option value="3">3 hours</option>
+											<?php }else{?>
+												<option value="1">1 hour</option>
+												<option value="2">2 hours</option>
+												<option value="3">3 hours</option>
+											<?php } ?>
 										</select>
 						</p>
 						<input id="timestamp" name="timestamp" hidden/>
@@ -184,7 +204,7 @@
 						<p class="resDet" id="check2"><input type="checkbox" id="checkbox2" style="margin-left:180px;" required>Check to verify that this patron has a Marist CWID.</input></p>
 						<p class="resDet" id="isUnverified2" hidden style="margin-left:180px;">A Marist ID must be shown when verifying a reservation.</p>
 						<p class="resDet"><label class="label">Comments (Optional): </label><textarea NAME="Comments" ROWS="3" COLS="43" ></textarea></p>
-
+						<input name="timeAvailalbe" id="timeAvailalbe" value="<?php if($timeAvailalbe){ echo $timeAvailalbe; }?>" hidden/>
 						<input name="submit" value="Reserve the Room" id="submit" type="submit" class="btn" style="margin-left:56px; margin-top:5px;"/>
 					<!--input name="reset" type="reset" id="reset" class="btn" style="margin-left:56px; margin-top:5px;"/-->
 					</form>
@@ -240,4 +260,17 @@
 						$('#shadowBox').css('top','14%');
 						$('iframe').attr('src',link);
 				});
+/*				$('#numHours').change(function() {
+
+                    var resId = "<?php echo $resId?>";
+					var totalHours = $(this).val();
+
+					$.post("<!--?php echo base_url("?c=crr&m=checkReservation"); ?>", {
+						resId: resId,
+						totalHours: totalHours
+					}).done(function (data) {
+
+
+					});
+				});*/
 			</script>

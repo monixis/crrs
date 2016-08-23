@@ -1,5 +1,8 @@
 
 <link rel="stylesheet" type="text/css" href="./styles/main.css" />
+<link rel="stylesheet" href="http://library.marist.edu/font-awesome/css/font-awesome.min.css">
+
+<!--link rel="stylesheet" href="./font-awesome/css/font-awesome.css"-->
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="./js/dashboard.js"></script>
 <script type="text/javascript" src="./js/freezeheader.js"></script>
@@ -51,6 +54,13 @@
 	}
 
 </script>
+<style type="text/css">
+	.fa-2x {
+		font-size: 2.06em;
+		margin-right: 4px;
+        position: relative;
+	}
+	</style>
 
 <script>
 
@@ -297,11 +307,20 @@
 		//"http://localhost/crrs/?c=crr&m=report";
 		window.open(link);
 	});
+	$('#adminpage').click(function(){
+
+		var link = "<?php echo base_url("?c=crr&m=admin")?>";
+		//"http://localhost/crrs/?c=crr&m=report";
+		window.open(link);
+	});
 
 </script>
 
 <div id="dashboard">
-	<div id="optionmenu" style="width:1010px; height: 25px; border: 1px solid #ffffff; margin-bottom: 5px; "><img id="refresh" style="width: 25px; float:left;" src="./icons/refresh.png" /><img id="print" style="width: 25px; float:right;" src="./icons/print.png" /><img id="addNotes" class="addNotes" style="width: 25px; float:right; margin-right: 5px;" src="./icons/addNotes.png" /><img id="reports" class="addNotes" style="width: 25px; float:right; margin-right: 5px;" src="./icons/reports.png" /></div>
+	<div id="optionmenu" style="width:1010px; height: 25px; border: 1px solid #ffffff; margin-bottom: 5px; "><img id="refresh" style="width: 25px; float:left;" src="./icons/refresh.png" />
+		<img id="print" style="width: 25px; float:right;" src="./icons/print.png" /><img id="addNotes" class="addNotes" style="width: 25px; float:right; margin-right: 5px;" src="./icons/addNotes.png" /><img id="reports" class="addNotes" style="width: 25px; float:right; margin-right: 5px;" src="./icons/reports.png" />
+		<!--a style="float: right" href="http://localhost:9090/crrs/?c=crr&m=admin"--><i id="adminpage" style="float: right" class="fa fa-cog fa-2x"/><!--/a-->
+	</div>
 	<div id="shadowBox"><iframe id="shadowFrame"></iframe><div style="width:36px; height:26px; float:right; margin-top:3px;"><img id="close"  src="./icons/close.png"/>
 		</div></div>
 	<?php

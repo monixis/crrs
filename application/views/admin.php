@@ -1,5 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html lang="en">
+<!--
 	<head>
 		<title>Admin Page</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -13,21 +12,11 @@
 		<style>
 			td{width: 120px;}
 		</style>
-		<script>
-    		$(document).ready(function(){
-    			$("#datepicker").datepicker({
-    				minDate : "+0"
-    			});
-    			$("#datepicker1").datepicker({
-    				minDate : "+0"
-    			});
-    		});
-    	</script>
-	</head>
-	
-	<body>
-		<div id="headerContainer">
-			<a href="<?php echo base_url(); ?>" target="_self"> 
+
+	</head>-->
+
+<!--		<div id="headerContainer">
+			<a href="<!--?php /*echo base_url(); */?>" target="_self">
 				<div id="header"></div>
 			</a>	
 		</div>
@@ -36,10 +25,9 @@
 			<div id="menuItems">
 
 			</div>
-		</div>
+		</div>-->
 
 		<div class = "container_home">
-			<h1 style="color: #b31b1b; text-align: center;">Admin - JAC Collaboration Room Reservation System</h1>
 			<div id="adminSelection" style="margin-bottom: 10px;">
 				<div id="hours" style="float: left; width: 300px; height: 500px; border-bottom: 1px solid black;">
 					<p><label class="label">Select Hours to Freeze: </label></p>
@@ -138,16 +126,7 @@
 
 		</div></br>
 
-			<div class="bottom">
-				<p class = "foot"  style="padding-top: 10px;">
-					Marist College, 3399 North Road, Poughkeepsie, NY 12601; 845-575-3000
-					<br />
-					&#169; Copyright 2007-2016 Marist College. All Rights Reserved.
 
-					<a href="http://www.marist.edu/disclaimers.html" target="_blank" rel="prettyphoto[iframes]">Disclaimers</a> | <a href="http://www.marist.edu/privacy.html" target="_blank" >Privacy Policy </a> 
-				</p>
-
-			</div>
 	
 	<script type="text/javascript">
 
@@ -161,14 +140,16 @@
 			var startDate = $('input#datepicker').val();
 			var endDate = $('input#datepicker1').val();
 			//$("input[name=hours]:checkbox:not(:checked)").each(function(){
-			$("input[name=hours]:checked").each(function(){	
+			$("input[name=hours]:checked").each(function(){
 				var hourId = $(this).attr('value');
 				hoursId.push(hourId);
 			});
 			$.post("<?php echo base_url("?c=crr&m=setInstructions"); ?>",{startDate: startDate, endDate: endDate, hoursId: hoursId}).done(function(data){
 					if (data == 1){
 						alert("Instructions set successfully");
-						location.reload();
+						var pass = "<?php echo $pass ?>";
+						$('#admin_dashboard').load("<?php echo base_url("?c=crr&m=admin_verify1&pass=");?>"+pass);
+						//location.reload();
 					}else{
 						alert('Error in setting the instructions');
 					}
@@ -179,7 +160,9 @@
 		$.get("<?php echo base_url("?c=crr&m=clearini"); ?>").done(function(data){
 			if (data == 1){
 				alert("Reset Successful");
-				location.reload();
+				var pass = "<?php echo $pass ?>";
+				$('#admin_dashboard').load("<?php echo base_url("?c=crr&m=admin_verify1&pass=");?>"+pass);
+				//location.reload();
 			}else{
 				alert('Failed to reset tentative slots');
 			}
@@ -192,51 +175,62 @@
 				var iid = $(this).attr('value');
 				iidArray.push(iid);
 		});
-	
+
 		$.post("<?php echo base_url("?c=crr&m=removeInstructions"); ?>",{iidArray: iidArray}).done(function(data){
 					if (data == 1){
 						alert("Instructions removed successfully");
-						location.reload();
+						var pass = "<?php echo $pass ?>";
+						$('#admin_dashboard').load("<?php echo base_url("?c=crr&m=admin_verify1&pass=");?>"+pass);
+						//location.reload();
 					}else{
 						alert('Error in removing the instructions');
 					}
 			});
-		
+
 	});
-	
+
 	$('#block').click(function(){
-			$("input[name=rooms]:checked").each(function(){	
+			$("input[name=rooms]:checked").each(function(){
 				var roomNum = $(this).attr('value');
 				roomNo.push(roomNum);
-				
+
 			});
 			$.post("<?php echo base_url("?c=crr&m=blockRooms&s=0"); ?>",{roomNo: roomNo}).done(function(data){
 					if (data == 1){
 						alert("Instructions set successfully");
-						location.reload();
+						var pass = "<?php echo $pass ?>";
+						$('#admin_dashboard').load("<?php echo base_url("?c=crr&m=admin_verify1&pass=");?>"+pass);
+						//location.reload();
 					}else{
 						alert('Error in setting the instructions');
 					}
 			});
 	});
-	
+
 	$('#unblock').click(function(){
-			$("input[name=blockedrooms]:checked").each(function(){	
+			$("input[name=blockedrooms]:checked").each(function(){
 				var roomNum = $(this).attr('value');
 				roomNo.push(roomNum);
-				
+
 			});
 			$.post("<?php echo base_url("?c=crr&m=blockRooms&s=1"); ?>",{roomNo: roomNo}).done(function(data){
 					if (data == 1){
 						alert("Instructions set successfully");
-						location.reload();
+						var pass = "<?php echo $pass ?>";
+						$('#admin_dashboard').load("<?php echo base_url("?c=crr&m=admin_verify1&pass=");?>"+pass);//http://localhost/crrs/?c=crr&m=todayReservation
+
+						//location.reload();
 					}else{
 						alert('Error in setting the instructions');
 					}
 			});
 	});
-		
-	</script>		
-	</body>
-		
-</html>
+	$(document).ready(function(){
+		$("#datepicker").datepicker({
+			minDate : "+0"
+		});
+		$("#datepicker1").datepicker({
+			minDate : "+0"
+		});
+	});
+	</script>

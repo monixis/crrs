@@ -5,7 +5,6 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="shortcut icon" href="http://library.marist.edu/images/jac.png" />
 		<link rel="stylesheet" type="text/css" href="./styles/main.css" />
-		<script type="text/javascript" src="./js/dashboard.js"></script>
 		<link rel="stylesheet" type="text/css" href="http://library.marist.edu/css/menuStyle.css" />
 
 		<script>
@@ -106,37 +105,40 @@
     		});
 
 			$("input#submit").click(function(){
-				var passcode = <?php print_r($passcode);?>;
 				var pcode = $("input#passcode").val();
-				if (passcode == pcode){
-					$("#date, #dashboard_view").css("visibility", "visible");
-					$("div#passcode").css("visibility", "hidden");
-					/* Create date object. */
-					$("#dashboard_view").html('<div id="searching" style="margin-top: 155px; text-align: center;"><img src="./icons/page-loader.gif" /><br/><p style="text-align: center;"></p></div>');
-					var url="<?php echo base_url("?c=crr&m=todayReservation"); ?>";
-				//	console.log(url);
-					setTimeout (function(){
+				$.post("<?php echo base_url("?c=crr&m=user_verify&pass=");?>"+pcode, {
+				}).done(function (authorized) {
+					if (authorized == 1){
+						$("#date, #dashboard_view").css("visibility", "visible");
+						$("div#passcode").css("visibility", "hidden");
+						/* Create date object. */
+						$("#dashboard_view").html('<div id="searching" style="margin-top: 155px; text-align: center;"><img src="./icons/page-loader.gif" /><br/><p style="text-align: center;"></p></div>');
+						var url="<?php echo base_url("?c=crr&m=todayReservation"); ?>";
+						// console.log(url);
+						setTimeout (function(){
 
-						$('#dashboard_view').load(url);//http://localhost/crrs/?c=crr&m=todayReservation
+							$('#dashboard_view').load(url);//http://localhost/crrs/?c=crr&m=todayReservation
 
 
-					}, 1000);
+						}, 1000);
 
-
-				}else{
-					$("input#passcode").css('border', '3px solid red');
-					setTimeout(function(){
-						$("input#passcode").css('border', '1px solid grey');
-					}, 2000)
-				}	
+					}else{
+						$("input#passcode").css('border', '3px solid red');
+						setTimeout(function(){
+							$("input#passcode").css('border', '1px solid grey');
+						}, 2000)
+					}
+				});
 			});
 			
 			$('#passcode').keypress(function(e){
 				var key = e.which;
 				if(key == 13){
-				var passcode = <?php print_r($passcode);?>;
 				var pcode = $("input#passcode").val();
-				if (passcode == pcode){
+					$.post("<?php echo base_url("?c=crr&m=user_verify&pass=");?>"+pcode, {
+
+					}).done(function (authorized) {
+				if (authorized == 1){
 					$("#date, #dashboard_view").css("visibility", "visible");
 					$("div#passcode").css("visibility", "hidden");
 					/* Create date object. */
@@ -155,32 +157,41 @@
 					setTimeout(function(){
 						$("input#passcode").css('border', '1px solid grey');
 					}, 2000)
-				}}
+				}
+					});
+				}
 			});
 
 			jQuery(function($){
 				$("#adminsubmit").click(function(){
-					var Apasscode = <?php print_r($Apasscode);?>;
 					var Apcode = $("#Apasscode").val();
-					if (Apasscode == Apcode){
-						$("#datepicker").datepicker( "option", "maxDate", "+1y" );
-						$("#admin-authentication").hide();
-						$("input#Apasscode").val('');
-						$("#hdresTable").css("margin-top", "0px");
-					}else{
-						$("#Apasscode").css('border', '3px solid red');
-							setTimeout(function(){
+
+					$.post("<?php echo base_url("?c=crr&m=admin_verify&pass=");?>"+Apcode, {
+
+					}).done(function (authorized) {
+						if (authorized == 1) {
+							$("#datepicker").datepicker("option", "maxDate", "+1y");
+							$("#admin-authentication").hide();
+							$("input#Apasscode").val('');
+							$("#hdresTable").css("margin-top", "0px");
+						} else {
+							$("#Apasscode").css('border', '3px solid red');
+							setTimeout(function () {
 								$("#Apasscode").css('border', '1px solid grey');
 							}, 2000)
-					}
+						}
+					});
 				});
 
 				$('#Apasscode').keypress(function(e){
 				var key = e.which;
 				if(key == 13){
-				var Apasscode = <?php print_r($Apasscode);?>;
 				var Apcode = $("input#Apasscode").val();
-				if (Apasscode == Apcode){
+
+					$.post("<?php echo base_url("?c=crr&m=admin_verify&pass=");?>"+Apcode, {
+
+					}).done(function (authorized) {
+				if (authorized == 1){
 						$("#datepicker").datepicker( "option", "maxDate", "+1y" );
 						$("#admin-authentication").hide();
 						$("input#Apasscode").val('');
@@ -191,6 +202,8 @@
 								$("#Apasscode").css('border', '1px solid grey');
 							}, 2000)
 					}
+
+				});
 				}
 			});
 			});

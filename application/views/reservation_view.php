@@ -70,6 +70,8 @@ else {
 		}else if (<?php echo $statusId; ?> == 5){
 			$("#color").addClass("canceled");
 		}else if (<?php echo $statusId; ?> == 4){
+			$('img#editReservation').hide();
+
 			$("#color").addClass("transactionComplete");
 		}
 		if(<?php echo $notValid ?> == 1){
@@ -101,9 +103,9 @@ else {
 	</div>
 
 	<div id="invalid" hidden>
-		<center><p> The resevation ID #<?php echo $searchText; ?> is invalid.</p></center>
+		<center><p> The resevation ID #<?php $resId; ?> is invalid.</p></center>
 	</div>
-
+    <div id="error"></div></br>
 	<div id="valid">
 		<p class="resDet"><label class="label">Room No: </label><?php echo $roomNum; ?></p>
 		<p class="resDet"><label class="label">Date: </label><?php echo $resDate; ?><label class="label" style="margin-left: 70px;">Last Updated:</label><?php echo $dateAndTime; ?></p>
@@ -288,6 +290,7 @@ else {
 								$('#returned').hide();
 								$('#cancelSlot').hide();
 								$('#canceled').hide();
+								$('#verify').hide();
 								$('img#editReservation').hide();
 								document.getElementById("cancelSlot").style.display ="none";
 								document.getElementById("canceled").style.display ="none";
@@ -314,6 +317,7 @@ else {
 								$('#returned').hide();
 								$('#cancelSlot').hide();
 								$('#canceled').hide();
+								$('#verify').hide();
 								$('img#editReservation').hide();
 								document.getElementById("cancelSlot").style.display ="none";
 								document.getElementById("canceled").style.display ="none";
@@ -338,6 +342,7 @@ else {
 							$('#valid').show();
 							$('#returned').hide();
 							$('#cancelSlot').hide();
+							$('#verify').hide();
 							$('img#editReservation').hide();
 							document.getElementById("cancelSlot").style.display ="none";
 							document.getElementById("canceled").style.display ="none";
@@ -466,7 +471,7 @@ else {
 					$('#admin-authentication').hide();
 					$('#valid').show();
 
-						$.post("<?php echo base_url("?c=crr&m=updateSlotStatus"); ?>", {
+						$.post("<?php echo base_url("?c=crr&m=cancelSlot"); ?>", {
 							rId: rId,
 							resId: resId,
 							status: status
@@ -479,9 +484,15 @@ else {
 								$("#color").addClass("slots");
 								$('#returned').hide();
 								$('img#editReservation').hide();
+								$('#verify').hide();
 								document.getElementById("cancelSlot").style.display ="none";
 								document.getElementById("canceled").style.display ="none";
 								//document.getElementById("editReservation").style.display ="none";
+							} else if(data==0){
+								$('#valid').hide();
+								$('#error').append("<h3 align='center' style='color:#b31b1b;'>Slot cancellation Failed: <h3 Align='center' style='color:#b31b1b;'>Selected Slot must be the last one from the reservation</h3><h3>")
+								$('#confirmations').append("<img src='./icons/error.png'/>");
+
 							} else {
 								$('#confirmations').append("<img src='./icons/error.png'/>");
 							}
@@ -506,7 +517,7 @@ else {
 					if (Apasscode == Apcode) {
 						$('#valid').show();
 						$('#admin-authentication').hide();
-						$.post("<?php echo base_url("?c=crr&m=updateSlotStatus"); ?>", {
+						$.post("<?php echo base_url("?c=crr&m=cancelSlot"); ?>", {
 							rId: rId,
 							resId: resId,
 							status: status
@@ -517,11 +528,19 @@ else {
 								$("#color").removeClass("unverified");
 								$("#color").removeClass("transactionComplete");
 								$("#color").addClass("slots");
+								$('#verify').hide();
 								$('#returned').hide();
 								document.getElementById("cancelSlot").style.display ="none";
 								document.getElementById("canceled").style.display ="none";
 							//	document.getElementById("editReservation").style.display ="none";
+							} else if(data==0){
+								$('#valid').hide();
+								$('#error').append("<h3 align='center' style='color:#b31b1b;'>Slot cancellation Failed: <h3 Align='center' style='color:#b31b1b;'>Selected Slot must be the last one from the reservation</h3><h3>")
+
+								$('#confirmations').append("<img src='./icons/error.png'/>");
+
 							} else {
+
 								$('#confirmations').append("<img src='./icons/error.png'/>");
 							}
 						});

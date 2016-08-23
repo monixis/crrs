@@ -164,7 +164,7 @@ iframe{
   text-decoration: none;
 }
 
-.btn:hover, .shortcutlink:hover, img.tooltip:hover, img.viewNotes:hover{
+.btn:hover, .shortcutlink:hover, img.tooltip:hover, img.viewNotes:hover ,i#adminpage:hover {
   text-decoration: none;
   opacity:0.5;
   cursor: pointer;
