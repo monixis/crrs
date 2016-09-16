@@ -72,7 +72,7 @@
 
 
 		</div>
-				
+
 			<div class="bottom">
 				<p class = "foot">
 					Marist College, 3399 North Road, Poughkeepsie, NY 12601; 845-575-3000

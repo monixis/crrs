@@ -29,7 +29,7 @@
 		localStorage.setItem("timestamp", date);
 		var blocked = [];
 		localStorage.setItem("blocked", JSON.stringify(blocked));
-
+		var tentative =  localStorage.getItem("tentative");
 
 	});
 
@@ -206,12 +206,18 @@
 <script>
 
 	$('#refresh').click(function(){
+		document.getElementById("loader").style.zIndex = "1";
+		setTimeout (function(){
+			document.getElementById("loader").style.zIndex = "-1";
+
+		}, 600);
+
+
 
 		var date = $('input#datepicker').val();
 		var timestamp =localStorage.getItem("timestamp");
 		var blockedSlots = JSON.parse(localStorage.getItem("blocked"));
 		for (var blockedSlot in  blockedSlots){
-
 			var blockedSlotId = blockedSlots[blockedSlot];
 			if(document.getElementById(blockedSlotId)!= null) {
 
@@ -315,6 +321,71 @@
 	});
 
 </script>
+
+
+<style type='text/css'>
+	.my-legend .legend-title {
+		text-align: center;
+		margin-bottom: 5px;
+		font-weight: bold;
+		font-size: 90%;
+	}
+	.my-legend .legend-scale ul {
+		align-content: center;
+		margin: 0;
+		margin-bottom: 5px;
+		padding: 0;
+		list-style: none;
+	}
+	.my-legend .legend-scale ul li {
+		align-content: center;
+		font-size: 80%;
+		list-style: none;
+		margin-left: 0;
+		line-height: 18px;
+		margin-bottom: 2px;
+	}
+	.my-legend ul.legend-labels li span {
+		float: left;
+		display: block;
+		height: 30px;
+		width: 60px;
+		margin-right: 0px;
+		margin-left: 10px;
+		border: 2px
+		solid #999;
+	}
+	.my-legend .legend-source {
+		align-content: center;
+		font-size: 70%;
+		color: #999;
+		clear: both;
+	}
+	.my-legend a {
+		color: #777;
+	}
+	img.loader
+	{
+		position:absolute;
+		left:670px;
+		top:570px;
+		width : 150px;
+		height : 150px;
+		z-index:-1;
+	}
+
+	#loading > div {
+		position: relative;
+		top:400px;
+		left: 400px;
+		width : 50px;
+		height : 30px;
+
+	}
+</style>
+<div id="loading">
+	<img align="center" id="loader" class="loader" src="./icons/page-loader.gif" />
+</div>
 
 <div id="dashboard">
 	<div id="optionmenu" style="width:1010px; height: 25px; border: 1px solid #ffffff; margin-bottom: 5px; "><img id="refresh" style="width: 25px; float:left;" src="./icons/refresh.png" />
@@ -477,3 +548,19 @@
 
 	</div>
 </div>
+
+</br><div align="center">
+	<div style="width:800px;height:70px;border:3px solid #b31b1b;">
+		<div align="center" class='my-legend'>
+			<div class='legend-scale'>
+				<ul class='legend-labels'>
+
+					<li><span style='background:rgba(0, 255, 0, 0);'></span></li><h4 id="information">Whited out area on the dashboard indicate that slots are temporarily blocked by other users for reservation. Please refresh the page to receive updates.</h4>
+
+				</ul>
+			</div>
+
+		</div>
+	</div>
+</div></br>
+

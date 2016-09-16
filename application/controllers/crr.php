@@ -240,6 +240,7 @@ class crr extends CI_Controller
 	public function todayReservation()
 	{
 		$this->load->model('crr_model');
+		date_default_timezone_set('US/Eastern');
 		$date = date("m/d/Y");
 		$dateFormat = date("Y-m-d");//use this variable '$dateFormat' for mysql database. Needed for getBlockedHours($date)
 		//	echo $dateFormat;
@@ -696,12 +697,14 @@ class crr extends CI_Controller
 					$info = "Please select the slot with atleast 1 hr availablity";
 					$data['info'] = $info;
 					$data['result'] = "000000";
+					$data['slotid'] = 0;
 					$this->load->view('verify_view', $data);
 				}else if($timeAvailable<1){
 					$data['header'] = "Message";
 					$info = "Please select the slot with atleast 1 hr availablity";
 					$data['info'] = $info;
 					$data['result'] = "000000";
+					$data['slotid'] = 0;
 					$this->load->view('verify_view', $data);
 				}
 				else {
@@ -741,6 +744,7 @@ class crr extends CI_Controller
 				$info = "Please select the slot with atleast 1 hr availability";
 				$data['info'] = $info;
 				$data['result'] = "000000";
+				$data['slotid'] = 0;
 				$this->load->view('verify_view', $data);
 
 			}
@@ -791,6 +795,7 @@ class crr extends CI_Controller
 		$data['title'] = "JAC Collaboration reservation System";
 		$data['emails'] = $this->crr_model->getEmails();
 		$resId = $this->input->get('resId');
+		$selectedSlot =$this->input->get('resId');
 		$resDate = substr($resId, 4, 4) . "-" . substr($resId, 0, 2) . "-" . substr($resId, 2, 2);
 		$NonOperatinghours = $this->crr_model->getUnavailableHours($resDate);
 		$NonOperatinghours = json_decode(json_encode($NonOperatinghours), true);
@@ -800,10 +805,8 @@ class crr extends CI_Controller
 			array_push($unavailableHours, $hour);
 		}
 
-
 		$data['resId'] = $this->input->get('resId');
-		//$rId = $this->crr_model->getmaxid('rId', 'reservations');
-		$rId = mt_rand(20000,99999);
+		$rId = $this->crr_model->getmaxid('rId', 'reservations');
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('primEmail', 'Email', 'required|valid_email');
 		$this->form_validation->set_rules('secEmail', 'Email', 'required|valid_email');
@@ -1098,17 +1101,18 @@ class crr extends CI_Controller
 						} else {
 
 							//  $selectedHours= $totalHours;//$this ->input-> get('totalHours');
-
 							if ($availableTime < $totalHours) {
 								$data['header'] = "Confirmation Page";
 								$info = "The reservation is complete. As some of the slots are already reserved/blocked, Room is reserved for " . $availableTime . " hour(s) only.";
 								$data['info'] = "The reservation is complete. Reservation id: " . $rId . ".As some of the slots are already reserved/blocked, Room is reserved for " . $availableTime . " hour(s) only.";
 								$data['result'] = $result;
+								$data['slotid'] = $selectedSlot;
 							} else {
 								$data['header'] = "Confirmation Page";
 								$info = "The reservation is complete.";
 								$data['info'] = "The reservation is complete. Reservation id: " . $rId;
 								$data['result'] = $result;
+								$data['slotid'] = $selectedSlot;
 
 							}
 
@@ -1154,7 +1158,7 @@ class crr extends CI_Controller
 				$secEmail = $this->input->post('secEmail');
 				$list = array($primPatron,$secEmail);
 				$this->email->to($list);
-				$this->email->cc("dheeraj.karnati1@marist.edu");
+				$this->email->cc("cannavinolibrary@gmail.com");
 			//	$this->email->bcc('dheerajkarnati1@marist.edu');
 				$this->email->subject('Reservation Confirmation. ReservationID:' . $rId);
 				$message = "<h4> $info </h4></br></br>";
@@ -1298,6 +1302,7 @@ class crr extends CI_Controller
 	{
 		$data['header'] = "Reservation Failed";
 		$data['info'] = "Unfortunately we cannot go back on time to make a reservation :)";
+		$data['slotid']="0";
 		$this->load->view('verify_view', $data);
 	}
 

@@ -9,7 +9,7 @@
 <body>
 	<h1 style="color: #b31b1b;">CRRS Acknowlegements</h1>
 	<p>Project Manager: Monish Singh</p>
-	<p>Lead Developer: Stephen Pagliuca</p>
+	<p>Lead Developer: Stephen Pagliuca, Dheeraj Karnati</p>
 	<p>Supporting Developer: Juan Bancamper</p>
 </body>
 </html>

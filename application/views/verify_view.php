@@ -15,4 +15,38 @@
 
 
 	</body>
+<?php
+if($slotid>0) {
+	$slotId = $slotid;
+
+	$reservation = parse_ini_file('reservation.ini');
+	$size = sizeof($reservation);
+	if ($size == 0) {
+		$data['tentativeSlots'] = null;
+	}
+	$tentativeIni = array();
+	for ($i = 0; $i < $size; $i++) {
+		if ($slotId == $reservation[$i]) {
+			$i = $i + 5;
+
+		} else if ($i < $size) {
+			array_push($tentativeIni, $reservation[$i]);
+		}
+	}
+	$newSize = sizeof($tentativeIni);
+	if ($newSize == 0) {
+		fopen("reservation.ini", 'w');
+	}
+	if ($newSize > 0) {
+		$fp = fopen("reservation.ini", 'w');
+
+		for ($i = 0; $i < $newSize; $i++) {
+			if ($tentativeIni[$i] != null) {
+				$string = "$i = $tentativeIni[$i] \n";
+				fwrite($fp, $string);
+			}
+		}
+	}
+}
+?>
 </html>
