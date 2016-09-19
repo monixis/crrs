@@ -367,21 +367,24 @@
 	img.loader
 	{
 		position:absolute;
-		left:670px;
-		top:570px;
+		/*left:670px;
+		top:570px;*/
 		width : 150px;
 		height : 150px;
 		z-index:-1;
+		margin-left: 45%;
+		top: 55%;
 	}
 
-	#loading > div {
+	/*#loading > div {
 		position: relative;
 		top:400px;
 		left: 400px;
 		width : 50px;
 		height : 30px;
 
-	}
+	}*/
+	
 </style>
 <div id="loading">
 	<img align="center" id="loader" class="loader" src="./icons/page-loader.gif" />
@@ -550,12 +553,12 @@
 </div>
 
 </br><div align="center">
-	<div style="width:800px;height:70px;border:3px solid #b31b1b;">
+	<div style="width:800px;height:70px;">
 		<div align="center" class='my-legend'>
 			<div class='legend-scale'>
 				<ul class='legend-labels'>
 
-					<li><span style='background:rgba(0, 255, 0, 0);'></span></li><h4 id="information">Whited out area on the dashboard indicate that slots are temporarily blocked by other users for reservation. Please refresh the page to receive updates.</h4>
+					<li><span style='background:rgba(0, 255, 0, 0);'></span></li><h4 id="information">Whited out slots on the dashboard indicate that they have been temporarily blocked by other users for reservation. Please refresh the page to update the slot's status.</h4>
 
 				</ul>
 			</div>
