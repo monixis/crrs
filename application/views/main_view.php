@@ -324,7 +324,18 @@
 
 
 <style type='text/css'>
-	.my-legend .legend-title {
+	img.loader
+	{
+		position:absolute;
+		/*left:670px;
+		top:570px;*/
+		width : 150px;
+		height : 150px;
+		z-index:-1;
+		margin-left: 45%;
+		/*top: 55%;*/
+	}
+/*	.my-legend .legend-title {
 		text-align: center;
 		margin-bottom: 5px;
 		font-weight: bold;
@@ -364,17 +375,7 @@
 	.my-legend a {
 		color: #777;
 	}
-	img.loader
-	{
-		position:absolute;
-		/*left:670px;
-		top:570px;*/
-		width : 150px;
-		height : 150px;
-		z-index:-1;
-		margin-left: 45%;
-		top: 55%;
-	}
+	
 
 	/*#loading > div {
 		position: relative;
@@ -552,8 +553,8 @@
 	</div>
 </div>
 
-</br><div align="center">
-	<div style="width:800px;height:70px;">
+<!--/br><div align="center">
+	<div style="width:800px;height:70px;border: 1px solid #b31b1b;">
 		<div align="center" class='my-legend'>
 			<div class='legend-scale'>
 				<ul class='legend-labels'>
@@ -565,5 +566,5 @@
 
 		</div>
 	</div>
-</div></br>
+</div></br-->
 

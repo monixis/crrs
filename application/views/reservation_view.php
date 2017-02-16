@@ -139,11 +139,15 @@ else {
 
 	</div></br>
 	<div align="center" id="noshow_check" hidden  ">
-	<strong >Is it a No-Show ? </strong><br>
-	<button type="button" class="btn" id="yes" style=" margin-top:5px;">Yes</button>
-	<button type="button" class="btn" id="no" style=" margin-top:5px;">No</button>
-
-</div>
+		<strong >Is it a No-Show ? </strong><br>
+		<button type="button" class="btn" id="yes" style=" margin-top:5px;">Yes</button>
+		<button type="button" class="btn" id="no" style=" margin-top:5px;">No</button>
+	</div>
+	<div align="center" id="verifyKeysReturn" hidden  ">
+		<strong >Do you want to return the keys? </strong><br>
+		<button type="button" class="btn" id="returnyes" style=" margin-top:5px;">Yes</button>
+		<button type="button" class="btn" id="returnno" style=" margin-top:5px;">No</button>
+	</div>
 	<div align="center" id="admin-authentication" hidden  ">
 		<strong >ADMIN PASSCODE: </strong><input type="password" name="Apcode" id="Apasscode" />
 		<button type="button" class="btn" id="adminsubmit" style=" margin-top:5px;">Submit</button>
@@ -178,28 +182,37 @@ else {
 
 <script type="text/javascript">
 	$('#returned').click(function(){
-		var rId= "<?php echo $rId ?>";
-		var status = 4;
-		var date = new Date();
-		date = date.getFullYear() + '-' +
-			('00' + (date.getMonth()+1)).slice(-2) + '-' +
-			('00' + date.getDate()).slice(-2) + '|' +
-			('00' + date.getHours()).slice(-2) + ':' +
-			('00' + date.getMinutes()).slice(-2) + ':' +
-			('00' + date.getSeconds()).slice(-2);
-		//notes = $('textarea#notes').val();
-		$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>",{rId: rId, status: status, time:date}).done(function(data){
-			if (data == 1){
-				$('#confirmations').append("<img src='./icons/tick.png'/>");
-				$("#color").removeClass("reserved");
-				$("#color").addClass("transactionComplete");
-				$('img#editReservation').hide();
-				$('#returned').hide();
-				$('#cancelSlot').hide();
-				$('#canceled').hide();
-			}else{
-				$('#confirmations').append("<img src='./icons/error.png'/>");
-			}
+		$('#valid').hide();
+		$('#verifyKeysReturn').show();
+		$("#returnyes").click(function(){
+			$('#valid').show();
+			$('#verifyKeysReturn').hide();
+			var rId= "<?php echo $rId ?>";
+			var status = 4;
+			var date = new Date();
+			date = date.getFullYear() + '-' +
+				('00' + (date.getMonth()+1)).slice(-2) + '-' +
+				('00' + date.getDate()).slice(-2) + '|' +
+				('00' + date.getHours()).slice(-2) + ':' +
+				('00' + date.getMinutes()).slice(-2) + ':' +
+				('00' + date.getSeconds()).slice(-2);
+			$.post("<?php echo base_url("?c=crr&m=updateStatus"); ?>",{rId: rId, status: status, time:date}).done(function(data){
+				if (data == 1){
+					$('#confirmations').append("<img src='./icons/tick.png'/>");
+					$("#color").removeClass("reserved");
+					$("#color").addClass("transactionComplete");
+					$('img#editReservation').hide();
+					$('#returned').hide();
+					$('#cancelSlot').hide();
+					$('#canceled').hide();
+				}else{
+					$('#confirmations').append("<img src='./icons/error.png'/>");
+				}
+			});
+		});
+		$("#returnno").click(function(){
+			$('#valid').show();
+			$('#verifyKeysReturn').hide();
 		});
 	});
 
