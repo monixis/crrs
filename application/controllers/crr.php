@@ -232,6 +232,85 @@ class crr extends CI_Controller
 		}
 
 	}
+	/***********************************************************/
+	/****Update on createdDttmColumn for data consistancy****/
+/*
+   public function getResDates(){
+       $this->load->model('crr_model');
+       $result = $this->crr_model->getResDates();
+       $result  = json_decode(json_encode($result), true);
+ $i = 0;
+       foreach ($result as $row){
+           $createdDttm = date($row['createdDttm']);
+
+           if($createdDttm == 0) {
+               $entDate = date($row['entDate']);
+               if($entDate!=0){
+                //   $date =  createFromFormat('Y-m-d', $entDate);
+                   $newDate = date('Y-m-d H:i:s', strtotime($entDate));
+                   $result = $this->crr_model-> updateCreatedDttm($newDate, $row['rId']);
+                   if($result){
+                       $i++;
+                   }
+                   //echo $row['rId']."--".$newDate;
+                  // echo "</br>";
+                   //$i++;
+               }
+           }
+      }
+     echo "total updated:".$i;
+   }*/
+    /***********************************************************/
+
+   //verifies the data available in the given date range
+   public function verifyReservationDateRange(){
+       $fromDate = $this->input->get('fromDate');
+       $toDate = $this->input->get('toDate');
+       $fromDate = date('Y-m-d', strtotime($fromDate));
+       $toDate = date('Y-m-d', strtotime($toDate));
+       $this->load->model('crr_model');
+       $data = $this->crr_model->getAllReservations($fromDate,$toDate);
+       $data = json_decode(json_encode($data),true);
+
+       if($data >0){
+         echo 1;
+       }else{
+           echo 0;
+       }
+
+   }
+   // Generates Reservation report for the given date range
+   public function getReservationsReport(){
+
+//Convert input dates into MySQL date format
+       $fromDate = $this->input->get('fromDate');
+       $toDate = $this->input->get('toDate');
+       $fromDate = date('Y-m-d', strtotime($fromDate));
+       $toDate = date('Y-m-d', strtotime($toDate));
+// Headers to create a CSV file without caching
+       header('Content-type: text/csv');
+       header('Content-Disposition: attachment; filename="ReservationReport.csv"');
+       header('Pragma: no-cache');
+       header('Expires: 0');
+       $file = fopen('php://output', 'w');
+
+// column headers
+       fputcsv($file, array('rid', 'resDate', 'resEmail', 'resType', 'roomNum','status', 'startTime', 'totalHours', 'numPatrons'));
+// data
+       $this->load->model('crr_model');
+       $data = $this->crr_model->getAllReservations($fromDate,$toDate);
+       $data = json_decode(json_encode($data),true);
+
+
+// output each row of the data
+       foreach ($data as $row)
+       {
+           fputcsv($file, $row);
+       }
+
+       exit();
+   }
+
 
 	/*
 	 * Retrieve all the reservations of today.
@@ -809,9 +888,15 @@ class crr extends CI_Controller
 		$rId = $this->crr_model->getmaxid('rId', 'reservations');
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('primEmail', 'Email', 'required|valid_email');
-		$this->form_validation->set_rules('secEmail', 'Email', 'required|valid_email');
+        $numPatrons = $this->input->post('numPatrons');
+        if($numPatrons !=1) {
+            $this->form_validation->set_rules('secEmail', 'Email', 'required|valid_email');
+        }else{
+
+            $secEmail = "";
+        }
 		if ($this->form_validation->run() == FALSE) {
-			$data['timeAvailalbe'] = 0;
+			$data['timeAvailalbe'] = $this->input->post('timeAvailalbe');
 			$this->load->view('reserveform_view', $data);
 		} else {
 			$reserverData = array(
@@ -868,7 +953,11 @@ class crr extends CI_Controller
             else
                 $isFinals = FALSE;
             */
-			$secEmail = $this->input->post('secEmail');
+			if($this->input->post('secEmail')) {
+                $secEmail = $this->input->post('secEmail');
+            }else{
+                $secEmail = "";
+            }
 			$comments = $this->input->post('Comments');
 			$totalHours = $this->input->post('numHours');
 			if (strlen($startTime) == 4) {

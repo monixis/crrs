@@ -111,7 +111,9 @@ else {
 		<p class="resDet"><label class="label">Date: </label><?php echo $resDate; ?><label class="label" style="margin-left: 70px;">Last Updated:</label><?php echo $dateAndTime; ?></p>
 		<p class="resDet"><label class="label">Time:</label><?php echo $startTime; ?><label class="label" style="margin-left: 70px;">Total Hours:</label><?php echo $totalHours; ?></p>
 		<p class="resDet"><label class="label">Reserved By:</label><?php echo $resEmail?></p>
+		<?php if($secEmail != ""){?>
 		<p class="resDet"><label class="label">Secondary Patron:</label><?php echo $secEmail; ?></p>
+		<?php }?>
 		<p class="resDet"><label class="label">Phone No:</label><INPUT TYPE="text" SIZE="40" class="ask_text_input" NAME="primPhone" value="<?php echo $resPhone; ?>" hidden/><?php echo $resPhone; ?></p>
 		<p class="resDet"><label class="label">Status:</label><?php echo $status; ?><label class="label" style="margin-left: 55px;">No. of Patrons:</label><?php echo $numPatrons; ?></p>
 		<p class="resDet"><label class="label">Comments:</label><textarea readonly rows="3" cols="50" style="margin-left:60px; margin-bottom:5px;"><?php echo $comments; ?></textarea></p>

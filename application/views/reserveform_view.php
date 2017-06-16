@@ -186,9 +186,10 @@
 										</br><div style="color:RED"><?php echo form_error('bookType'); ?></div>
 						</p>
 						<p class="resDet"><label class="label">Number of Patrons:</label>
-										  <SELECT NAME="numPatrons" value="<?php echo set_value('numPatrons'); ?>" SIZE="1" class="ask_text_input">
-												<option value="2">2</option>
-												<option value="3">3</option>
+										  <SELECT id="numPatrons" NAME="numPatrons" value="<?php echo set_value('numPatrons'); ?>" SIZE="1" class="ask_text_input">
+											    <option value="2">2</option>
+											    <option value="1">1</option>
+											    <option value="3">3</option>
 												<option value="4">4</option>
 												<option value="5">5</option>
 												<option value="6">6</option>
@@ -200,7 +201,7 @@
 						<p class="resDet" id="check1"><input type="checkbox" id="checkbox1" style="margin-left:180px;" required>Check to verify that this patron has a Marist CWID.</input></p>
 						<p class="resDet"><label class="label">Primary Phone No:</label><INPUT TYPE="text" NAME="primPhone" id="primPhone" value="<?php echo set_value('primPhone');?>" SIZE="15" class="ask_text_input" /></br></p>
 						<p class="resDet" id="isUnverified1" hidden style="margin-left:180px;">A Marist ID must be shown when verifying a reservation.</p>
-						<p class="resDet"><label class="label">Secondary Email:</label><INPUT TYPE="text" NAME="secEmail" id="secEmail" value="<?php echo set_value('secEmail'); ?>" SIZE="40" class="ask_text_input" /><img src="./icons/expand.png" class="viewNotes" id="viewNotes2" style="width:12px; height:12px; margin-left: 10px;"/><img src="./icons/addNotes.png" id="addNotes2" class="addNotes" style="width:14px; height:14px; margin-left: 7px;"/></br><div style="color:RED"><?php echo form_error('secEmail'); ?></div></p>
+						<p class="resDet" id="secEmailP"><label class="label">Secondary Email:</label><INPUT TYPE="text" NAME="secEmail" id="secEmail" value="<?php echo set_value('secEmail'); ?>" SIZE="40" class="ask_text_input" /><img src="./icons/expand.png" class="viewNotes" id="viewNotes2" style="width:12px; height:12px; margin-left: 10px;"/><img src="./icons/addNotes.png" id="addNotes2" class="addNotes" style="width:14px; height:14px; margin-left: 7px;"/></br><div style="color:RED"><?php echo form_error('secEmail'); ?></div></p>
 						<p class="resDet" id="check2"><input type="checkbox" id="checkbox2" style="margin-left:180px;" required>Check to verify that this patron has a Marist CWID.</input></p>
 						<p class="resDet" id="isUnverified2" hidden style="margin-left:180px;">A Marist ID must be shown when verifying a reservation.</p>
 						<p class="resDet"><label class="label">Comments (Optional): </label><textarea NAME="Comments" ROWS="3" COLS="43" ></textarea></p>
@@ -223,7 +224,7 @@
 						$('#shadowBox').css('top','14%');
 						$('iframe').attr('src',link);
 				});
-				
+
 				$('img#viewNotes2').click(function(){
 					var email = $("#secEmail").val();
 					var link = "<?php echo base_url("?c=crr&m=tooltipNotes&email=") ?>"+email;
@@ -234,6 +235,30 @@
 						$('#shadowBox').css('left','26%');
 						$('#shadowBox').css('top','14%');
 						$('iframe').attr('src',link);
+				});
+				$('select#numPatrons').change(function(){
+					//var numPatrons = $("select#numPatrons").val();
+					var numPatrons = 0;
+					$( "select option:selected" ).each(function() {
+						numPatrons = $(this).attr('value');
+					});
+					if(numPatrons == 1){
+						$("#check2").attr('hidden','true');
+						$("#checkbox2").removeAttr('required');
+						$("#secEmail").attr('hidden','true');
+						$("#secEmail").removeAttr('required');
+						$("p#secEmailP").attr('hidden','true');
+
+
+					}else{
+						$("#check2").removeAttr('hidden');
+						$("#checkbox2").attr('required','true');
+						$("#secEmail").removeAttr('hidden');
+						$("#secEmail").attr('required','true');
+						$("p#secEmailP").removeAttr('hidden');
+
+					}
+
 				});
 				
 				$('img#addNotes1').click(function(){
@@ -262,7 +287,7 @@
 				});
 /*				$('#numHours').change(function() {
 
-                    var resId = "<?php echo $resId?>";
+                    var resId = "<!--?php echo $resId?>";
 					var totalHours = $(this).val();
 
 					$.post("<!--?php echo base_url("?c=crr&m=checkReservation"); ?>", {

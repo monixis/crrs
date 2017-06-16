@@ -34,7 +34,41 @@ class crr_model extends CI_Model
 			return FALSE;
 		}
 	}
+/*    public function getResDates(){
+        $sql = "SELECT rId, entDate, createdDttm FROM reservations";
+        $results = $this->db->query($sql);
+        return $results->result();
 
+    }
+    public function updateCreatedDttm($newDate, $rId){
+        $sql = "UPDATE reservations SET createdDttm = '$newDate' WHERE rId = '$rId';";
+        if ($this->db->simple_query($sql, array($rId))) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }*/
+    public function getAllReservations($fromDate, $toDate){
+        $sql = " SELECT DISTINCT
+		reservations.rId AS rid,
+		reservations.resDate AS resDate,
+		reservations.resEmail AS resEmail,
+        reservations.resType AS resType,
+        reservations.roomNum AS roomNum,
+        reservations.status AS status,
+        reservations.startTime AS startTime,
+        reservations.totalHours AS totalHours,
+        reservations.numPatrons AS numPatrons
+    FROM
+        reservations
+    WHERE
+        
+            reservations.createdDttm BETWEEN '$fromDate' AND '$toDate'";
+        $results = $this->db->query($sql);
+        return $results->result();
+
+
+    }
 	public function updateStatus($rId, $status, $currentTimeStamp)
 	{
 		$sql = "UPDATE reservations SET status = '$status' , createdDttm = '$currentTimeStamp' WHERE rId = '$rId' AND status IN (1,2);";
