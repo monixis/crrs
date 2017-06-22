@@ -1390,7 +1390,7 @@ class crr extends CI_Controller
 	public function displayInfo()
 	{
 		$data['header'] = "Reservation Failed";
-		$data['info'] = "Unfortunately we cannot go back on time to make a reservation :)";
+		$data['info'] = "Unfortunately we cannot go back in time to make a reservation :)";
 		$data['slotid']="0";
 		$this->load->view('verify_view', $data);
 	}

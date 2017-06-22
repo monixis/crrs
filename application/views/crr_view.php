@@ -34,7 +34,7 @@
 
 		</div>
 				
-		<h1 style="color: #b31b1b; text-align: center;">JAC Collaboration Room Reservation System</h1>
+		<h1 style="color: #b31b1b; text-align: center;">JAC Collaboration Room Reservation System 3.2</h1>
 		<div id="passcode" style="margin-top:0px; margin-left: auto; margin-right: auto; width: 300px; height: 0px;">
  							<strong>PASSCODE: </strong>
 							<input type="password" name='passcode' id='passcode' style="height:23px; margin-left: 10px;"></input><br/>
