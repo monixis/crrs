@@ -121,9 +121,12 @@
 							//	document.getElementById("admin-authentication").style.visibility='visible';
 
 							var fromDate = $('input#fromDatePicker').val();
+							var fromDateValue = Date.parse(fromDate);
 							var toDate = $('input#toDatePicker').val();
+							var toDateValue = Date.parse(toDate);
 
-							if (toDate < fromDate) {
+
+							if (toDateValue < fromDateValue) {
 								alert('To-Date should be greater than From-Date value');
 							} else {
 								$.get("<?php echo base_url("?c=crr&m=verifyReservationDateRange&fromDate="); ?>" + fromDate + "&toDate=" + toDate).done(function (data) {
@@ -165,9 +168,11 @@
 								//	document.getElementById("admin-authentication").style.visibility='visible';
 
 								var fromDate = $('input#fromDatePicker').val();
+								var fromDateValue = Date.parse(fromDate);
 								var toDate = $('input#toDatePicker').val();
+								var toDateValue = Date.parse(toDate);
 
-								if (toDate < fromDate) {
+								if (toDateValue < fromDateValue) {
 									alert('To-Date should be greater than From-Date value');
 								} else {
 									$.get("<?php echo base_url("?c=crr&m=verifyReservationDateRange&fromDate="); ?>" + fromDate + "&toDate=" + toDate).done(function (data) {
