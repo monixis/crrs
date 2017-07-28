@@ -1,6 +1,6 @@
 
 <link rel="stylesheet" type="text/css" href="./styles/main.css" />
-<link rel="stylesheet" href="http://library.marist.edu/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="./styles/font-awesome.min.css">
 
 <!--link rel="stylesheet" href="./font-awesome/css/font-awesome.css"-->
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -80,7 +80,6 @@
 
 				document.getElementById(blockedSlotId).style.visibility = "visible";
 			}
-
 		}
 		if(tentative == 1) {
 			$.ajax({
@@ -115,6 +114,7 @@
 								var rId = slots[slot].rId;
 							}
 							if (slots[slot].status == 1) {
+
 								var slotclass = "reserved";
 
 							} else if (slots[slot].status == 2) {
@@ -187,7 +187,6 @@
 					}
 				}
 			});
-
 		}
 		var date;
 		date = new Date();
@@ -198,7 +197,6 @@
 			('00' + date.getHours()).slice(-2) + ':' +
 			('00' + date.getMinutes()).slice(-2) + ':' +
 			('00' + date.getSeconds()).slice(-2);
-
 		localStorage.setItem("timestamp", date);
 	});
 
@@ -211,7 +209,6 @@
 			document.getElementById("loader").style.zIndex = "-1";
 
 		}, 600);
-
 
 
 		var date = $('input#datepicker').val();
