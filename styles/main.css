@@ -1,0 +1,241 @@
+body, html {
+	margin: 0px;
+	font-family : sans-serif, Helvetica, arial;
+	background: #ffffff;
+	font-size: 14px;
+}
+
+#keyTable {
+	position: relative;
+	left: 1000px;
+	top: 10px;
+}
+#pickDate {
+	position: relative;
+	margin-left: 300px;
+	margin-top: 30px;
+	font-size: 20px;
+}
+#resButton {
+	position: relative;
+	left: 700px;
+	bottom: 30px;
+}
+
+/* 
+Generic Styling, for Desktops/Laptops 
+*/
+table#resTable { 
+  width: 1000px; 
+  border-collapse: collapse; 
+}
+/* Zebra striping */
+tr:nth-of-type(odd) { 
+  background: #eee; 
+}
+th { 
+  background: #333; 
+  color: white; 
+  font-weight: bold; 
+}
+td, th { 
+  padding: 6px; 
+  border: 1px solid #ccc; 
+  text-align: left; 
+}
+
+
+#datepicker, #datepicker1 {
+	position: relative;
+	/*bottom: 50px;*/
+	font-size: 18px;
+	color: #b31b1b;
+	font-weight: bold;
+}
+
+.foot {
+	text-align: center;
+	color: #333;
+	font-size: 13px;
+	width: 100%;
+}
+
+.foot a:link {
+	color: #333;
+}
+.foot a:visited {
+	color: #333;
+}
+
+.foot a:hover {
+	color: #B31B1B;
+}
+
+#dashboard{
+	width: 1017px;
+	border: 1px solid white;
+	margin-left:auto;
+	margin-right:auto;
+	overflow-x: scroll;
+}
+.tentative{
+
+	background: rgba(254, 253, 255, 0);
+
+}
+.slots{
+	background: green;
+}
+.reserved{
+	background: #b31b1b;
+}
+
+.canceled{
+	background: #4C4C43;
+}
+.unverified{
+	background: #FF9900;
+}
+
+#details{
+	
+	margin-right:auto;
+	margin-left: auto;
+	width: 600px;
+	font-family: font-family: sans-serif, Helvetica, arial;
+	font-size: 16px;
+	background: #FFFFFF;
+}
+
+#detailsType{
+	height: 80px;
+	border-bottom: 1px solid #e6e6e6;
+}
+
+.label{
+	margin-left: 60px;
+	font-size: 18px;
+	font-style: bold;
+	margin-right: 5px;
+}
+
+.resDet{
+	border-bottom: 1px solid #e6e6e6;
+}
+
+td{
+	width: 35px;
+}
+
+td:hover{
+	cursor:pointer;
+}
+
+#shadowBox{
+	border: 8px solid black;
+	position: fixed;
+	z-index: 10;
+	top:23%;
+    box-shadow: 0 0 0 9999px rgba(0,0,0,0.5);
+    border-radius: 7px;
+    visibility: hidden;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+#close:hover,#search:hover,#notesSearch:hover, #refresh:hover, #print:hover, .addNotes:hover, #admin:hover{
+	opacity:0.5;
+	cursor: pointer;
+}
+
+iframe{
+	border: none;
+}
+
+.btn {
+  -webkit-border-radius: 8;
+  -moz-border-radius: 8;
+  border-radius: 8px;
+  font-family: Georgia;
+  color: #ffffff;
+  font-size: 16px;
+  background: #333;
+  padding: 10px 6px 10px 6px;
+  text-decoration: none;
+}
+
+.btn:hover, .shortcutlink:hover, img.tooltip:hover, img.viewNotes:hover ,i#adminpage:hover {
+  text-decoration: none;
+  opacity:0.5;
+  cursor: pointer;
+}
+
+
+.details{
+	background: #333;	
+}
+
+.transactionComplete{
+	background: #3399FF;
+	opacity: 0.7;
+}
+th.roomno:hover{
+	cursor:pointer;
+}
+#confirmations{
+	border: 1px solid #fffff ;
+	width: 48px;
+	height: 48px;
+	float: left;
+	margin-left:5px;
+	margin-top:30px;
+	
+}
+th.roomno{
+	z-index: 1; 
+	position:relative;
+}
+.blocked{
+	opacity: 0.5;
+}
+
+.currentTime{
+	color: #b31b1b;
+	font-weight: bold;
+}
+#date{
+	width: 1000px;
+	margin-left:auto; 
+	margin-right: auto;
+	visibility: hidden;
+}
+
+#adminSelection{
+	width: 800px;
+	margin-left:auto; 
+	margin-right: auto;
+}
+
+#tfheader{
+	margin-right: auto;
+	margin-left: auto;
+	width: 600px;
+	margin-bottom: 0px;
+	}
+
+.tftextinput2{
+	background-color: #fff;
+ 	border: 1px solid #d9d9d9;
+	border-top-color: #c0c0c0;
+	height: 30px;
+	vertical-align: top;
+	width: 550px;
+	font-size: 20px;
+	padding: 3px;
+	}
+
+.rcontents:hover{
+	cursor:pointer;
+}		
+
+
