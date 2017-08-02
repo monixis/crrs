@@ -79,6 +79,27 @@ class crr_model extends CI_Model
 		}
 	}
 
+
+	public function getCategories(){
+
+        $sql = "Select * from category";
+        $results = $this->db->query($sql);
+        return $results->result();
+
+    }
+    public function getPatrons(){
+
+        $sql = "Select * from patron";
+        $results = $this->db->query($sql);
+        return $results->result();
+    }
+
+    public function getRoomsOnCatg_Patr($cat_id, $pat_id){
+        $sql = "Select roomNum from catg_patr_room where catg_id='$cat_id' and patr_id='$pat_id'";
+        $results = $this->db->query($sql);
+        return $results->result();
+
+    }
 	public function updateSlotStatus($rId, $resId, $status, $currentTimeStamp)
 	{
 		$sql = "UPDATE reservations SET status = '$status' , createdDttm = '$currentTimeStamp' WHERE resId = '$resId' AND rid = '$rId';";
@@ -424,5 +445,31 @@ class crr_model extends CI_Model
 		return  json_decode(json_encode($results), true);
 
 	}
+
+	public function getAllBookingRequirements(){
+
+        $sql = "SELECT roomNum, id,catg_name,patr_name, patr_req from catg_patr_room join category on category.catg_id=catg_patr_room.catg_id join patron on patron.patr_id= catg_patr_room.patr_id ;";
+        $results = $this->db->query($sql);
+        return $results->result();
+
+    }
+    public function addBookingRequiremnts($roomNum,$catg_id, $patr_id, $patr_req){
+
+        $sql= "INSERT into catg_patr_room(catg_id, patr_id, roomNum, patr_req) VALUES ('$catg_id', '$patr_id', '$roomNum', '$patr_req');";
+
+        if ($this->db->simple_query($sql, array($catg_id, $patr_id, $roomNum, $patr_req))) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+    public function removeBookingRequirements($id){
+
+     if($this->db->delete('catg_patr_room', array('id' => $id))) {
+         return 1;
+     }else{
+         return 0;
+     }
+     }
 }
 ?>

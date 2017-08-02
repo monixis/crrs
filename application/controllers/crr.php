@@ -25,6 +25,8 @@ class crr extends CI_Controller
 		//$data['rooms'] = $this -> crr_model -> getRooms($date);
 		//$data['hours'] = $this -> crr_model -> getHours();
 		$data['resId'] = $this->crr_model->getResIds();
+        $data['categories'] = $this->crr_model->getCategories();
+        $data['patrons'] = $this->crr_model->getPatrons();
 		//$data['passcode'] = $this -> crr_model -> getPwd(1);
 		//$data['Apasscode'] = $this -> crr_model -> getPwd(2);
 		$data['emails'] = $this->crr_model->getEmails();
@@ -201,7 +203,6 @@ class crr extends CI_Controller
 		echo $result;
 	}
 
-
 	public function cancelSlot()
 	{
 		//	$rId =  $this -> input -> get('rId');
@@ -323,8 +324,10 @@ class crr extends CI_Controller
 		$date = date("m/d/Y");
 		$dateFormat = date("Y-m-d");//use this variable '$dateFormat' for mysql database. Needed for getBlockedHours($date)
 		//	echo $dateFormat;
-		$data['rooms'] = $this->crr_model->getRooms($date);
-		$data['hours'] = $this->crr_model->getHours();
+		$data['rooms'] = $this->crr_model->getRooms();
+
+
+        $data['hours'] = $this->crr_model->getHours();
 		$data['slots'] = $this->crr_model->getReservations($date);
 		$data['blockedHours'] = $this->crr_model->getBlockedHours($dateFormat);//use $dateFormat for mysql database
 		$data['emails'] = $this->crr_model->getEmails();
@@ -342,7 +345,44 @@ class crr extends CI_Controller
 
 		$this->load->view('main_view', $data);
 	}
+     public function todayRes(){
 
+         $this->load->model('crr_model');
+         date_default_timezone_set('US/Eastern');
+         $date = date("m/d/Y");
+         $dateFormat = date("Y-m-d");//use this variable '$dateFormat' for mysql database. Needed for getBlockedHours($date)
+         //	echo $dateFormat;
+         $cat_type = $this -> input -> get("cat_type");
+         $pat_type = $this -> input -> get("pat_type");
+         if($cat_type!= 1 && $pat_type !=1) {
+             $data['rooms'] = $this->crr_model->getRoomsOnCatg_Patr($cat_type, $pat_type);
+         }else if($cat_type==1 && $pat_type ==1){
+
+             $data['rooms'] = $this->crr_model -> getRooms();
+         }
+         $data['categories'] = $this->crr_model->getCategories();
+         $data['patrons'] = $this->crr_model->getPatrons();
+
+         $data['hours'] = $this->crr_model->getHours();
+         $data['slots'] = $this->crr_model->getReservations($date);
+         $data['blockedHours'] = $this->crr_model->getBlockedHours($dateFormat);//use $dateFormat for mysql database
+         $data['emails'] = $this->crr_model->getEmails();
+         $date = str_replace("/", "", $date);
+         $data['date'] = $date;
+         $reservation = parse_ini_file('reservation.ini');
+         $size = sizeof($reservation);
+
+         if ($size > 0) {
+             $data['tentativeSlots'] = $reservation;
+
+         } else {
+             $data['tentativeSlots'] = null;
+         }
+
+         $this->load->view('main_view', $data);
+
+
+     }
 	//testing with json
 	/***********    public function reservations(){
 	 * $this -> load -> model('crr_model');
@@ -416,7 +456,6 @@ class crr extends CI_Controller
 				}
 			}
 		}
-
 	}
 	/*	public function reservations(){
             $this -> load -> model('crr_model');
@@ -888,6 +927,8 @@ class crr extends CI_Controller
 		$rId = $this->crr_model->getmaxid('rId', 'reservations');
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('primEmail', 'Email', 'required|valid_email');
+        $this->form_validation->set_rules('numPatrons', 'Patrons Number', 'required');
+
         $numPatrons = $this->input->post('numPatrons');
         if($numPatrons !=1) {
             $this->form_validation->set_rules('secEmail', 'Email', 'required|valid_email');
@@ -1792,17 +1833,47 @@ class crr extends CI_Controller
 			$data['pass'] = $apasscode;
 			$data['hours'] = $this->crr_model->getHours();
 			$data['rooms'] = $this->crr_model->getRooms();
+            $data['categories'] = $this->crr_model->getCategories();
+            $data['patrons'] = $this->crr_model->getPatrons();
 			$data['instructions'] = $this->crr_model->getInstructions();
-			$data['blockedrooms'] = $this->crr_model->getBlockedRooms();
+            $data['bookingRequirements'] = $this->crr_model->getAllBookingRequirements();
+            $data['blockedrooms'] = $this->crr_model->getBlockedRooms();
 			$this->load->view('admin', $data);
-
 		} else {
 
 			echo "<h1 align='center' style=\"color:#B31B1B;\" > 401 - Unauthorized access</h1>";
 		}
 
 	}
+    public function addBookingRequirements(){
 
+        $this->load->model('crr_model');
+        $roomArray = $_POST['roomNo'];
+        $catg_id= $_POST['category_type'];
+        $patr_id = $_POST['patron_type'];
+        if($_POST['patr_req']) {
+            $patr_req = $_POST['patr_req'];
+        }else{
+
+            $patr_req = 1;
+
+        }
+        for ($i= 0 ; $i<sizeof($roomArray); $i++) {
+            $result = $this-> crr_model ->addBookingRequiremnts($roomArray[$i], $catg_id, $patr_id, $patr_req);
+        }
+        echo $result;
+    }
+
+public function removeBookingRequirements(){
+
+    $this->load->model('crr_model');
+    $idArray = $_POST['idArray'];
+    for ($i = 0; $i < sizeof($idArray); $i++) {
+
+        $result = $this->crr_model->removeBookingRequirements($idArray[$i]);
+    }
+    echo $result;
+}
 
 public function timestamp(){
 	$this->load->model('crr_model');
@@ -1813,8 +1884,8 @@ public function timestamp(){
 
 	print_r($result);
 
-
 }
+
 
 }
 ?>

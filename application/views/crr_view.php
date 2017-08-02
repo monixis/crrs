@@ -41,14 +41,17 @@
 							<input type="button" class="btn" id="submit" value="Submit" style="margin-left:95px; margin-top:10px; width:100px;"></input>
 		</div>
 				
-		<div id="date">
+		<div id="date" style="align:center">
 			
 				<div id="tfheader">
 					        <!--input type="text" id="tfq" class="tftextinput2" name="q" /><img id="search" style="margin-left:5px;" src="./icons/search.png"/><!--input type="submit" value=">" class="tfbutton2"><br-->
 					        
 				</div>
 					
-  			<p id="pickDate">Select a date: <input type="text" name="viewDate" id="datepicker" value="" /><img src="./icons/admin.png" style="width: 20px; height: 20px; margin-left: 5px;" id="admin"/><!--a href="#" id="admin">Admin</a--></p>
+  			<p id="pickDate">Select a date: <input type="text" name="viewDate" id="datepicker" value="" /><img src="./icons/admin.png" style="width: 20px; height: 20px; margin-left: 5px;" id="admin"/><!--a href="#" id="admin">Admin</a--></p></br>
+
+
+
  			<!--p id="viewDate">Date Being Viewed: 
  				<script type="text/javascript">
  				document.write($("#datepicker").val());
@@ -66,6 +69,33 @@
 				<strong>ADMIN PASSCODE: </strong><input type="password" name="Apcode" id="Apasscode" />
  				<button type="button" class="btn" id="adminsubmit" style="margin-left:37%; margin-top:5px;">Submit</button>
  		</div>
+			<div id="category" style="width:800px; margin-left:30%;">
+                <label>Category:</label>
+				<select id="cat_drop">
+					<?php foreach ($categories as $category){?>
+
+						<option value="<?php echo $category -> catg_id?>"><?php echo $category -> catg_name?></option>
+					<?php }?>
+
+				</select>
+				<label>Patron:</label>
+
+				<select id="pat_drop">
+					<?php foreach ($patrons as $patron){?>
+
+						<option value="<?php echo $patron -> patr_id?>"><?php echo $patron -> patr_name;?></option>
+					<?php }?>
+				</select>
+
+				<button type="button" class="btn" id="filterRooms" style=" margin-top:5px;">Submit</button>
+			</div>
+
+<!--			<div id="patronType" style="width:800px; margin:0 auto;align-content: center">
+
+
+
+
+			</div>-->
  		</div>
 
 		<div id="dashboard_view">
@@ -121,7 +151,6 @@
 
 
 						}, 1000);
-
 					}else{
 						$("input#passcode").css('border', '3px solid red');
 						setTimeout(function(){
@@ -218,6 +247,47 @@
 					//$("#datepicker").datepicker( "option", "maxDate", "+1y" );
 				});
 			});
+/*            $("#cat_drop").change(function () {
+                var c = document.getElementById("cat_drop");
+                var category_type = c.options[c.selectedIndex].value;
+
+                var p = document.getElementById("pat_drop");
+                var patron_type = p.options[p.selectedIndex].value;
+
+                if(category_type > 0){
+
+                    var url="<!--?php echo base_url("?c=crr&m=todayRes&cat_type="); ?>"+category_type+"&pat_type="+patron_type;
+                    $('#dashboard_view').load(url);
+                }
+            });
+            $("#pat_drop").change(function () {
+
+                var p = document.getElementById("pat_drop");
+                var patron_type = p.options[p.selectedIndex].value;
+                var c = document.getElementById("cat_drop");
+                var category_type = c.options[c.selectedIndex].value;
+                if(patron_type > 0){
+                    var url="<!--?php echo base_url("?c=crr&m=todayRes&cat_type="); ?>"+category_type+"&pat_type="+patron_type;
+                    $('#dashboard_view').load(url);
+
+                }
+
+                //alert(end);
+            });*/
+			$("#filterRooms").click(function(){
+				var c = document.getElementById("cat_drop");
+				var category_type = c.options[c.selectedIndex].value;
+				var p = document.getElementById("pat_drop");
+				var patron_type = p.options[p.selectedIndex].value;
+                $("#dashboard_view").html('<div id="searching" style="margin-top: 155px; text-align: center;"><img src="./icons/page-loader.gif" /><br/><p style="text-align: center;"></p></div>');
+                var url="<?php echo base_url("?c=crr&m=todayRes&cat_type="); ?>"+category_type+"&pat_type="+patron_type;
+			//	$('#dashboard_view').load(url);
+                setTimeout (function(){
+                    $('#dashboard_view').load(url);//http://localhost/crrs/?c=crr&m=todayReservation
+
+                }, 1000);
+			});
+
 			</script>
 	</body>
 </html>

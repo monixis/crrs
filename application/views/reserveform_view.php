@@ -39,7 +39,7 @@
 				   				}
 
 				});
-				
+
 				var availableTags = [];
 				<?php
 				foreach($emails as $row){
@@ -147,7 +147,7 @@
 						$time = $hr . ":" . $min . " " . $suffix;
 					?>
 					<FORM NAME="theForm" ID="theForm" ACTION="<?php echo base_url("?c=crr&m=reserveForm&resId=$resId")?>"  METHOD="POST">
-						
+
 						<p class="resDet"><label class="label">Room No: </label><input type="text" id="roomNo" name="roomNum" disabled="true" style="color: #b31b1b; background: #ffffff; border: 1px solid #ffffff; font-size: 18px; width: 48px;" value="<?php echo $roomNum ?>"/><img src="./icons/expand.png" class="tooltip" id="<?php echo base_url("?c=crr&m=tooltiproomdetails&roomNo=".$roomNum)  ?>" style="width:12px; height:12px;"/></p>
 						<p class="resDet"><label class="label">Reserve Date: </label><INPUT TYPE="text" disabled="true" NAME="resDate" style="color: #b31b1b; background: #ffffff; border: 1px solid #ffffff; font-size: 18px;" value="<?php echo $resDate?>" SIZE="13" class="ask_text_input" /></p>
 						<p class="resDet"><label class="label">Reservation Time: </label><input type="text" disabled="true" name ="timeStart" style="color: #b31b1b; background: #ffffff; border: 1px solid #ffffff; font-size: 18px;" value="<?php echo $time; ?>">
@@ -185,8 +185,8 @@
 										</select>
 										</br><div style="color:RED"><?php echo form_error('bookType'); ?></div>
 						</p>
-						<p class="resDet"><label class="label">Number of Patrons:</label>
-										  <SELECT id="numPatrons" NAME="numPatrons" value="<?php echo set_value('numPatrons'); ?>" SIZE="1" class="ask_text_input">
+<!--						<p class="resDet"><label class="label">Number of Patrons:</label>
+										  <SELECT id="numPatrons" NAME="numPatrons" value="<?php /*echo set_value('numPatrons'); */?>" SIZE="1" class="ask_text_input">
 											    <option value="2">2</option>
 											    <option value="1">1</option>
 											    <option value="3">3</option>
@@ -196,7 +196,9 @@
 												<option value="7">7</option>
 												<option value="8">8</option>
 											</select>
-						</p>
+						</p>-->
+						<p class="resDet"><label class="label">Number of Patrons:</label><INPUT TYPE="text" NAME="numPatrons" id="numPatrons" value="<?php echo set_value('numPatrons'); ?>" SIZE="10" class="ask_text_input" /><div style="color:RED"><?php echo form_error('numPatrons'); ?></div></p>
+
 						<p class="resDet"><label class="label">Primary Marist Email:</label><INPUT TYPE="text" NAME="primEmail" id="primEmail" value="<?php echo set_value('primEmail'); ?>" SIZE="40" class="ask_text_input" /><img src="./icons/expand.png" class="viewNotes" id="viewNotes1" style="width:12px; height:12px; margin-left: 10px;"/><img src="./icons/addNotes.png" id="addNotes1" class="addNotes" style="width:14px; height:14px; margin-left: 7px;"/></br><div style="color:RED"><?php echo form_error('primEmail'); ?></div></p>
 						<p class="resDet" id="check1"><input type="checkbox" id="checkbox1" style="margin-left:180px;" required>Check to verify that this patron has a Marist CWID.</input></p>
 						<p class="resDet"><label class="label">Primary Phone No:</label><INPUT TYPE="text" NAME="primPhone" id="primPhone" value="<?php echo set_value('primPhone');?>" SIZE="15" class="ask_text_input" /></br></p>
@@ -211,7 +213,7 @@
 					</form>
 			<div id="shadowBox"><iframe id="shadowFrame"></iframe><div style="width:25px; height:15px; float:right; margin-top:3px; margin-right: 5px;"><img id="close" src="./icons/close.png" style="width: 25px; height: 25px;"/></div></div>
 			
-			</div>	
+			</div>
 			<script type="text/javascript" src="./js/dashboard.js"></script> 
 			<script>
 				$('img#viewNotes1').click(function(){
@@ -236,12 +238,12 @@
 						$('#shadowBox').css('top','14%');
 						$('iframe').attr('src',link);
 				});
-				$('select#numPatrons').change(function(){
-					//var numPatrons = $("select#numPatrons").val();
-					var numPatrons = 0;
-					$( "select option:selected" ).each(function() {
+/*				$('select#numPatrons').change(function(){
+					var numPatrons = $("input#numPatrons").val();
+					//var numPatrons = 0;
+/!*					$( "select option:selected" ).each(function() {
 						numPatrons = $(this).attr('value');
-					});
+					});*!/
 					if(numPatrons == 1){
 						$("#check2").attr('hidden','true');
 						$("#checkbox2").removeAttr('required');
@@ -259,7 +261,7 @@
 
 					}
 
-				});
+				});*/
 				
 				$('img#addNotes1').click(function(){
 					//test = 1;
