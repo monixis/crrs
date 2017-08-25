@@ -5,9 +5,13 @@ var shadowBoxOpen = 0;
 //var test = 0;
 var baseUrl = "http://localhost/crrs/";
 $('#datepicker').change(function() {
-	 var date = $('input#datepicker').val();
+	var date = $('input#datepicker').val();
 	var slotId = localStorage.getItem("slotId");
-	var url = baseUrl.concat("?c=crr&m=getReservations&date="+date+"&slotId="+slotId);//http://localhost:9090/crrs/?c=crr&m=getReservations&date="+date
+	var c = document.getElementById("cat_drop");
+	var category_type = c.options[c.selectedIndex].value;
+	var p = document.getElementById("pat_drop");
+	var patron_type = p.options[p.selectedIndex].value;
+	var url = baseUrl.concat("?c=crr&m=getReservations&date="+date+"&slotId="+slotId+"&cat_type="+category_type+"&pat_type="+patron_type);//http://localhost:9090/crrs/?c=crr&m=getReservations&date="+date
 	$('#dashboard_view').empty();
 	$("#dashboard_view").html('<div id="searching" style="margin-top: 155px; text-align: center;"><img src="./icons/page-loader.gif" /><br/><p style="text-align: center;"></p></div>');
 	console.log(url);
@@ -24,6 +28,8 @@ $('#datepicker').change(function() {
 
 });
 $('td').click(function() {
+	var cat = $('#cat_drop').val();
+	var pat = $('#pat_drop').val();
 	var slotid = $(this).attr('id');
 	var slotclass = $(this).attr('class');
 	var selecteddate = new Date($('input#datepicker').val());
@@ -39,7 +45,7 @@ $('td').click(function() {
 						if (today > selecteddate){
 							var link = baseUrl.concat("?c=crr&m=displayInfo");//http://localhost:9090/crrs/?c=crr&m=displayInfo
 						}else{
-							var link = baseUrl.concat("?c=crr&m=verifyReservations&resId="+slotid+"&date="+selecteddate);//"http://localhost:9090/crrs/?c=crr&m=reserveForm&resId="+slotid;
+							var link = baseUrl.concat("?c=crr&m=verifyReservations&resId="+slotid+"&date="+selecteddate +"&pat="+ pat + "&cat=" + cat);//"http://localhost:9090/crrs/?c=crr&m=reserveForm&resId="+slotid;
 						}
 						$('#shadowBox').css({'visibility':'visible','width':'840px','height':'640px'});
 						$('#shadowFrame').css({'width':'800px','height':'640px'});

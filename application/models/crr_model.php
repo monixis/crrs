@@ -448,16 +448,16 @@ class crr_model extends CI_Model
 
 	public function getAllBookingRequirements(){
 
-        $sql = "SELECT roomNum, id,catg_name,patr_name, patr_req from catg_patr_room join category on category.catg_id=catg_patr_room.catg_id join patron on patron.patr_id= catg_patr_room.patr_id ;";
+        $sql = "SELECT roomNum, id,catg_name,patr_name, patr_req, maxHour from catg_patr_room join category on category.catg_id=catg_patr_room.catg_id join patron on patron.patr_id= catg_patr_room.patr_id ;";
         $results = $this->db->query($sql);
         return $results->result();
 
     }
-    public function addBookingRequiremnts($roomNum,$catg_id, $patr_id, $patr_req){
+    public function addBookingRequiremnts($roomNum,$catg_id, $patr_id, $patr_req, $maxHour){
 
-        $sql= "INSERT into catg_patr_room(catg_id, patr_id, roomNum, patr_req) VALUES ('$catg_id', '$patr_id', '$roomNum', '$patr_req');";
+        $sql= "INSERT into catg_patr_room(catg_id, patr_id, roomNum, patr_req, maxHour) VALUES ('$catg_id', '$patr_id', '$roomNum', '$patr_req', '$maxHour');";
 
-        if ($this->db->simple_query($sql, array($catg_id, $patr_id, $roomNum, $patr_req))) {
+        if ($this->db->simple_query($sql, array($catg_id, $patr_id, $roomNum, $patr_req, $maxHour))) {
             return 1;
         } else {
             return 0;
@@ -471,5 +471,12 @@ class crr_model extends CI_Model
          return 0;
      }
      }
+	
+	public function getReq($pat, $cat)
+	{
+		$sql = "SELECT patr_req, maxHour FROM catg_patr_room WHERE patr_id = '$pat' AND catg_id = '$cat'";
+		$results = $this->db->query($sql, array());
+		return $results->result();
+	}
 }
 ?>

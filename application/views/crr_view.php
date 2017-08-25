@@ -6,7 +6,6 @@
 		<link rel="shortcut icon" href="http://library.marist.edu/images/jac.png" />
 		<link rel="stylesheet" type="text/css" href="./styles/main.css" />
 		<link rel="stylesheet" type="text/css" href="http://library.marist.edu/css/menuStyle.css" />
-
 		<script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -20,7 +19,10 @@
 </script>
 
 		<style type="text/css">
-		
+		#admin1:hover{
+			opacity:0.5;
+	cursor: pointer;
+		}
 		</style>
 	</head>
 	<body>
@@ -34,7 +36,7 @@
 
 		</div>
 				
-		<h1 style="color: #b31b1b; text-align: center;">JAC Collaboration Room Reservation System 3.2</h1>
+		<h1 style="color: #b31b1b; text-align: center;">JAC Collaboration Room Reservation System 4.0</h1>
 		<div id="passcode" style="margin-top:0px; margin-left: auto; margin-right: auto; width: 300px; height: 0px;">
  							<strong>PASSCODE: </strong>
 							<input type="password" name='passcode' id='passcode' style="height:23px; margin-left: 10px;"></input><br/>
@@ -48,7 +50,7 @@
 					        
 				</div>
 					
-  			<p id="pickDate">Select a date: <input type="text" name="viewDate" id="datepicker" value="" /><img src="./icons/admin.png" style="width: 20px; height: 20px; margin-left: 5px;" id="admin"/><!--a href="#" id="admin">Admin</a--></p></br>
+  			<p id="pickDate">Select a date: <input type="text" name="viewDate" id="datepicker" value="" /><img src="./icons/admin.png" style="width: 20px; height: 20px; margin-left: 5px;" id="admin1"/><!--a href="#" id="admin">Admin</a--></p></br>
 
 
 
@@ -69,31 +71,26 @@
 				<strong>ADMIN PASSCODE: </strong><input type="password" name="Apcode" id="Apasscode" />
  				<button type="button" class="btn" id="adminsubmit" style="margin-left:37%; margin-top:5px;">Submit</button>
  		</div>
-			<div id="category" style="width:800px; margin-left:30%;">
-                <label>Category:</label>
-				<select id="cat_drop">
-					<?php foreach ($categories as $category){?>
-
-						<option value="<?php echo $category -> catg_id?>"><?php echo $category -> catg_name?></option>
-					<?php }?>
-
-				</select>
-				<label>Patron:</label>
-
-				<select id="pat_drop">
+			<div id="category" style="width:620px; margin-left:auto; margin-right: auto;">
+				<strong>Patron - </strong>
+				<select id="pat_drop" style="height: 25px;">
 					<?php foreach ($patrons as $patron){?>
-
 						<option value="<?php echo $patron -> patr_id?>"><?php echo $patron -> patr_name;?></option>
 					<?php }?>
 				</select>
-
-				<button type="button" class="btn" id="filterRooms" style=" margin-top:5px;">Submit</button>
+                
+                <label>requesting room for </label>
+                <strong>Category - </strong>
+				<select id="cat_drop" style="height: 25px;">
+					<?php foreach ($categories as $category){?>
+						<option value="<?php echo $category -> catg_id?>"><?php echo $category -> catg_name?></option>
+					<?php }?>
+				</select>
+				<button type="button" class="btn" id="filterRooms" style=" margin-top:5px; height: 35px; font-size: 10pt;">Submit</button>
+				<p id='currectSelection' style="font-weight: bold; font-style: italic;"></p>	
 			</div>
 
 <!--			<div id="patronType" style="width:800px; margin:0 auto;align-content: center">
-
-
-
 
 			</div>-->
  		</div>
@@ -128,12 +125,11 @@
     			});
     			$("#datepicker").datepicker( "setDate", new Date());
     			$("#datepicker").empty();
-			    $("#tfheader").load('<?php echo base_url("?c=crr&m=tfq");?>');//http://localhost/crrs/?c=crr&m=tfq");
+			    $("#tfheader").load('<?php echo base_url("?c=crr&m=tfq");?>');
 			    $("#admin-authentication").hide();
-
-
+			    $('p#currectSelection').html("Current Selection => Patron: " + $('#pat_drop option:selected').text() + " & Category: " + $('#cat_drop option:selected').text());	
     		});
-
+			
 			$("input#submit").click(function(){
 				var pcode = $("input#passcode").val();
 				$.post("<?php echo base_url("?c=crr&m=user_verify&pass=");?>"+pcode, {
@@ -143,13 +139,12 @@
 						$("div#passcode").css("visibility", "hidden");
 						/* Create date object. */
 						$("#dashboard_view").html('<div id="searching" style="margin-top: 155px; text-align: center;"><img src="./icons/page-loader.gif" /><br/><p style="text-align: center;"></p></div>');
-						var url="<?php echo base_url("?c=crr&m=todayReservation"); ?>";
+						  var url="<?php echo base_url("?c=crr&m=todayRes&cat_type="); ?>"+category_type+"&pat_type="+patron_type;
+						//var url="<!--?php echo base_url("?c=crr&m=todayReservation"); ?>";
 						// console.log(url);
 						setTimeout (function(){
 
 							$('#dashboard_view').load(url);//http://localhost/crrs/?c=crr&m=todayReservation
-
-
 						}, 1000);
 					}else{
 						$("input#passcode").css('border', '3px solid red');
@@ -165,20 +160,17 @@
 				if(key == 13){
 				var pcode = $("input#passcode").val();
 					$.post("<?php echo base_url("?c=crr&m=user_verify&pass=");?>"+pcode, {
-
 					}).done(function (authorized) {
 				if (authorized == 1){
 					$("#date, #dashboard_view").css("visibility", "visible");
 					$("div#passcode").css("visibility", "hidden");
 					/* Create date object. */
 					$("#dashboard_view").html('<div id="searching" style="margin-top: 155px; text-align: center;"><img src="./icons/page-loader.gif" /><br/><p style="text-align: center;"></p></div>');
-                     var url="<?php echo base_url("?c=crr&m=todayReservation"); ?>";
+                   //  var url="<?php echo base_url("?c=crr&m=todayReservation"); ?>";
+					 var url="<?php echo base_url("?c=crr&m=todayRes&cat_type=1&pat_type=1"); ?>";
 					// console.log(url);
 					setTimeout (function(){
-
 						$('#dashboard_view').load(url);//http://localhost/crrs/?c=crr&m=todayReservation
-
-
 					}, 1000);
 
 				}else{
@@ -237,7 +229,7 @@
 			});
 			});
 			jQuery(function($){
-				$('#admin').click(function(){
+				$('#admin1').click(function(){
 					$("#admin-authentication").toggle();
 					if($("#admin-authentication").is(":visible") == true){
 						$("#hdresTable").css("margin-top", "93px");
@@ -275,16 +267,24 @@
                 //alert(end);
             });*/
 			$("#filterRooms").click(function(){
-				var c = document.getElementById("cat_drop");
-				var category_type = c.options[c.selectedIndex].value;
-				var p = document.getElementById("pat_drop");
-				var patron_type = p.options[p.selectedIndex].value;
-                $("#dashboard_view").html('<div id="searching" style="margin-top: 155px; text-align: center;"><img src="./icons/page-loader.gif" /><br/><p style="text-align: center;"></p></div>');
-                var url="<?php echo base_url("?c=crr&m=todayRes&cat_type="); ?>"+category_type+"&pat_type="+patron_type;
+				var date = $('input#datepicker').val();
+				//var c = document.getElementById("cat_drop");
+				//var category_type = c.options[c.selectedIndex].value;
+				//var p = document.getElementById("pat_drop");
+				//var patron_type = p.options[p.selectedIndex].value;
+				var category_type = $('#cat_drop').val();
+				var patron_type = $('#pat_drop').val();	
+				var slotId = localStorage.getItem("slotId");
+				var url="<?php echo base_url("?c=crr&m=getReservations&date="); ?>"+date+"&slotId="+slotId+"&cat_type="+category_type+"&pat_type="+patron_type; 
+              // 	var url = ("?c=crr&m=getReservations&date="+date+"&slotId="+slotId+"&cat_type="+category_type+"&pat_type="+patron_type);//http://localhost:9090/crrs/?c=crr&m=getReservations&date="+date
+				$('#dashboard_view').empty();
+			    $("#dashboard_view").html('<div id="searching" style="margin-top: 155px; text-align: center;"><img src="./icons/page-loader.gif" /><br/><p style="text-align: center;"></p></div>');
+            
+            //var url="<!--?php echo base_url("?c=crr&m=todayRes&cat_type="); ?>"+category_type+"&pat_type="+patron_type; !-->
 			//	$('#dashboard_view').load(url);
                 setTimeout (function(){
                     $('#dashboard_view').load(url);//http://localhost/crrs/?c=crr&m=todayReservation
-
+					$('p#currectSelection').html("Current Selection => Patron: " + $('#pat_drop option:selected').text() + " & Category: " + $('#cat_drop option:selected').text());	
                 }, 1000);
 			});
 

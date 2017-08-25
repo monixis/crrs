@@ -317,15 +317,17 @@ class crr extends CI_Controller
 	 * Retrieve all the reservations of today.
 	 * Reads ini file for tentative slots.
 	 */
-	public function todayReservation()
+	/*public function todayReservation()
 	{
 		$this->load->model('crr_model');
 		date_default_timezone_set('US/Eastern');
 		$date = date("m/d/Y");
 		$dateFormat = date("Y-m-d");//use this variable '$dateFormat' for mysql database. Needed for getBlockedHours($date)
 		//	echo $dateFormat;
-		$data['rooms'] = $this->crr_model->getRooms();
-
+		//$data['rooms'] = $this->crr_model->getRooms();
+	    $cat_type = $this -> input -> get("cat_type");
+        $pat_type = $this -> input -> get("pat_type");
+        $data['rooms'] = $this->crr_model->getRoomsOnCatg_Patr(1, 1);
 
         $data['hours'] = $this->crr_model->getHours();
 		$data['slots'] = $this->crr_model->getReservations($date);
@@ -345,24 +347,27 @@ class crr extends CI_Controller
 
 		$this->load->view('main_view', $data);
 	}
+     */
+     
+     /*
+	 * Retrieve all the reservations of today based on the selected categories and patron
+	 * Reads ini file for tentative slots.
+	 */
      public function todayRes(){
-
          $this->load->model('crr_model');
          date_default_timezone_set('US/Eastern');
          $date = date("m/d/Y");
          $dateFormat = date("Y-m-d");//use this variable '$dateFormat' for mysql database. Needed for getBlockedHours($date)
-         //	echo $dateFormat;
          $cat_type = $this -> input -> get("cat_type");
          $pat_type = $this -> input -> get("pat_type");
-         if($cat_type!= 1 && $pat_type !=1) {
-             $data['rooms'] = $this->crr_model->getRoomsOnCatg_Patr($cat_type, $pat_type);
-         }else if($cat_type==1 && $pat_type ==1){
+        // if($cat_type!= 1 || $pat_type !=1) {
+         $data['rooms'] = $this->crr_model->getRoomsOnCatg_Patr($cat_type, $pat_type);
+         //}/*else if($cat_type==1 && $pat_type ==1){
 
-             $data['rooms'] = $this->crr_model -> getRooms();
-         }
-         $data['categories'] = $this->crr_model->getCategories();
-         $data['patrons'] = $this->crr_model->getPatrons();
-
+           //  $data['rooms'] = $this->crr_model -> getRooms();
+         //}*/
+       //  $data['categories'] = $this->crr_model->getCategories();
+        // $data['patrons'] = $this->crr_model->getPatrons();
          $data['hours'] = $this->crr_model->getHours();
          $data['slots'] = $this->crr_model->getReservations($date);
          $data['blockedHours'] = $this->crr_model->getBlockedHours($dateFormat);//use $dateFormat for mysql database
@@ -371,17 +376,12 @@ class crr extends CI_Controller
          $data['date'] = $date;
          $reservation = parse_ini_file('reservation.ini');
          $size = sizeof($reservation);
-
          if ($size > 0) {
              $data['tentativeSlots'] = $reservation;
-
          } else {
              $data['tentativeSlots'] = null;
          }
-
          $this->load->view('main_view', $data);
-
-
      }
 	//testing with json
 	/***********    public function reservations(){
@@ -406,7 +406,10 @@ class crr extends CI_Controller
 		$slotId = $this->input->get('slotId');
 		$strings = explode("/", $date);
 		$dateFormat = "$strings[2]-$strings[0]-$strings[1]";//use this variable '$dateFormat' for mysql database. Needed for getBlockedHours($date)
-		$data['rooms'] = $this->crr_model->getRooms($date);
+		$cat_type = $this -> input -> get("cat_type");
+        $pat_type = $this -> input -> get("pat_type");
+		//$data['rooms'] = $this->crr_model->getRooms();
+		$data['rooms'] = $this->crr_model->getRoomsOnCatg_Patr($cat_type, $pat_type);
 		$data['hours'] = $this->crr_model->getHours();
 		$data['slots'] = $this->crr_model->getReservations($date);
 		$data['blockedHours'] = $this->crr_model->getBlockedHours($dateFormat);//use $dateFormat for mysql database
@@ -588,6 +591,11 @@ class crr extends CI_Controller
 		$data['emails'] = $this->crr_model->getEmails();
 		$resId = $this->input->get('resId');
 		$data['resId'] = $this->input->get('resId');
+		
+		$pat = $this->input->get('pat');
+		$cat = $this->input->get('cat');
+		$data['req'] = $this->crr_model->getReq($pat, $cat); 
+		
 		$reservation = parse_ini_file('reservation.ini');
 		$NonOperatinghours = $this->crr_model->getUnavailableHours($date);
 		$NonOperatinghours = json_decode(json_encode($NonOperatinghours), true);
@@ -1856,10 +1864,15 @@ class crr extends CI_Controller
         }else{
 
             $patr_req = 1;
+        }
+		if($_POST['maxHour']) {
+            $maxHour = $_POST['maxHour'];
+        }else{
 
+            $maxHour = 1;
         }
         for ($i= 0 ; $i<sizeof($roomArray); $i++) {
-            $result = $this-> crr_model ->addBookingRequiremnts($roomArray[$i], $catg_id, $patr_id, $patr_req);
+            $result = $this-> crr_model ->addBookingRequiremnts($roomArray[$i], $catg_id, $patr_id, $patr_req, $maxHour);
         }
         echo $result;
     }

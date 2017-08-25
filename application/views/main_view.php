@@ -449,6 +449,7 @@
 				$a_rooms = array();
 				$slotclass = "slots";
 				$hourclass = "active";
+				
 				//$rooms = $_SESSION['rooms'];
 				foreach ($rooms as $row) {
 					$roomNum = $row -> roomNum;

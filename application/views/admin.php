@@ -117,7 +117,7 @@
 						</table>
 						<button type="button" class="btn" id="unblock" style="margin-left:10px; margin-top:21px;">Unblock</button>
 				</div>
-				<div id="rooms" style="float: left; width: 300px; height: 540px; border-bottom: 1px solid black;">
+				<div id="rooms" style="float: left; width: 300px; height: 615px; border-bottom: 1px solid black;">
 					<p><label class="label">Select Rooms to update booking requirements: </label></p>
 					<table style="width:250px; margin-left: 27px;">
 						<tbody style="height:300px; overflow-y:scroll; display:block;">
@@ -133,33 +133,35 @@
 						?>
 						</tbody>
 					</table></br>
-						<label>Category:
+						
+						<p><label>Category: 
 						<select id="cat_drop">
-							<?php foreach ($categories as $category){  if($category -> catg_id == 1){?>
-                              <?php } else {?>
-								<option value="<?php echo $category -> catg_id?>"><?php echo $category -> catg_name?></option>
-							<?php }}?>
-
-						</select>
-						</label></br></br>
-						<label>Patron:
-
-						<select id="pat_drop">
+							<?php foreach ($categories as $category){?>
+                              	<option value="<?php echo $category -> catg_id?>"><?php echo $category -> catg_name?></option>
+							<?php }?>
+						</select></label></p>
+						
+						<p><label>Patron:
+						<!--select id="pat_drop">
 							<?php foreach ($patrons as $patron){ if($patron ->  patr_id== 1) {?>
 							<?php } else {?>
 								<option value="<?php echo $patron -> patr_id?>"><?php echo $patron -> patr_name;?></option>
 							<?php }}?>
+						</select-->
+						
+						<select id="pat_drop">
+							<?php foreach ($patrons as $patron){?>
+								<option value="<?php echo $patron -> patr_id?>"><?php echo $patron -> patr_name;?></option>
+							<?php }?>
 						</select>
-						</label></br></br>
+						</label></p>
 
-					<label>Patron Required(Min.)<input type="text" name="patrons_required" id="patron_count" value=""/></label>
-
-					<button type="button" class="btn" id="add" style="margin-left:56px; margin-top: 21px;">Add</button>
-
-
+					<p><label>Min. Patrons: <input type="text" name="patrons_required" id="patron_count" value="" style="width: 100px;"/></label></p>
+					<p><label>Max. Hours: <input type="text" name="maxHour" id="maxHour" value="" style="width: 100px;"/></label></p>
+					<button type="button" class="btn" id="add" style="margin-left:56px; margin-top: 15px;">Add Requirements</button>
 				</div>
 
-				<div id="bookingRequirements" style="float: right; width: 494px; height: 540px; border-bottom: 1px solid black;">
+				<div id="bookingRequirements" style="float: right; width: 494px; height: 615px; border-bottom: 1px solid black;">
 					<p><label class="label">Booking Requirements: </label></p>
 					<table style="margin-left: 10px; width: 475px;">
 						<tbody style="height:400px; overflow-y:scroll; display:block;">
@@ -169,7 +171,7 @@
 							<th>Patron</th>
 							<th>Category</th>
 							<th>Patron Required</th>
-
+							<th>Max. Hours</th>
 						</tr>
 						<?php
 						foreach($bookingRequirements as $row){
@@ -180,7 +182,7 @@
 								<td><?php echo $row -> patr_name ?></td>
 								<td><?php echo $row -> catg_name ?></td>
 								<td><?php echo $row -> patr_req ?></td>
-
+								<td><?php echo $row -> maxHour ?></td>	
 							</tr>
 							<?php
 						}
@@ -279,10 +281,6 @@
 					alert('Error in removing the requirements');
 				}
 			});
-
-
-
-
 	});
 
 	$('#block').click(function(){
@@ -306,15 +304,14 @@
 		$("input[name=rooms]:checked").each(function(){
 			var roomNum = $(this).attr('value');
 			roomNo.push(roomNum);
-
 		});
 		var patr_req = $('input#patron_count').val();
+		var maxHour = $('input#maxHour').val();
 		var c = document.getElementById("cat_drop");
 		var category_type = c.options[c.selectedIndex].value;
-
 		var p = document.getElementById("pat_drop");
 		var patron_type = p.options[p.selectedIndex].value;
-		$.post("<?php echo base_url("?c=crr&m=addBookingRequirements"); ?>",{roomNo: roomNo,category_type:category_type,patron_type:patron_type, patr_req: patr_req  }).done(function(data){
+		$.post("<?php echo base_url("?c=crr&m=addBookingRequirements"); ?>",{roomNo: roomNo,category_type:category_type,patron_type:patron_type, patr_req: patr_req, maxHour: maxHour}).done(function(data){
 			if (data == 1){
 				alert("Requirements added successfully");
 				var pass = "<?php echo $pass ?>";
