@@ -3,11 +3,11 @@
 ?>
 
 		<link rel="stylesheet" type="text/css" href="./styles/main.css" />
-		<link rel="stylesheet" type="text/css" href="./styles/qtip.css" />    	
-    	<link rel="stylesheet" href="./styles/jquery-ui.css" type="text/css" /> 
-		<script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script> 
+		<link rel="stylesheet" type="text/css" href="./styles/qtip.css" />
+    	<link rel="stylesheet" href="./styles/jquery-ui.css" type="text/css" />
+		<script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script>
 		<script type="text/javascript" src="./js/jquery-ui.js"></script>
-		<script type="text/javascript" src="./js/dashboard.js"></script> 
+		<script type="text/javascript" src="./js/dashboard.js"></script>
 		<script type="text/javascript" src="./js/qtip.js"></script>
 
 		<script>
@@ -80,7 +80,7 @@
                         // Upon failure... set the tooltip content to error
                         api.set('content.text', status + ': ' + error);
                     });
-        
+
                     return 'Loading...'; // Set some initial text
                 }
             },
@@ -92,9 +92,9 @@
      });
 			});
 		</script>
-	
+
 		<div style="width: 750px;">
-			
+
 		<div id="detailsType">
 				<div id="color" style="width: 60px; height: 640px; float:left; background: green; ">
 				</div>
@@ -116,7 +116,7 @@
 							else {
 								$time = substr($time, 0) . ":00";
 							}
-						} 
+						}
 						else {
 							$roomNum = substr($resId, 8, 3);
 							$time = substr($resId, 11);
@@ -131,7 +131,7 @@
 							}
 						}
 						//time format converter
-						$index = strpos($time, ":");		
+						$index = strpos($time, ":");
 						$hr = substr($time, 0, $index);
 						$min = substr($time, $index+1);
 						$suffix = "am";
@@ -140,12 +140,12 @@
 							$suffix = "pm";
 						}
 						if($hr == 00){
-							$hr = 12;					
+							$hr = 12;
 						}elseif($hr == 12){
 							$suffix = "pm";
 						}
 						$time = $hr . ":" . $min . " " . $suffix;
-						
+
 						$pat_req = 0;
 						$maxHour = 0;
 						foreach($req as $row){
@@ -186,6 +186,8 @@
 						</p>
 						<input id="timestamp" name="timestamp" hidden/>
 
+            <script>alert("FLAG" + $('#pat_drop').val());</script>
+
 						<p class="resDet"><label class="label">Booking Type:</label><select name ="bookType" id="bookType" value="<?php echo set_value('bookType'); ?>" SIZE="1">
 											<option value="person">For Now</option>
 											<option value="phone">For Future</option>
@@ -194,9 +196,9 @@
 						</p>
 						<p class="resDet"><label class="label">Number of Patrons:</label>
 										  <SELECT id="numPatrons" NAME="numPatrons" value="<?php echo set_value('numPatrons'); ?>" SIZE="1" class="ask_text_input">
-											    <option value="2">2</option>
-											    <option value="1">1</option>
-											    <option value="3">3</option>
+                        <option value="1" <?php if ($pat_req > 1){ echo "disabled"; } ?>>1</option>
+										    <option value="2">2</option>
+										    <option value="3">3</option>
 												<option value="4">4</option>
 												<option value="5">5</option>
 												<option value="6">6</option>
@@ -219,9 +221,9 @@
 					<!--input name="reset" type="reset" id="reset" class="btn" style="margin-left:56px; margin-top:5px;"/-->
 					</form>
 			<div id="shadowBox"><iframe id="shadowFrame"></iframe><div style="width:25px; height:15px; float:right; margin-top:3px; margin-right: 5px;"><img id="close" src="./icons/close.png" style="width: 25px; height: 25px;"/></div></div>
-			
+
 			</div>
-			<script type="text/javascript" src="./js/dashboard.js"></script> 
+			<script type="text/javascript" src="./js/dashboard.js"></script>
 			<script>
 				$('img#viewNotes1').click(function(){
 					var email = $("#primEmail").val();
@@ -270,7 +272,7 @@
 					}
 
 				});
-				
+
 				$('img#addNotes1').click(function(){
 					//test = 1;
 					//alert(test);
@@ -284,7 +286,7 @@
 						$('#shadowBox').css('top','14%');
 						$('iframe').attr('src',link);
 				});
-				
+
 				$('img#addNotes2').click(function(){
 					var email = $("#secEmail").val();
 					var link = "<?php echo base_url("?c=crr&m=addNotes1&email=") ?>"+email;

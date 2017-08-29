@@ -348,7 +348,7 @@ class crr extends CI_Controller
 		$this->load->view('main_view', $data);
 	}
      */
-     
+
      /*
 	 * Retrieve all the reservations of today based on the selected categories and patron
 	 * Reads ini file for tentative slots.
@@ -591,11 +591,11 @@ class crr extends CI_Controller
 		$data['emails'] = $this->crr_model->getEmails();
 		$resId = $this->input->get('resId');
 		$data['resId'] = $this->input->get('resId');
-		
+
 		$pat = $this->input->get('pat');
 		$cat = $this->input->get('cat');
-		$data['req'] = $this->crr_model->getReq($pat, $cat); 
-		
+		$data['req'] = $this->crr_model->getReq($pat, $cat);
+
 		$reservation = parse_ini_file('reservation.ini');
 		$NonOperatinghours = $this->crr_model->getUnavailableHours($date);
 		$NonOperatinghours = json_decode(json_encode($NonOperatinghours), true);
@@ -946,6 +946,8 @@ class crr extends CI_Controller
         }
 		if ($this->form_validation->run() == FALSE) {
 			$data['timeAvailalbe'] = $this->input->post('timeAvailalbe');
+      // Trying to pass current patron status into PHP
+      $data['patron'] = $this->input->post('patron');
 			$this->load->view('reserveform_view', $data);
 		} else {
 			$reserverData = array(
