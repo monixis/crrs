@@ -164,28 +164,27 @@
 											<option value="1">1 hour</option>
 											<?php } else if($timeAvailalbe==1.5){?>
 												<option value="1">1 hour</option>
-												<option value="1.5">1.5 hours</option>
+												<option value="1.5" <?php if($maxHour < 1.5) { echo "disabled"; } ?>>1.5 hours</option>
 											<?php }else if($timeAvailalbe==2){?>
 												<option value="1">1 hour</option>
-												<option value="2">2 hours</option>
+												<option value="2" <?php if($maxHour < 2) { echo "disabled"; } ?>>2 hours</option>
 											<?php } else if($timeAvailalbe==2.5){ ?>
 												<option value="1">1 hour</option>
-												<option value="2">2 hours</option>
-												<option value="2.5">2.5 hours</option>
-
-											<?php }else if($timeAvailalbe==3){?>
-											<option value="1">1 hour</option>
-											<option value="2">2 hours</option>
-											<option value="3">3 hours</option>
+												<option value="2" <?php if($maxHour < 2) { echo "disabled"; } ?>>2 hours</option>
+												<option value="2.5" <?php if($maxHour < 2.5) { echo "disabled"; } ?>>2.5 hours</option>
+                      <?php } else if($timeAvailalbe==3){ ?>
+												<option value="1">1 hour</option>
+												<option value="2" <?php if($maxHour < 2) { echo "disabled"; } ?>>2 hours</option>
+												<option value="3" <?php if($maxHour < 3) { echo "disabled"; } ?>>3 hours</option>
 											<?php }else{?>
 												<option value="1">1 hour</option>
-												<option value="2">2 hours</option>
-												<option value="3">3 hours</option>
+												<option value="2" <?php if($maxHour < 2) { echo "disabled"; } ?>>2 hours</option>
+												<option value="3" <?php if($maxHour < 3) { echo "disabled"; } ?>>3 hours</option>
 											<?php } ?>
 										</select>
 						</p>
 						<input id="timestamp" name="timestamp" hidden/>
-      
+
 						<p class="resDet"><label class="label">Booking Type:</label><select name ="bookType" id="bookType" value="<?php echo set_value('bookType'); ?>" SIZE="1">
 											<option value="person">For Now</option>
 											<option value="phone" <?php if ($patron == 5) { echo "disabled"; } ?>>For Future</option>
