@@ -862,6 +862,9 @@ class crr extends CI_Controller
 						$i++;
 					}
 					$data['timeAvailalbe'] = $timeAvailable;
+
+          // Trying to pass current patron status into PHP
+          $data['patron'] = $pat;
 					$this->load->view('reserveform_view', $data);
 
 				}

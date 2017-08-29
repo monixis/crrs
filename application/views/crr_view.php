@@ -35,33 +35,33 @@
 			</div>
 
 		</div>
-				
+
 		<h1 style="color: #b31b1b; text-align: center;">JAC Collaboration Room Reservation System 4.0</h1>
 		<div id="passcode" style="margin-top:0px; margin-left: auto; margin-right: auto; width: 300px; height: 0px;">
  							<strong>PASSCODE: </strong>
-							<input type="password" name='passcode' id='passcode' style="height:23px; margin-left: 10px;"></input><br/>
+							<input type="password" name='passcode' id='passcode' style="height:23px; margin-left: 10px;" autofocus></input><br/>
 							<input type="button" class="btn" id="submit" value="Submit" style="margin-left:95px; margin-top:10px; width:100px;"></input>
 		</div>
-				
+
 		<div id="date" style="align:center">
-			
+
 				<div id="tfheader">
 					        <!--input type="text" id="tfq" class="tftextinput2" name="q" /><img id="search" style="margin-left:5px;" src="./icons/search.png"/><!--input type="submit" value=">" class="tfbutton2"><br-->
-					        
+
 				</div>
-					
+
   			<p id="pickDate">Select a date: <input type="text" name="viewDate" id="datepicker" value="" /><img src="./icons/admin.png" style="width: 20px; height: 20px; margin-left: 5px;" id="admin1"/><!--a href="#" id="admin">Admin</a--></p></br>
 
 
 
- 			<!--p id="viewDate">Date Being Viewed: 
+ 			<!--p id="viewDate">Date Being Viewed:
  				<script type="text/javascript">
  				document.write($("#datepicker").val());
  				$( "#datepicker" ).change(function() {
  					// alert( "Handler for .change() called." );
  					document.getElementById("viewDate").innerHTML = "Date Being Viewed: " + $("#datepicker").val();
 				});
- 				</script> 
+ 				</script>
  			</p-->
  			<!--div id="admin-authentication" style="border: 1px solid grey; width: 360px; margin-left: auto; margin-right: auto; padding: 12px;">
 				Admin Passcode: <input type="text" name="fname" />
@@ -78,7 +78,7 @@
 						<option value="<?php echo $patron -> patr_id?>"><?php echo $patron -> patr_name;?></option>
 					<?php }?>
 				</select>
-                
+
                 <label>requesting room for </label>
                 <strong>Category - </strong>
 				<select id="cat_drop" style="height: 25px;">
@@ -87,7 +87,7 @@
 					<?php }?>
 				</select>
 				<button type="button" class="btn" id="filterRooms" style=" margin-top:5px; height: 35px; font-size: 10pt;">Submit</button>
-				<p id='currectSelection' style="font-weight: bold; font-style: italic;"></p>	
+				<p id='currectSelection' style="font-weight: bold; font-style: italic;"></p>
 			</div>
 
 <!--			<div id="patronType" style="width:800px; margin:0 auto;align-content: center">
@@ -127,9 +127,9 @@
     			$("#datepicker").empty();
 			    $("#tfheader").load('<?php echo base_url("?c=crr&m=tfq");?>');
 			    $("#admin-authentication").hide();
-			    $('p#currectSelection').html("Current Selection => Patron: " + $('#pat_drop option:selected').text() + " & Category: " + $('#cat_drop option:selected').text());	
+			    $('p#currectSelection').html("Current Selection => Patron: " + $('#pat_drop option:selected').text() + " & Category: " + $('#cat_drop option:selected').text());
     		});
-			
+
 			$("input#submit").click(function(){
 				var pcode = $("input#passcode").val();
 				$.post("<?php echo base_url("?c=crr&m=user_verify&pass=");?>"+pcode, {
@@ -154,7 +154,7 @@
 					}
 				});
 			});
-			
+
 			$('#passcode').keypress(function(e){
 				var key = e.which;
 				if(key == 13){
@@ -273,18 +273,18 @@
 				//var p = document.getElementById("pat_drop");
 				//var patron_type = p.options[p.selectedIndex].value;
 				var category_type = $('#cat_drop').val();
-				var patron_type = $('#pat_drop').val();	
+				var patron_type = $('#pat_drop').val();
 				var slotId = localStorage.getItem("slotId");
-				var url="<?php echo base_url("?c=crr&m=getReservations&date="); ?>"+date+"&slotId="+slotId+"&cat_type="+category_type+"&pat_type="+patron_type; 
+				var url="<?php echo base_url("?c=crr&m=getReservations&date="); ?>"+date+"&slotId="+slotId+"&cat_type="+category_type+"&pat_type="+patron_type;
               // 	var url = ("?c=crr&m=getReservations&date="+date+"&slotId="+slotId+"&cat_type="+category_type+"&pat_type="+patron_type);//http://localhost:9090/crrs/?c=crr&m=getReservations&date="+date
 				$('#dashboard_view').empty();
 			    $("#dashboard_view").html('<div id="searching" style="margin-top: 155px; text-align: center;"><img src="./icons/page-loader.gif" /><br/><p style="text-align: center;"></p></div>');
-            
+
             //var url="<!--?php echo base_url("?c=crr&m=todayRes&cat_type="); ?>"+category_type+"&pat_type="+patron_type; !-->
 			//	$('#dashboard_view').load(url);
                 setTimeout (function(){
                     $('#dashboard_view').load(url);//http://localhost/crrs/?c=crr&m=todayReservation
-					$('p#currectSelection').html("Current Selection => Patron: " + $('#pat_drop option:selected').text() + " & Category: " + $('#cat_drop option:selected').text());	
+					$('p#currectSelection').html("Current Selection => Patron: " + $('#pat_drop option:selected').text() + " & Category: " + $('#cat_drop option:selected').text());
                 }, 1000);
 			});
 

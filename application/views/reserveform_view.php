@@ -185,12 +185,10 @@
 										</select>
 						</p>
 						<input id="timestamp" name="timestamp" hidden/>
-
-            <script>alert("FLAG" + $('#pat_drop').val());</script>
-
+      
 						<p class="resDet"><label class="label">Booking Type:</label><select name ="bookType" id="bookType" value="<?php echo set_value('bookType'); ?>" SIZE="1">
 											<option value="person">For Now</option>
-											<option value="phone">For Future</option>
+											<option value="phone" <?php if ($patron == 5) { echo "disabled"; } ?>>For Future</option>
 										</select>
 										</br><div style="color:RED"><?php echo form_error('bookType'); ?></div>
 						</p>
