@@ -464,16 +464,16 @@ class crr_model extends CI_Model
         }
     }
 
-    public function checkExistingBookingRequirements(){
+    public function checkExistingBookingRequirements($roomNum,$catg_id, $patr_id){
       // SQL Statment to see if there is already a  booking requirement for this room with the same patron and category
-      $sql = "SELECT * FROM catg_patr_room WHERE catg_id = '$catg_id' AND patr_id = '$patr_id';";
+      $sql = "SELECT * FROM catg_patr_room WHERE catg_id = '$catg_id' AND patr_id = '$patr_id AND roomNum = '$roomNum'';";
 
       // Returns true if there is an existing record, false if not
-      if ($this->db->simple_query($sql, array($catg_id, $patr_id))) {
-        return 2;
+      if ($this->db->simple_query($sql, array($catg_id, $patr_id, $roomNum))) {
+        return 1;
       }
       else{
-        return false;
+        return 0;
       }
 
     }

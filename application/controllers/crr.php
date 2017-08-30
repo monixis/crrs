@@ -1870,17 +1870,31 @@ class crr extends CI_Controller
 
             $patr_req = 1;
         }
-		if($_POST['maxHour']) {
+	      if($_POST['maxHour']) {
             $maxHour = $_POST['maxHour'];
         }else{
 
             $maxHour = 1;
         }
         for ($i= 0 ; $i<sizeof($roomArray); $i++) {
-            $result = $this-> crr_model ->addBookingRequiremnts($roomArray[$i], $catg_id, $patr_id, $patr_req, $maxHour);
+            $result = $this->crr_model->addBookingRequiremnts($roomArray[$i], $catg_id, $patr_id, $patr_req, $maxHour);
         }
         echo $result;
     }
+
+    public function checkExistingBookingRequirements(){
+      $this->load->model('crr_model');
+      $roomArray = $_POST['roomNo'];
+      $catg_id= $_POST['category_type'];
+      $patr_id = $_POST['patron_type'];
+
+      for ($i= 0 ; $i<sizeof($roomArray); $i++) {
+          $result = $this->crr_model->checkExistingBookingRequirements($roomArray[$i], $catg_id, $patr_id);
+      }
+      echo $result;
+    }
+
+
 
 public function removeBookingRequirements(){
 

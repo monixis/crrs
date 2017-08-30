@@ -311,6 +311,11 @@
 		var category_type = c.options[c.selectedIndex].value;
 		var p = document.getElementById("pat_drop");
 		var patron_type = p.options[p.selectedIndex].value;
+
+    /* Checks to see if there is an existing set of booking requirements for the specified room, category, patron */
+
+
+
 		$.post("<?php echo base_url("?c=crr&m=addBookingRequirements"); ?>",{roomNo: roomNo,category_type:category_type,patron_type:patron_type, patr_req: patr_req, maxHour: maxHour}).done(function(data){
 			if (data == 1){
 				alert("Requirements added successfully");
@@ -320,7 +325,7 @@
 			}
       else if (data == 2){
         if (confirm("There is an existing set of Requirements for this room for this patron group and category. Do you wish to overwrite the exisiting requirements?")){
-          
+
         }
       }
       else{
