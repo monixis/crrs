@@ -1859,7 +1859,7 @@ class crr extends CI_Controller
 
 	}
 
-    /* Creates a new booking requirment */
+    /* Creates a new booking requirment or updates an existing requirement */
     public function addBookingRequirements() {
       $this->load->model('crr_model');
       $roomArray = $_POST['roomNo'];
@@ -1880,35 +1880,16 @@ class crr extends CI_Controller
       }
 
       for ($i= 0 ; $i<sizeof($roomArray); $i++) {
-        $result = $this->crr_model->addBookingRequirements($roomArray[$i], $catg_id, $patr_id, $patr_req, $maxHour);
-      }
-      echo $result;
-    }
+        // Checks to see if there is an existing record... is this a new record or an update.. 1 if update 0 or new
+        $update = $this->crr_model->checkExistingBookingRequirements($roomArray[$i], $catg_id, $patr_id);
 
-    /* Updates an existiing booking requirement for a room */
-    public function updateBookingRequirements() {
-      $this->load->model('crr_model');
-      $roomArray = $_POST['roomNo'];
-      $catg_id= $_POST['category_type'];
-      $patr_id = $_POST['patron_type'];
-
-      if($_POST['patr_req']) {
-        $patr_req = $_POST['patr_req'];
+        if ($update == 1) {
+          $result = $this->crr_model->updateBookingRequirements($roomArray[$i], $catg_id, $patr_id, $patr_req, $maxHour);
+        }
+        else{
+          $result = $this->crr_model->addBookingRequirements($roomArray[$i], $catg_id, $patr_id, $patr_req, $maxHour);
+        }
       }
-      else{
-        $patr_req = 1;
-      }
-      if($_POST['maxHour']) {
-          $maxHour = $_POST['maxHour'];
-      }
-      else{
-          $maxHour = 1;
-      }
-
-      for ($i= 0 ; $i<sizeof($roomArray); $i++) {
-        $result = $this->crr_model->updateBookingRequirements($roomArray[$i], $catg_id, $patr_id, $patr_req, $maxHour);
-      }
-
       echo $result;
     }
 
