@@ -272,7 +272,7 @@
 
 		$.post("<?php echo base_url("?c=crr&m=removeBookingRequirements"); ?>",{idArray: idArray}).done(function(data){
 				if (data == 1){
-					alert("requirements removed successfully");
+					alert("Requirements removed successfully");
 					var pass = "<?php echo $pass ?>";
 					$('#admin_dashboard').load("<?php echo base_url("?c=crr&m=admin_verify1&pass=");?>"+pass);
 					//location.reload();
@@ -313,25 +313,36 @@
 		var patron_type = p.options[p.selectedIndex].value;
 
     /* Checks to see if there is an existing set of booking requirements for the specified room, category, patron */
-
-
-
-		$.post("<?php echo base_url("?c=crr&m=addBookingRequirements"); ?>",{roomNo: roomNo,category_type:category_type,patron_type:patron_type, patr_req: patr_req, maxHour: maxHour}).done(function(data){
-			if (data == 1){
-				alert("Requirements added successfully");
-				var pass = "<?php echo $pass ?>";
-				$('#admin_dashboard').load("<?php echo base_url("?c=crr&m=admin_verify1&pass=");?>"+pass);
-				//location.reload();
-			}
-      else if (data == 2){
-        if (confirm("There is an existing set of Requirements for this room for this patron group and category. Do you wish to overwrite the exisiting requirements?")){
-
+    $.post("<?php echo base_url("?c=crr&m=checkExistingBookingRequirements"); ?>", {roomNo: roomNo, category_type:category_type, patron_type:patron_type}).done(function(data) {
+      if (data == 1) {
+        if (confirm("There is an existing set of requirements for this room for the selected patron group and category. Do you wish to overwrite the exisiting requirements?")) {
+          $.post("<?php echo base_url("?c=crr&m=updateBookingRequirements"); ?>",{roomNo: roomNo,category_type:category_type,patron_type:patron_type, patr_req: patr_req, maxHour: maxHour}).done(function(data){
+      			if (data == 1) {
+      				alert("Requirements updated successfully");
+      				var pass = "<?php echo $pass ?>";
+      				$('#admin_dashboard').load("<?php echo base_url("?c=crr&m=admin_verify1&pass=");?>"+pass);
+      				//location.reload();
+      			}
+            else{
+      				alert('Error in setting the Requirements');
+      			}
+      		});
         }
       }
-      else{
-				alert('Error in setting the Requirements');
-			}
-		});
+      else {
+        $.post("<?php echo base_url("?c=crr&m=addBookingRequirements"); ?>",{roomNo: roomNo,category_type:category_type,patron_type:patron_type, patr_req: patr_req, maxHour: maxHour}).done(function(data){
+    			if (data == 1){
+    				alert("Requirements added successfully");
+    				var pass = "<?php echo $pass ?>";
+    				$('#admin_dashboard').load("<?php echo base_url("?c=crr&m=admin_verify1&pass=");?>"+pass);
+    				//location.reload();
+    			}
+          else{
+    				alert('Error in setting the Requirements');
+    			}
+    		});
+      }
+    });
 	});
 
 	$('#unblock').click(function(){

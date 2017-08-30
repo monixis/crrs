@@ -453,8 +453,7 @@ class crr_model extends CI_Model
         return $results->result();
 
     }
-    public function addBookingRequiremnts($roomNum,$catg_id, $patr_id, $patr_req, $maxHour){
-
+    public function addBookingRequirements($roomNum, $catg_id, $patr_id, $patr_req, $maxHour){
         $sql= "INSERT into catg_patr_room(catg_id, patr_id, roomNum, patr_req, maxHour) VALUES ('$catg_id', '$patr_id', '$roomNum', '$patr_req', '$maxHour');";
 
         if ($this->db->simple_query($sql, array($catg_id, $patr_id, $roomNum, $patr_req, $maxHour))) {
@@ -464,18 +463,30 @@ class crr_model extends CI_Model
         }
     }
 
-    public function checkExistingBookingRequirements($roomNum,$catg_id, $patr_id){
+    public function updateBookingRequirements($roomNum, $catg_id, $patr_id, $patr_req, $maxHour){
+      $sql = "UPDATE catg_patr_room SET patr_id = '$patr_id', maxHour = '$maxHour' WHERE roomNum = '$roomNum' AND catg_id = '$catg_id' AND patr_req = '$patr_req';";
+
+      if ($this->db->query($sql, array($catg_id, $patr_id, $patr_req, $maxHour, $roomNum))) {
+          return 1;
+      } else {
+          return 0;
+      }
+    }
+
+    public function checkExistingBookingRequirements($roomNum, $catg_id, $patr_id){
       // SQL Statment to see if there is already a  booking requirement for this room with the same patron and category
-      $sql = "SELECT * FROM catg_patr_room WHERE catg_id = '$catg_id' AND patr_id = '$patr_id AND roomNum = '$roomNum'';";
+      $sql = "SELECT id FROM catg_patr_room WHERE catg_id = '$catg_id' AND patr_id = '$patr_id' AND roomNum = '$roomNum';";
 
       // Returns true if there is an existing record, false if not
-      if ($this->db->simple_query($sql, array($catg_id, $patr_id, $roomNum))) {
+      $query = $this->db->query($sql, array($catg_id, $patr_id, $roomNum));
+
+      // Returns 1 if there is an existing requiremnt for the room for the specified patron and category
+      if ($query->num_rows() > 0) {
         return 1;
       }
-      else{
+      else {
         return 0;
       }
-
     }
 
     public function removeBookingRequirements($id){
