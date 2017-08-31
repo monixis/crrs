@@ -154,7 +154,7 @@ class crr extends CI_Controller
     $this->email->subject('Cancellation Confirmation. ReservationID: '. $resId);
     $message = "<h4>Cancellation Confirmation. ReservationID: $resId</h4></br></br>";
     $message .= "Your room reservation, ReservationID: $resId, for $resDate has been cancelled.";
-    $message .= "You make a new reservation or ask someone at the Library desk if you need further assitance";
+    $message .= "You can make a new reservation or ask an employee at the Library desk if you need further assitance";
 
 
     $this->email->message($message);
