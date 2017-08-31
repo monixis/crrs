@@ -281,7 +281,10 @@ else {
 		$('img#editReservation').hide();
 		$("#adminsubmit").click(function () {
 			var rId = '<?php echo $rId ?>';
-			var slotStatus = '<?php echo $statusId ?>';
+			var slotStatus = '<?php echo $statusId; ?>';
+      var primEmail = '<?php echo $resEmail; ?>';
+      var secEmail = '<?php echo $secEmail; ?>';
+      var date = '<?php  echo $resDate; ?>';
 			var status = 3;
 			var Apasscode = '<?php echo $Apasscode ?>';
 			var Apcode = $("#Apasscode").val();
@@ -294,7 +297,10 @@ else {
 						$('#noshow_check').hide();
 						$.post("<?php echo base_url("?c=crr&m=cancelReservation"); ?>", {
 							rId: rId,
-							status: status
+							status: status,
+              primEmail: primEmail,
+              secEmail: secEmail,
+              date: date
 						}).done(function (data) {
 							if (data == 1) {
 								$('#confirmations').append("<img src='./icons/tick.png'/>");
@@ -309,7 +315,6 @@ else {
 								$('img#editReservation').hide();
 								document.getElementById("cancelSlot").style.display ="none";
 								document.getElementById("canceled").style.display ="none";
-
 							} else {
 								$('#confirmations').append("<img src='./icons/error.png'/>");
 							}
@@ -321,7 +326,10 @@ else {
 						$('#noshow_check').hide();
 						$.post("<?php echo base_url("?c=crr&m=cancelReservation"); ?>", {
 							rId: rId,
-							status: status
+							status: status,
+              primEmail: primEmail,
+              secEmail: secEmail,
+              date: date
 						}).done(function (data) {
 							if (data == 1) {
 								$('#confirmations').append("<img src='./icons/tick.png'/>");
@@ -347,7 +355,10 @@ else {
 					$('#noshow_check').hide();
 					$.post("<?php echo base_url("?c=crr&m=cancelReservation"); ?>", {
 						rId: rId,
-						status: status
+						status: status,
+            primEmail: primEmail,
+            secEmail: secEmail,
+            date: date
 					}).done(function (data) {
 						if (data == 1) {
 							$('#confirmations').append("<img src='./icons/tick.png'/>");
@@ -388,7 +399,10 @@ else {
 					$('#noshow_check').hide();
 					$.post("<?php echo base_url("?c=crr&m=cancelReservation"); ?>", {
 						rId: rId,
-						status: status
+						status: status,
+            primEmail: primEmail,
+            secEmail: secEmail,
+            date: date
 					}).done(function (data) {
 						if (data == 1) {
 							$('#confirmations').append("<img src='./icons/tick.png'/>");
@@ -440,7 +454,10 @@ else {
 				   $('#noshow_check').hide();
 				   $.post("<?php echo base_url("?c=crr&m=cancelReservation"); ?>", {
 					rId: rId,
-					status: status
+					status: status,
+          primEmail: primEmail,
+          secEmail: secEmail,
+          date: date
 				}).done(function (data) {
 					if (data == 1) {
 						$('#confirmations').append("<img src='./icons/tick.png'/>");
@@ -489,7 +506,8 @@ else {
 						$.post("<?php echo base_url("?c=crr&m=cancelSlot"); ?>", {
 							rId: rId,
 							resId: resId,
-							status: status
+							status: status,
+              date: date
 						}).done(function (data) {
 							if (data == 1) {
 								$('#confirmations').append("<img src='./icons/tick.png'/>");
@@ -535,7 +553,8 @@ else {
 						$.post("<?php echo base_url("?c=crr&m=cancelSlot"); ?>", {
 							rId: rId,
 							resId: resId,
-							status: status
+							status: status,
+              date: date
 						}).done(function (data) {
 							if (data == 1) {
 								$('#confirmations').append("<img src='./icons/tick.png'/>");
