@@ -167,18 +167,24 @@
 												<option value="1.5" <?php if($maxHour < 1.5) { echo "disabled"; } ?>>1.5 hours</option>
 											<?php }else if($timeAvailalbe==2){?>
 												<option value="1">1 hour</option>
+                        <option value="1.5" <?php if($maxHour < 1.5) { echo "disabled"; } ?>>1.5 hours</option>
 												<option value="2" <?php if($maxHour < 2) { echo "disabled"; } ?>>2 hours</option>
 											<?php } else if($timeAvailalbe==2.5){ ?>
 												<option value="1">1 hour</option>
+                        <option value="1.5" <?php if($maxHour < 1.5) { echo "disabled"; } ?>>1.5 hours</option>
 												<option value="2" <?php if($maxHour < 2) { echo "disabled"; } ?>>2 hours</option>
 												<option value="2.5" <?php if($maxHour < 2.5) { echo "disabled"; } ?>>2.5 hours</option>
                       <?php } else if($timeAvailalbe==3){ ?>
 												<option value="1">1 hour</option>
+                        <option value="1.5" <?php if($maxHour < 1.5) { echo "disabled"; } ?>>1.5 hours</option>
 												<option value="2" <?php if($maxHour < 2) { echo "disabled"; } ?>>2 hours</option>
+                        <option value="2.5" <?php if($maxHour < 2.5) { echo "disabled"; } ?>>2.5 hours</option>
 												<option value="3" <?php if($maxHour < 3) { echo "disabled"; } ?>>3 hours</option>
 											<?php }else{?>
 												<option value="1">1 hour</option>
+                        <option value="1.5" <?php if($maxHour < 1.5) { echo "disabled"; } ?>>1.5 hours</option>
 												<option value="2" <?php if($maxHour < 2) { echo "disabled"; } ?>>2 hours</option>
+                        <option value="2.5" <?php if($maxHour < 2.5) { echo "disabled"; } ?>>2.5 hours</option>
 												<option value="3" <?php if($maxHour < 3) { echo "disabled"; } ?>>3 hours</option>
 											<?php } ?>
 										</select>
@@ -218,7 +224,7 @@
 					<!--input name="reset" type="reset" id="reset" class="btn" style="margin-left:56px; margin-top:5px;"/-->
 					</form>
 			<div id="shadowBox"><iframe id="shadowFrame"></iframe><div style="width:25px; height:15px; float:right; margin-top:3px; margin-right: 5px;"><img id="close" src="./icons/close.png" style="width: 25px; height: 25px;"/></div></div>
-  
+
 			</div>
 			<script type="text/javascript" src="./js/dashboard.js"></script>
 			<script>
