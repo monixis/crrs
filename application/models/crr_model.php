@@ -464,7 +464,7 @@ class crr_model extends CI_Model
     }
 
     public function updateBookingRequirements($roomNum, $catg_id, $patr_id, $patr_req, $maxHour){
-      $sql = "UPDATE catg_patr_room SET patr_id = '$patr_id', maxHour = '$maxHour' WHERE roomNum = '$roomNum' AND catg_id = '$catg_id' AND patr_req = '$patr_req';";
+      $sql = "UPDATE catg_patr_room SET maxHour = '$maxHour', patr_req = '$patr_req' WHERE roomNum = '$roomNum' AND catg_id = '$catg_id' AND patr_id = '$patr_id';";
 
       if ($this->db->query($sql, array($catg_id, $patr_id, $patr_req, $maxHour, $roomNum))) {
           return 1;
