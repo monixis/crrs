@@ -126,12 +126,41 @@ class crr extends CI_Controller
 	{
 		date_default_timezone_set('US/Eastern');
 		$currentTimeStamp = date("Y-m-d H:i:s");
-		$rId = $_POST['rId'];
+		$resId = $_POST['rId'];
+    $resDate = $_POST['date'];
 		$status = $_POST['status'];
 		$this->load->model('crr_model');
-		$result = $this->crr_model->updateStatus($rId, $status, $currentTimeStamp);
-		echo $result;
+		$result = $this->crr_model->updateStatus($resId, $status, $currentTimeStamp);
 
+    $this->load->library('email');
+
+      $config['protocol'] = "smtp";
+                $config['smtp_host'] = "tls://smtp.googlemail.com";
+                $config['smtp_port'] = "465";
+                $config['smtp_user'] = "cannavinolibrary@gmail.com";
+                $config['smtp_pass'] = "845@jac3419";
+                $config['charset'] = "utf-8";
+                $config['mailtype'] = "html";
+                $config['newline'] = "\r\n";
+                $this->email->initialize($config);
+    $this->email->from('cannavinolibrary@gmail.com', 'James A. Cannavino Library (Collaboration Room Reservation System)');
+    //$this->email->to($this->input->post('primEmail'));
+    $primPatron = $_POST['primEmail'];
+    $secEmail = $_POST['secEmail'];
+    $list = array($primPatron,$secEmail);
+    $this->email->to($list);
+    $this->email->cc("cannavinolibrary@gmail.com");
+  //	$this->email->bcc('dheerajkarnati1@marist.edu');
+    $this->email->subject('Cancellation Confirmation. ReservationID: '. $resId);
+    $message = "<h4>Cancellation Confirmation. ReservationID: $resId</h4></br></br>";
+    $message .= "Your room reservation, ReservationID: $resId, for $resDate has been cancelled.";
+    $message .= "You can make a new reservation or ask an employee at the Library desk if you need further assitance";
+
+
+    $this->email->message($message);
+    $this->email->send();
+
+		echo $result;
 	}
 
 
@@ -348,7 +377,7 @@ class crr extends CI_Controller
 		$this->load->view('main_view', $data);
 	}
      */
-     
+
      /*
 	 * Retrieve all the reservations of today based on the selected categories and patron
 	 * Reads ini file for tentative slots.
@@ -591,11 +620,11 @@ class crr extends CI_Controller
 		$data['emails'] = $this->crr_model->getEmails();
 		$resId = $this->input->get('resId');
 		$data['resId'] = $this->input->get('resId');
-		
+
 		$pat = $this->input->get('pat');
 		$cat = $this->input->get('cat');
-		$data['req'] = $this->crr_model->getReq($pat, $cat); 
-		
+		$data['req'] = $this->crr_model->getReq($pat, $cat);
+
 		$reservation = parse_ini_file('reservation.ini');
 		$NonOperatinghours = $this->crr_model->getUnavailableHours($date);
 		$NonOperatinghours = json_decode(json_encode($NonOperatinghours), true);
@@ -862,6 +891,9 @@ class crr extends CI_Controller
 						$i++;
 					}
 					$data['timeAvailalbe'] = $timeAvailable;
+
+          // Trying to pass current patron status into PHP
+          $data['patron'] = $pat;
 					$this->load->view('reserveform_view', $data);
 
 				}
@@ -946,6 +978,8 @@ class crr extends CI_Controller
         }
 		if ($this->form_validation->run() == FALSE) {
 			$data['timeAvailalbe'] = $this->input->post('timeAvailalbe');
+      // Trying to pass current patron status into PHP
+      $data['patron'] = $this->input->post('patron');
 			$this->load->view('reserveform_view', $data);
 		} else {
 			$reserverData = array(
@@ -1853,28 +1887,57 @@ class crr extends CI_Controller
 		}
 
 	}
-    public function addBookingRequirements(){
 
-        $this->load->model('crr_model');
-        $roomArray = $_POST['roomNo'];
-        $catg_id= $_POST['category_type'];
-        $patr_id = $_POST['patron_type'];
-        if($_POST['patr_req']) {
-            $patr_req = $_POST['patr_req'];
-        }else{
+    /* Creates a new booking requirment or updates an existing requirement */
+    public function addBookingRequirements() {
+      $this->load->model('crr_model');
+      $roomArray = $_POST['roomNo'];
+      $catg_id= $_POST['category_type'];
+      $patr_id = $_POST['patron_type'];
 
-            $patr_req = 1;
-        }
-		if($_POST['maxHour']) {
-            $maxHour = $_POST['maxHour'];
-        }else{
+      if($_POST['patr_req']) {
+        $patr_req = $_POST['patr_req'];
+      }
+      else{
+        $patr_req = 1;
+      }
+      if($_POST['maxHour']) {
+          $maxHour = $_POST['maxHour'];
+      }
+      else{
+          $maxHour = 1;
+      }
 
-            $maxHour = 1;
+      for ($i= 0 ; $i<sizeof($roomArray); $i++) {
+        // Checks to see if there is an existing record... is this a new record or an update.. 1 if update 0 or new
+        $update = $this->crr_model->checkExistingBookingRequirements($roomArray[$i], $catg_id, $patr_id);
+
+        if ($update == 1) {
+          $result = $this->crr_model->updateBookingRequirements($roomArray[$i], $catg_id, $patr_id, $patr_req, $maxHour);
         }
-        for ($i= 0 ; $i<sizeof($roomArray); $i++) {
-            $result = $this-> crr_model ->addBookingRequiremnts($roomArray[$i], $catg_id, $patr_id, $patr_req, $maxHour);
+        else{
+          $result = $this->crr_model->addBookingRequirements($roomArray[$i], $catg_id, $patr_id, $patr_req, $maxHour);
         }
-        echo $result;
+      }
+      echo $result;
+    }
+
+    /* Checks if there is an existing booking requirement for a given room with the specified caegory and patron */
+    public function checkExistingBookingRequirements() {
+      $this->load->model('crr_model');
+      $roomArray = $_POST['roomNo'];
+      $catg_id= $_POST['category_type'];
+      $patr_id = $_POST['patron_type'];
+
+      for ($i= 0 ; $i<sizeof($roomArray); $i++) {
+        $result = $this->crr_model->checkExistingBookingRequirements($roomArray[$i], $catg_id, $patr_id);
+        if ($result == 1){
+          echo $result;
+          return 1;
+        }
+      }
+
+      echo $result;
     }
 
 public function removeBookingRequirements(){

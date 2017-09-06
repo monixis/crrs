@@ -62,7 +62,7 @@ class crr_model extends CI_Model
     FROM
         reservations
     WHERE
-        
+
             reservations.createdDttm BETWEEN '$fromDate' AND '$toDate'";
         $results = $this->db->query($sql);
         return $results->result();
@@ -105,9 +105,9 @@ class crr_model extends CI_Model
 		$sql = "UPDATE reservations SET status = '$status' , createdDttm = '$currentTimeStamp' WHERE resId = '$resId' AND rid = '$rId';";
 		if ($this->db->simple_query($sql, array($resId, $status))) {
 			/*if (strlen($notes) > 0){
-				$sql1 = "INSERT into notes(resId, note) VALUES ('$rId', '$notes');";	
+				$sql1 = "INSERT into notes(resId, note) VALUES ('$rId', '$notes');";
 				if ($this->db->simple_query($sql1, array($rId, $notes))){
-					return 1;		
+					return 1;
 				}else{
 					return 0;
 				}
@@ -453,8 +453,7 @@ class crr_model extends CI_Model
         return $results->result();
 
     }
-    public function addBookingRequiremnts($roomNum,$catg_id, $patr_id, $patr_req, $maxHour){
-
+    public function addBookingRequirements($roomNum, $catg_id, $patr_id, $patr_req, $maxHour){
         $sql= "INSERT into catg_patr_room(catg_id, patr_id, roomNum, patr_req, maxHour) VALUES ('$catg_id', '$patr_id', '$roomNum', '$patr_req', '$maxHour');";
 
         if ($this->db->simple_query($sql, array($catg_id, $patr_id, $roomNum, $patr_req, $maxHour))) {
@@ -463,6 +462,33 @@ class crr_model extends CI_Model
             return 0;
         }
     }
+
+    public function updateBookingRequirements($roomNum, $catg_id, $patr_id, $patr_req, $maxHour){
+      $sql = "UPDATE catg_patr_room SET maxHour = '$maxHour', patr_req = '$patr_req' WHERE roomNum = '$roomNum' AND catg_id = '$catg_id' AND patr_id = '$patr_id';";
+
+      if ($this->db->query($sql, array($catg_id, $patr_id, $patr_req, $maxHour, $roomNum))) {
+          return 1;
+      } else {
+          return 0;
+      }
+    }
+
+    public function checkExistingBookingRequirements($roomNum, $catg_id, $patr_id){
+      // SQL Statment to see if there is already a  booking requirement for this room with the same patron and category
+      $sql = "SELECT id FROM catg_patr_room WHERE catg_id = '$catg_id' AND patr_id = '$patr_id' AND roomNum = '$roomNum';";
+
+      // Returns true if there is an existing record, false if not
+      $query = $this->db->query($sql, array($catg_id, $patr_id, $roomNum));
+
+      // Returns 1 if there is an existing requiremnt for the room for the specified patron and category
+      if ($query->num_rows() > 0) {
+        return 1;
+      }
+      else {
+        return 0;
+      }
+    }
+
     public function removeBookingRequirements($id){
 
      if($this->db->delete('catg_patr_room', array('id' => $id))) {
@@ -471,7 +497,7 @@ class crr_model extends CI_Model
          return 0;
      }
      }
-	
+
 	public function getReq($pat, $cat)
 	{
 		$sql = "SELECT patr_req, maxHour FROM catg_patr_room WHERE patr_id = '$pat' AND catg_id = '$cat'";

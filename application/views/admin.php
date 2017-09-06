@@ -18,9 +18,9 @@
 <!--		<div id="headerContainer">
 			<a href="<!--?php /*echo base_url(); */?>" target="_self">
 				<div id="header"></div>
-			</a>	
+			</a>
 		</div>
-		
+
 		<div id="menu">
 			<div id="menuItems">
 
@@ -32,18 +32,18 @@
 				<div id="hours" style="float: left; width: 300px; height: 500px; border-bottom: 1px solid black;">
 					<p><label class="label">Select Hours to Freeze: </label></p>
 					<table style="width:250px; margin-left: 27px;">
-						<tbody style="height:300px; overflow-y:scroll; display:block;">	  
-							<?php 
+						<tbody style="height:300px; overflow-y:scroll; display:block;">
+							<?php
 						foreach($hours as $row){
-						?>					
+						?>
   							<tr>
     							<td><input type="checkbox" name="hours" value="<?php echo $row -> id?>" /></td>
-    							<td><?php echo $row -> displayhrs?></td> 
+    							<td><?php echo $row -> displayhrs?></td>
   							</tr>
-  							<?php		
+  							<?php
 							}
 						?>
-  						</tbody>	
+  						</tbody>
 					</table>
 					<p><label class="label">From: <input type="text" name="fromDate" id="datepicker" value="" style="width: 140px;"/></label></p>
 					<p><label class="label">To: <input type="text" name="toDate" id="datepicker1" value="" style="margin-left: 25px; width: 140px;" /></label></p>
@@ -75,22 +75,22 @@
 						</table>
 						<button type="button" class="btn" id="deleteInst" style="margin-left:10px; margin-top:21px;">Remove Instructions</button>
 				</div>
-				
+
 				<div id="rooms" style="float: left; width: 300px; height: 440px; border-bottom: 1px solid black;">
 					<p><label class="label">Select Rooms to Block: </label></p>
 					<table style="width:250px; margin-left: 27px;">
-						<tbody style="height:300px; overflow-y:scroll; display:block;">	  
-							<?php 
+						<tbody style="height:300px; overflow-y:scroll; display:block;">
+							<?php
 						foreach($rooms as $row){
-						?>					
+						?>
   							<tr>
     							<td><input type="checkbox" name="rooms" value="<?php echo $row -> roomNum ?>" /></td>
-    							<td><?php echo $row -> roomNum?></td> 
+    							<td><?php echo $row -> roomNum?></td>
   							</tr>
-  							<?php		
+  							<?php
 							}
 						?>
-  						</tbody>	
+  						</tbody>
 					</table>
 					<button type="button" class="btn" id="block" style="margin-left:56px; margin-top: 21px;">Block</button>
 				</div>
@@ -98,22 +98,22 @@
 				<div id="frozenrooms" style="float: right; width: 494px; height: 440px;border-bottom: 1px solid black;">
 					<p><label class="label">Blocked Rooms: </label></p>
 						<table style="margin-left: 10px; width: 475px;">
-							<tbody style="height:300px; overflow-y:scroll; display:block;">	
+							<tbody style="height:300px; overflow-y:scroll; display:block;">
 							<tr>
 								<th></th>
 								<th>Rooms</th>
-							</tr>  
-							<?php 
+							</tr>
+							<?php
 						foreach($blockedrooms as $row){
-						?>					
+						?>
   							<tr>
     							<td><input type="checkbox" name="blockedrooms" value="<?php echo $row -> roomNum?>" /></td>
     							<td><?php echo $row -> roomNum ?></td>
   							</tr>
-  							<?php		
+  							<?php
 							}
 						?>
-  							</tbody>	
+  							</tbody>
 						</table>
 						<button type="button" class="btn" id="unblock" style="margin-left:10px; margin-top:21px;">Unblock</button>
 				</div>
@@ -133,14 +133,14 @@
 						?>
 						</tbody>
 					</table></br>
-						
-						<p><label>Category: 
+
+						<p><label>Category:
 						<select id="cat_drop">
 							<?php foreach ($categories as $category){?>
                               	<option value="<?php echo $category -> catg_id?>"><?php echo $category -> catg_name?></option>
 							<?php }?>
 						</select></label></p>
-						
+
 						<p><label>Patron:
 						<!--select id="pat_drop">
 							<?php foreach ($patrons as $patron){ if($patron ->  patr_id== 1) {?>
@@ -148,7 +148,7 @@
 								<option value="<?php echo $patron -> patr_id?>"><?php echo $patron -> patr_name;?></option>
 							<?php }}?>
 						</select-->
-						
+
 						<select id="pat_drop">
 							<?php foreach ($patrons as $patron){?>
 								<option value="<?php echo $patron -> patr_id?>"><?php echo $patron -> patr_name;?></option>
@@ -182,7 +182,7 @@
 								<td><?php echo $row -> patr_name ?></td>
 								<td><?php echo $row -> catg_name ?></td>
 								<td><?php echo $row -> patr_req ?></td>
-								<td><?php echo $row -> maxHour ?></td>	
+								<td><?php echo $row -> maxHour ?></td>
 							</tr>
 							<?php
 						}
@@ -272,7 +272,7 @@
 
 		$.post("<?php echo base_url("?c=crr&m=removeBookingRequirements"); ?>",{idArray: idArray}).done(function(data){
 				if (data == 1){
-					alert("requirements removed successfully");
+					alert("Requirements removed successfully");
 					var pass = "<?php echo $pass ?>";
 					$('#admin_dashboard').load("<?php echo base_url("?c=crr&m=admin_verify1&pass=");?>"+pass);
 					//location.reload();
@@ -311,16 +311,38 @@
 		var category_type = c.options[c.selectedIndex].value;
 		var p = document.getElementById("pat_drop");
 		var patron_type = p.options[p.selectedIndex].value;
-		$.post("<?php echo base_url("?c=crr&m=addBookingRequirements"); ?>",{roomNo: roomNo,category_type:category_type,patron_type:patron_type, patr_req: patr_req, maxHour: maxHour}).done(function(data){
-			if (data == 1){
-				alert("Requirements added successfully");
-				var pass = "<?php echo $pass ?>";
-				$('#admin_dashboard').load("<?php echo base_url("?c=crr&m=admin_verify1&pass=");?>"+pass);
-				//location.reload();
-			}else{
-				alert('Error in setting the Requirements');
-			}
-		});
+
+    /* Checks to see if there is an existing set of booking requirements for the specified room, category, patron */
+    $.post("<?php echo base_url("?c=crr&m=checkExistingBookingRequirements"); ?>", {roomNo: roomNo, category_type:category_type, patron_type:patron_type}).done(function(data) {
+      if (data == 1) {
+        if (confirm("There is an existing set of requirements for one or more of the selected rooms with the selected patron group and category. Do you wish to overwrite the exisiting requirements?")) {
+          $.post("<?php echo base_url("?c=crr&m=addBookingRequirements"); ?>",{roomNo: roomNo,category_type:category_type,patron_type:patron_type, patr_req: patr_req, maxHour: maxHour}).done(function(data){
+      			if (data == 1) {
+      				alert("Requirements updated successfully");
+      				var pass = "<?php echo $pass ?>";
+      				$('#admin_dashboard').load("<?php echo base_url("?c=crr&m=admin_verify1&pass=");?>"+pass);
+      				//location.reload();
+      			}
+            else{
+      				alert('Error in setting the Requirements');
+      			}
+      		});
+        }
+      }
+      else {
+        $.post("<?php echo base_url("?c=crr&m=addBookingRequirements"); ?>",{roomNo: roomNo,category_type:category_type,patron_type:patron_type, patr_req: patr_req, maxHour: maxHour}).done(function(data){
+    			if (data == 1){
+    				alert("Requirements added successfully");
+    				var pass = "<?php echo $pass ?>";
+    				$('#admin_dashboard').load("<?php echo base_url("?c=crr&m=admin_verify1&pass=");?>"+pass);
+    				//location.reload();
+    			}
+          else{
+    				alert('Error in setting the Requirements');
+    			}
+    		});
+      }
+    });
 	});
 
 	$('#unblock').click(function(){
