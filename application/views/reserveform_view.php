@@ -156,7 +156,7 @@
 					<FORM NAME="theForm" ID="theForm" ACTION="<?php echo base_url("?c=crr&m=reserveForm&resId=$resId")?>"  METHOD="POST">
 						<p style="font-style: italic; font-weight: bold; text-align: center;"><label>Reservation Requirement => </label><label>Req. Patrons: </label><?php echo $pat_req; ?> &amp; <label>Max. Hours: </label><?php echo $maxHour; ?></p>
 						<p class="resDet"><label class="label">Room No: </label><input type="text" id="roomNo" name="roomNum" disabled="true" style="color: #b31b1b; background: #ffffff; border: 1px solid #ffffff; font-size: 18px; width: 48px;" value="<?php echo $roomNum ?>"/><img src="./icons/expand.png" class="tooltip" id="<?php echo base_url("?c=crr&m=tooltiproomdetails&roomNo=".$roomNum)  ?>" style="width:12px; height:12px;"/></p>
-						<p class="resDet"><label class="label">Reserve Date: </label><INPUT TYPE="text" disabled="true" NAME="resDate" style="color: #b31b1b; background: #ffffff; border: 1px solid #ffffff; font-size: 18px;" value="<?php echo $resDate?>" SIZE="13" class="ask_text_input" /></p>
+						<p class="resDet"><label class="label">Reserve Date: </label><input TYPE="text" disabled="true" NAME="resDate" style="color: #b31b1b; background: #ffffff; border: 1px solid #ffffff; font-size: 18px;" value="<?php echo $resDate?>" SIZE="13" class="ask_text_input" /></p>
 						<p class="resDet"><label class="label">Reservation Time: </label><input type="text" disabled="true" name ="timeStart" style="color: #b31b1b; background: #ffffff; border: 1px solid #ffffff; font-size: 18px;" value="<?php echo $time; ?>">
 										<label class="label" style="margin-left:0px;">for </label>
 										<select name ="numHours" id="numHours" value="<?php echo set_value('numHours'); ?>" SIZE="1">
@@ -209,14 +209,16 @@
 												<option value="8">8</option>
 											</select>
 						</p>
-						<!--p class="resDet"><label class="label">Number of Patrons:</label><INPUT TYPE="text" NAME="numPatrons" id="numPatrons" value="<?php echo set_value('numPatrons'); ?>" SIZE="10" class="ask_text_input" /><div style="color:RED"><?php echo form_error('numPatrons'); ?></div></p-->
+						<!--p class="resDet"><label class="label">Number of Patrons:</label><input TYPE="text" NAME="numPatrons" id="numPatrons" value="<?php echo set_value('numPatrons'); ?>" SIZE="10" class="ask_text_input" /><div style="color:RED"><?php echo form_error('numPatrons'); ?></div></p-->
 
-						<p class="resDet"><label class="label">Primary Marist Email:</label><INPUT TYPE="text" NAME="primEmail" id="primEmail" value="<?php echo set_value('primEmail'); ?>" SIZE="40" class="ask_text_input" /><img src="./icons/expand.png" class="viewNotes" id="viewNotes1" style="width:12px; height:12px; margin-left: 10px;"/><img src="./icons/addNotes.png" id="addNotes1" class="addNotes" style="width:14px; height:14px; margin-left: 7px;"/></br><div style="color:RED"><?php echo form_error('primEmail'); ?></div></p>
+						<p class="resDet"><label class="label">Primary Marist Email:</label><input TYPE="text" NAME="primEmail" id="primEmail" value="<?php echo set_value('primEmail'); ?>" SIZE="40" class="ask_text_input" /><img src="./icons/expand.png" class="viewNotes" id="viewNotes1" style="width:12px; height:12px; margin-left: 10px;"/><img src="./icons/addNotes.png" id="addNotes1" class="addNotes" style="width:14px; height:14px; margin-left: 7px;"/></br><div style="color:RED"><?php echo form_error('primEmail'); ?></div></p>
 						<p class="resDet" id="check1"><input type="checkbox" id="checkbox1" style="margin-left:180px;" required>Check to verify that this patron has a Marist CWID.</input></p>
-						<p class="resDet"><label class="label">Primary Phone No:</label><INPUT TYPE="text" NAME="primPhone" id="primPhone" value="<?php echo set_value('primPhone');?>" SIZE="15" class="ask_text_input" /></br></p>
+						<p class="resDet"><label class="label">Primary Phone No:</label><input TYPE="text" NAME="primPhone" id="primPhone" value="<?php echo set_value('primPhone');?>" SIZE="15" class="ask_text_input" /></br></p>
 						<p class="resDet" id="isUnverified1" hidden style="margin-left:180px;">A Marist ID must be shown when verifying a reservation.</p>
-						<p class="resDet" id="secEmailP"><label class="label">Secondary Email:</label><INPUT TYPE="text" NAME="secEmail" id="secEmail" value="<?php echo set_value('secEmail'); ?>" SIZE="40" class="ask_text_input" /><img src="./icons/expand.png" class="viewNotes" id="viewNotes2" style="width:12px; height:12px; margin-left: 10px;"/><img src="./icons/addNotes.png" id="addNotes2" class="addNotes" style="width:14px; height:14px; margin-left: 7px;"/></br><div style="color:RED"><?php echo form_error('secEmail'); ?></div></p>
-						<p class="resDet" id="check2"><input type="checkbox" id="checkbox2" style="margin-left:180px;" required>Check to verify that this patron has a Marist CWID.</input></p>
+
+            <p class="resDet" id="secEmailP" <?php if ($pat_req == 1) { echo 'hidden'; } ?>><label class="label">Secondary Email:</label><input TYPE="text" NAME="secEmail" id="secEmail" value="<?php echo set_value('secEmail'); ?>" SIZE="40" class="ask_text_input" /><img src="./icons/expand.png" class="viewNotes" id="viewNotes2" style="width:12px; height:12px; margin-left: 10px;"/><img src="./icons/addNotes.png" id="addNotes2" class="addNotes" style="width:14px; height:14px; margin-left: 7px;"/></br><div style="color:RED"><?php echo form_error('secEmail'); ?></div></p>
+
+            <p class="resDet" id="check2" <?php if ($pat_req == 1) { echo 'hidden'; } ?>><input type="checkbox" id="checkbox2" style="margin-left:180px;" required>Check to verify that this patron has a Marist CWID.</input></p>
 						<p class="resDet" id="isUnverified2" hidden style="margin-left:180px;">A Marist ID must be shown when verifying a reservation.</p>
 						<p class="resDet"><label class="label">Comments (Optional): </label><textarea NAME="Comments" ROWS="3" COLS="43" ></textarea></p>
 						<input name="timeAvailalbe" id="timeAvailalbe" value="<?php if($timeAvailalbe){ echo $timeAvailalbe; }?>" hidden/>
