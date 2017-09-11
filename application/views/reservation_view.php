@@ -386,6 +386,7 @@ else {
 		});
 		$('#Apasscode').keypress(function (e) {
 			var rId = '<?php echo $rId ?>';
+      // Adding date here to try to fix failure to cancel reservations
       var date = '<?php  echo $resDate; ?>';
 			var status = 3;
 			var slotStatus = '<?php echo $statusId ?>';
