@@ -386,6 +386,7 @@ else {
 		});
 		$('#Apasscode').keypress(function (e) {
 			var rId = '<?php echo $rId ?>';
+      var date = '<?php  echo $resDate; ?>';
 			var status = 3;
 			var slotStatus = '<?php echo $statusId ?>';
 			var Apasscode = '<?php echo $Apasscode ?>';
