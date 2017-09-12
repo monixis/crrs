@@ -279,6 +279,7 @@ else {
 		$('#valid').hide();
 		$('#admin-authentication').show();
 		$('img#editReservation').hide();
+    // FLAG 2
 		$("#adminsubmit").click(function () {
 			var rId = '<?php echo $rId ?>';
 			var slotStatus = '<?php echo $statusId; ?>';
@@ -384,108 +385,111 @@ else {
 				}, 2000)
 			}
 		});
+    // FLAG 3
 		$('#Apasscode').keypress(function (e) {
-			var rId = '<?php echo $rId ?>';
-      // Adding date here to try to fix failure to cancel reservations
+      var rId = '<?php echo $rId ?>';
+      var slotStatus = '<?php echo $statusId; ?>';
+      var primEmail = '<?php echo $resEmail; ?>';
+      var secEmail = '<?php echo $secEmail; ?>';
       var date = '<?php  echo $resDate; ?>';
-			var status = 3;
-			var slotStatus = '<?php echo $statusId ?>';
-			var Apasscode = '<?php echo $Apasscode ?>';
-			var Apcode = $("#Apasscode").val();
-			if (Apasscode == Apcode) {
-				$('#admin-authentication').hide();
-               if(slotStatus == 2){
-				$('#noshow_check').show();
-				$("#yes").click(function () {
-					status = 6;
-					$('#noshow_check').hide();
-					$.post("<?php echo base_url("?c=crr&m=cancelReservation"); ?>", {
-						rId: rId,
-						status: status,
+      var status = 3;
+      var Apasscode = '<?php echo $Apasscode ?>';
+      var Apcode = $("#Apasscode").val();
+      if (Apasscode == Apcode) {
+        $('#admin-authentication').hide();
+        $('#noshow_check').show();
+        if(slotStatus == 2) {
+          $("#yes").click(function () {
+            status = 6;
+            $('#noshow_check').hide();
+            $.post("<?php echo base_url("?c=crr&m=cancelReservation"); ?>", {
+              rId: rId,
+              status: status,
+              primEmail: primEmail,
+              secEmail: secEmail,
+              date: date
+            }).done(function (data) {
+              if (data == 1) {
+                $('#confirmations').append("<img src='./icons/tick.png'/>");
+                $("#color").removeClass("reserved");
+                $("#color").removeClass("unverified");
+                $("#color").addClass("slots");
+                $('#valid').show();
+                $('#returned').hide();
+                $('#cancelSlot').hide();
+                $('#canceled').hide();
+                $('#verify').hide();
+                $('img#editReservation').hide();
+                document.getElementById("cancelSlot").style.display ="none";
+                document.getElementById("canceled").style.display ="none";
+              } else {
+                $('#confirmations').append("<img src='./icons/error.png'/>");
+              }
+            });
+
+          });
+          $("#no").click(function () {
+            status = 3;
+            $('#noshow_check').hide();
+            $.post("<?php echo base_url("?c=crr&m=cancelReservation"); ?>", {
+              rId: rId,
+              status: status,
+              primEmail: primEmail,
+              secEmail: secEmail,
+              date: date
+            }).done(function (data) {
+              if (data == 1) {
+                $('#confirmations').append("<img src='./icons/tick.png'/>");
+                $("#color").removeClass("reserved");
+                $("#color").removeClass("unverified");
+                $("#color").addClass("slots");
+                $('#valid').show();
+                $('#returned').hide();
+                $('#cancelSlot').hide();
+                $('#canceled').hide();
+                $('#verify').hide();
+                $('img#editReservation').hide();
+                document.getElementById("cancelSlot").style.display ="none";
+                document.getElementById("canceled").style.display ="none";
+
+              } else {
+                $('#confirmations').append("<img src='./icons/error.png'/>");
+              }
+            });
+
+          });
+        }else {
+          $('#noshow_check').hide();
+          $.post("<?php echo base_url("?c=crr&m=cancelReservation"); ?>", {
+            rId: rId,
+            status: status,
             primEmail: primEmail,
             secEmail: secEmail,
             date: date
-					}).done(function (data) {
-						if (data == 1) {
-							$('#confirmations').append("<img src='./icons/tick.png'/>");
-							$("#color").removeClass("reserved");
-							$("#color").removeClass("unverified");
-							$("#color").addClass("slots");
-							$('#valid').show();
-							$('#returned').hide();
-							$('#cancelSlot').hide();
-							$('#canceled').hide();
-                            $('#verify').hide();
-							$('img#editReservation').hide();
-							document.getElementById("cancelSlot").style.display ="none";
-							document.getElementById("canceled").style.display ="none";
-						} else {
-							$('#confirmations').append("<img src='./icons/error.png'/>");
-						}
-					});
-
-				});
-				$("#no").click(function () {
-					status = 3;
-					$('#noshow_check').hide();
-					$.post("<?php echo base_url("?c=crr&m=cancelReservation"); ?>", {
-						rId: rId,
-						status: status
-					}).done(function (data) {
-						if (data == 1) {
-							$('#confirmations').append("<img src='./icons/tick.png'/>");
-							$("#color").removeClass("reserved");
-							$("#color").removeClass("unverified");
-							$("#color").addClass("slots");
-							$('#valid').show();
-							$('#returned').hide();
-							$('#cancelSlot').hide();
-							$('#canceled').hide();
-							$('#verify').hide();
-							$('img#editReservation').hide();
-							document.getElementById("cancelSlot").style.display ="none";
-							document.getElementById("canceled").style.display ="none";
-
-						} else {
-							$('#confirmations').append("<img src='./icons/error.png'/>");
-						}
-					});
-
-				});
-              } else {
-				   $('#noshow_check').hide();
-				   $.post("<?php echo base_url("?c=crr&m=cancelReservation"); ?>", {
-					rId: rId,
-					status: status,
-          primEmail: primEmail,
-          secEmail: secEmail,
-          date: date
-				}).done(function (data) {
-					if (data == 1) {
-						$('#confirmations').append("<img src='./icons/tick.png'/>");
-						$("#color").removeClass("reserved");
-						$("#color").removeClass("unverified");
-						$("#color").addClass("slots");
-						$('#valid').show();
-						$('#returned').hide();
-						$('#cancelSlot').hide();
-						$('#canceled').hide();
-						$('img#editReservation').hide();
-						document.getElementById("cancelSlot").style.display ="none";
-						document.getElementById("canceled").style.display ="none";
-
-					} else {
-						$('#confirmations').append("<img src='./icons/error.png'/>");
-					}
-				});
-
-				 }
-			} else {
-				$("#Apasscode").css('border', '3px solid red');
-				setTimeout(function () {
-					$("#Apasscode").css('border', '1px solid grey');
-				}, 2000)
-			}
+          }).done(function (data) {
+            if (data == 1) {
+              $('#confirmations').append("<img src='./icons/tick.png'/>");
+              $("#color").removeClass("reserved");
+              $("#color").removeClass("unverified");
+              $("#color").addClass("slots");
+              $('#valid').show();
+              $('#returned').hide();
+              $('#cancelSlot').hide();
+              $('#verify').hide();
+              $('img#editReservation').hide();
+              document.getElementById("cancelSlot").style.display ="none";
+              document.getElementById("canceled").style.display ="none";
+            } else {
+              $('#confirmations').append("<img src='./icons/error.png'/>");
+            }
+          });
+        }
+      } else {
+        $("#Apasscode").css('border', '3px solid red');
+        setTimeout(function () {
+          $("#Apasscode").css('border', '1px solid grey');
+        }, 2000)
+      }
 		});
 	});
 
