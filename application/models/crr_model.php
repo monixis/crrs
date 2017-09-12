@@ -498,9 +498,9 @@ class crr_model extends CI_Model
      }
      }
 
-	public function getReq($pat, $cat)
+	public function getReq($pat, $cat, $roomNum)
 	{
-		$sql = "SELECT patr_req, maxHour FROM catg_patr_room WHERE patr_id = '$pat' AND catg_id = '$cat'";
+		$sql = "SELECT patr_req, maxHour FROM catg_patr_room WHERE patr_id = '$pat' AND catg_id = '$cat' AND roomNum = '$roomNum'";
 		$results = $this->db->query($sql, array());
 		return $results->result();
 	}

@@ -623,7 +623,6 @@ class crr extends CI_Controller
 
 		$pat = $this->input->get('pat');
 		$cat = $this->input->get('cat');
-		$data['req'] = $this->crr_model->getReq($pat, $cat);
 
 		$reservation = parse_ini_file('reservation.ini');
 		$NonOperatinghours = $this->crr_model->getUnavailableHours($date);
@@ -681,6 +680,11 @@ class crr extends CI_Controller
 					$limit = 3 + $timeLim;
 				}
 			}
+
+      // Getting the room req now iwth roomNum
+      $data['req'] = $this->crr_model->getReq($pat, $cat, $roomNum);
+
+
 			if (strlen($startTime) == 4) {
 				$startTime = substr($startTime, 0, 2) . ":" . substr($startTime, 2);
 			} else if (strlen($startTime) == 3) {
