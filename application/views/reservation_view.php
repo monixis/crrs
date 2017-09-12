@@ -499,11 +499,13 @@ else {
 		$('#valid').hide();
 		$('img#editReservation').hide();
 		$('#admin-authentication').show();
+
 		$("#adminsubmit").click(function () {
 			var rId= '<?php echo $rId ?>';
 			var resId = '<?php echo $resId ?>';
 			var status = 5;
 			var Apasscode = "<?php echo $Apasscode ?>";
+      var date = '<?php  echo $resDate; ?>';
 				var Apcode = $("#Apasscode").val();
 				if (Apasscode == Apcode) {
 					$('#admin-authentication').hide();
@@ -545,9 +547,11 @@ else {
 				}
 
 			});
+      // FLAG CANCEL SLOT MESSED UP HERE
 			$('#Apasscode').keypress(function (e) {
 				var rId= '<?php echo $rId ?>';
 				var resId = '<?php echo $resId ?>';
+        var date = '<?php  echo $resDate; ?>';
 				var status = 5;
 				var key = e.which;
 				if (key == 13) {
