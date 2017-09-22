@@ -9,14 +9,15 @@
 		<link rel="stylesheet" type="text/css" href="http://library.marist.edu/css/menuStyle.css" />
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 		<script src="http://library.marist.edu/js/libraryMenu.js" type="text/javascript" charset="utf-8"></script>
-		<script type="text/javascript" src="./js/jquery-1.6.1.min.js"></script> 
+		<script type="text/javascript" src="./js/jquery-1.6.1.min.js"></script>
 		<script type="text/javascript" src="./js/jquery-ui.js"></script>
-		<script type="text/javascript" src="./js/dashboard.js"></script> 
+		<script type="text/javascript" src="./js/dashboard.js"></script>
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 		<script>
     		$(document).ready(function(){
     			$("#reportDatePicker").datepicker({
-    			//	minDate : "+0"
+    				minDate : -30,
+						maxDate : 0
     			});
     			$("#reportDatePicker").datepicker( "setDate", new Date());
     			$("#reportDatePicker").empty();
@@ -25,10 +26,10 @@
     			//var url = "http://localhost:9090/crrs/?c=crr&m=getPatronCount&date="+date;
 	$('#report_view').empty();
 	$('#report_view').load(url);
-				
+
     		})
     	</script>
-		
+
 		<style>
 			#reportDatePicker{
 				position: relative;
@@ -36,7 +37,7 @@
 				color: #b31b1b;
 				font-weight: bold;
 			}
-			
+
 			#report_view{
 				width: 500px;
 				height: 600px;
@@ -45,7 +46,7 @@
 				margin-right:auto;
 				overflow-y: auto;
 			}
-			
+
 		</style>
 	</head>
 	<body>
@@ -73,12 +74,12 @@
 		<h1 style="color: #b31b1b; text-align: center;">Patron Count Report</h1>
 		<div style="width: 1000px; margin-left:auto; margin-right: auto;">
   			<p id="pickDate">Select a date: <input type="text" name="viewDate" id="reportDatePicker" value="" /></p>
- 			
+
  		</div>
-		
+
 		<div id="report_view">
-			
-		
+
+
 		</div><br/>
 
 			<div class="bottom">
@@ -102,12 +103,12 @@
 	$('#report_view').empty();
 	$('#report_view').load(url);
 	});
-	$("#fromDatePicker").datepicker({
+	/*$("#fromDatePicker").datepicker({
 		onClose: function (selectedDate) {
 			$("#toDatePicker").datepicker("option", "minDate", selectedDate);
 		}
 
-	});
+	});*/
 	$('#getReport').click(function() {
 		if ($('input#fromDatePicker').val() && $('input#toDatePicker').val()) {
 
@@ -212,9 +213,9 @@
 
 	$(document).ready(function(){
 
-		$("#fromDatePicker").datepicker({
+		$("#fromDatePicker").datepicker({minDate: '08/01/2017', maxDate: -1
 		});
-		$("#toDatePicker").datepicker({
+		$("#toDatePicker").datepicker({minDate: '08/02/2017', maxDate: 0
 		});
 		$("#admin-authentication").hide();
 	});
