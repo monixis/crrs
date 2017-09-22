@@ -1,11 +1,11 @@
 <link rel="stylesheet" type="text/css" href="./styles/main.css" />
-<script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script> 
+<script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="./js/jquery-ui.js"></script>
 <script type="text/javascript" src="./js/timeline.js"></script>
-<script type="text/javascript" src="./js/dashboard.js"></script> 
+<script type="text/javascript" src="./js/dashboard.js"></script>
 <link href="./styles/timeline.css" rel="stylesheet" type="text/css">
 
-<title>Search Results</title>	
+<title>Search Results</title>
 
 <div id="details" style="padding-bottom: 30px; padding-left: 20px; width: 700px;">
 	<div id="detailsType" style="border: none;">
@@ -19,17 +19,17 @@
 	</div>
 	<div style="width: 700px; height: 40px;">
 		<p style="font-size: 20px; width: 300px; float: left;">Reservations</p>
-		<p style="font-size: 20px; width: 370px; float: right">Notes</p>		
+		<p style="font-size: 20px; width: 370px; float: right">Notes</p>
 	</div>
-	
+
 	<div id="element" style="width: 300px; border-right: 1px solid #ccc; margin-top: 10px;float: left;">
-	
+
 	</div>
 	<div id="notes" style="width:392px; float: right;">
 		<ul>
-			<?php 
-				foreach($notes as $row1){ 
-					$notes = $row1 -> notes;	
+			<?php
+				foreach($notes as $row1){
+					$notes = $row1 -> notes;
 					$date = $row1 -> date;
 			?>
 					<li style="border-bottom: 1px solid #dee5e7; padding: 5px;"><?php echo $notes;?> -- <?php echo $date; ?></li><br/>
@@ -42,15 +42,15 @@
 				$("#element").timeline({
 					data: []
 				});
-					
-				<?php 
+
+				<?php
 					foreach($details as $row){
 						$status = $row -> status;
 						$statusId = $row -> statusId;
-						$class = 'status'.$statusId; 
+						$class = 'status'.$statusId;
 						$rId = $row -> rId;
 						$resDate = $row -> resDate;
-				?>		
+				?>
 						$("#element").timeline("add",
 							[
 								{
@@ -61,7 +61,7 @@
 							]
 						 );
 				<?php	}
-				?>	
+				?>
 			});
 </script>
 <script>
@@ -71,6 +71,6 @@ $(document).ready(function(){
 			var link = "<?php echo base_url("?c=crr&m=reservationDetails1&rId=");?>"+rId;//http://localhost/crrs/?c=crr&m=reservationDetails1&rId="
 			$('#details').load(link);
 
-	});	
+	});
 });
 </script>

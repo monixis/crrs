@@ -35,6 +35,24 @@ $('td').click(function() {
 	var selecteddate = new Date($('input#datepicker').val());
 	Date.parse(selecteddate);
 	var today = new Date();
+	var d = new Date(),
+      h = (d.getHours()<10?'0':'') + d.getHours(),
+      m = (d.getMinutes()<10?'0':'') + d.getMinutes();
+  var timenow = h + ':' + m;
+	var selectedtimeslot = slotid.substr(11);
+	if(selectedtimeslot.length == 4){//e.g 1030(last 4 digits of slotid) for time - 10:30,11-30,12-30
+	var selectedHours = selectedtimeslot.substr(0,2)+':'+selectedtimeslot.substr(2);
+	}
+	else if(selectedtimeslot.length==3){//e.g 930(last 3 digits of slotid) - for time -1:30, 2:30..9:30
+		var selectedHours = '0'+selectedtimeslot.substr(0,1)+':'+selectedtimeslot.substr(1);
+	}
+	else if(selectedtimeslot.length==2){////e.g 10(last 2 digits of slotid) - for time like 10,11,12
+		var selectedHours = selectedtimeslot.substr(0,2)+':00';
+	}
+	else if(selectedtimeslot.length==1){//e.g any time between 1-9(last 1 digits of slotid)
+		var selectedHours = '0'+selectedtimeslot.substr(0,2)+':00';
+	}
+	//today.setHours(h, m);
 	today.setHours(0, 0, 0, 0);
 	Date.parse(today);
 		if ($(this).parent().attr('class') == 'active'){
@@ -42,9 +60,11 @@ $('td').click(function() {
 				if(shadowBoxOpen == 0){
 					localStorage.setItem("slotId", slotid);
 					if ($(this).attr('class') == 'slots'){
-						if (today > selecteddate){
+						if ((today > selecteddate) || (timenow > selectedHours)){
+							//alert("selected Hour is:"+selectedHours+"\nTime now is:"+timenow);
 							var link = baseUrl.concat("?c=crr&m=displayInfo");//http://localhost:9090/crrs/?c=crr&m=displayInfo
 						}else{
+							//alert("selected Hour is:"+selectedHours+"\nTime now is:"+timenow);
 							var link = baseUrl.concat("?c=crr&m=verifyReservations&resId="+slotid+"&date="+selecteddate +"&pat="+ pat + "&cat=" + cat);//"http://localhost:9090/crrs/?c=crr&m=reserveForm&resId="+slotid;
 						}
 						$('#shadowBox').css({'visibility':'visible','width':'840px','height':'640px'});
@@ -61,8 +81,8 @@ $('td').click(function() {
 						}else{
 							var link =baseUrl.concat("?c=crr&m=reservationDetails&resId="+ slotid);
 						//	var link = "http://localhost/crrs/?c=crr&m=reservationDetails&resId=" + slotid;
-						}	
-						
+						}
+
 						$('#shadowBox').css({'visibility':'visible','width':'640px','height':'570px'});
 						$('#shadowFrame').css({'width':'600px','height':'570px'});
 						$('#shadowBox').css('left','28%');
@@ -167,7 +187,7 @@ $(document).on('click', 'th.roomno', function(){
 	$('iframe').attr('src',link);
 	shadowBoxOpen = 1;
 });
-	
+
 $('#notesSearch').click(function(){
 	var searchText = $("#primEmail").val();
 	var link = baseUrl.concat("?c=crr&m=search&q=" + searchText);

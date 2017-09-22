@@ -372,7 +372,7 @@
 	.my-legend a {
 		color: #777;
 	}
-	
+
 
 	/*#loading > div {
 		position: relative;
@@ -382,7 +382,7 @@
 		height : 30px;
 
 	}*/
-	
+
 </style>
 <div id="loading">
 	<img align="center" id="loader" class="loader" src="./icons/page-loader.gif" />
@@ -449,7 +449,7 @@
 				$a_rooms = array();
 				$slotclass = "slots";
 				$hourclass = "active";
-				
+
 				//$rooms = $_SESSION['rooms'];
 				foreach ($rooms as $row) {
 					$roomNum = $row -> roomNum;
@@ -551,6 +551,15 @@
 	</div>
 </div>
 
+<!--Javascript crashes because the document is not completely ready. The below code helps -->
+<?php
+print str_pad('',4096)."\n";
+ob_flush();
+flush();
+set_time_limit(45);
+?>
+
+
 <!--/br><div align="center">
 	<div style="width:800px;height:70px;border: 1px solid #b31b1b;">
 		<div align="center" class='my-legend'>
@@ -565,4 +574,3 @@
 		</div>
 	</div>
 </div></br-->
-

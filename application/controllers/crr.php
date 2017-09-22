@@ -325,7 +325,8 @@ class crr extends CI_Controller
        $file = fopen('php://output', 'w');
 
 // column headers
-       fputcsv($file, array('rid', 'resDate', 'resEmail', 'resType', 'roomNum','status', 'startTime', 'totalHours', 'numPatrons'));
+       fputcsv($file, array('Room ID', 'Reservation Date', 'Reserver Email', 'Reservation Type', 'Room Number','Reservation Status', 'Start Time', 'Duration', 'No of Patrons'));
+			 //fputcsv($file, array('rid', 'resDate', 'resEmail', 'resType', 'roomNum','status', 'startTime', 'totalHours', 'numPatrons'));
 // data
        $this->load->model('crr_model');
        $data = $this->crr_model->getAllReservations($fromDate,$toDate);
@@ -575,6 +576,7 @@ class crr extends CI_Controller
     * Receive resId of selected reservation
     * Retrieve reservation details from db.
     * Return reservation_view with data
+		* This function searchs the reservations based on emails and fethces a read-only view for the past recrods.
     */
 
 	public function reservationDetails1()
@@ -585,7 +587,7 @@ class crr extends CI_Controller
 		$data['emails'] = $this->crr_model->getEmails();
 		$data['Apasscode'] = $this->crr_model->getPwd(2);
 		$data['resId'] = 0;
-		$this->load->view('reservation_view', $data);
+		$this->load->view('readonlyreservation_view', $data);
 	}
 
 	/*
