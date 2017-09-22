@@ -49,6 +49,7 @@ class crr_model extends CI_Model
         }
     }*/
     public function getAllReservations($fromDate, $toDate){
+			$this->load->database('crrs_archive',TRUE);
         $sql = " SELECT DISTINCT
 		reservations.rId AS rid,
 		reservations.resDate AS resDate,
@@ -409,6 +410,7 @@ class crr_model extends CI_Model
 
 	public function getPatronCount($date)
 	{
+		//$this->load->database('crrs_archive',TRUE);//using archive data
 		$sql = "SELECT roomNum, time, sum(numPatrons) as 'patroncount', resEmail FROM reservations WHERE resDate= '$date' AND status NOT IN (2,3,5,6) GROUP BY time ORDER BY time ASC";
 		$results = $this->db->query($sql, array($date));
 		return $results->result();
