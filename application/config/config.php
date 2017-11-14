@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost/crrs/';
+$config['base_url']	= 'http://library.marist.edu/crrs/';
 
 /*
 |----------------------------------------------------------------------------

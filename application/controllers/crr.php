@@ -134,8 +134,8 @@ class crr extends CI_Controller
 
     $this->load->library('email');
 
-      $config['protocol'] = "smtp";
-                $config['smtp_host'] = "tls://smtp.googlemail.com";
+      $config['protocol'] = "sendmail";
+                $config['smtp_host'] = "ssl://smtp.gmail.com";
                 $config['smtp_port'] = "465";
                 $config['smtp_user'] = "cannavinolibrary@gmail.com";
                 $config['smtp_pass'] = "845@jac3419";
@@ -1315,19 +1315,22 @@ class crr extends CI_Controller
 			}
 			$numPatrons = $this->input->post('numPatrons');
 
-			if ( $conflict == false && sizeof($result1) == 0) {
+		if ( $conflict == false && sizeof($result1) == 0) {
 
 				$this->load->library('email');
 
-					$config['protocol'] = "smtp";
-                    $config['smtp_host'] = "tls://smtp.googlemail.com";
-                    $config['smtp_port'] = "465";
-                    $config['smtp_user'] = "cannavinolibrary@gmail.com";
-                    $config['smtp_pass'] = "845@jac3419";
-                    $config['charset'] = "utf-8";
-                    $config['mailtype'] = "html";
-                    $config['newline'] = "\r\n";
-                    $this->email->initialize($config);
+
+          // was smtp instead of mail
+			$config['protocol'] = "sendmail";
+                $config['smtp_host'] = "ssl://smtp.gmail.com";
+                $config['smtp_port'] = "465";
+                $config['smtp_user'] = "cannavinolibrary@gmail.com";
+                $config['smtp_pass'] = "845@jac3419";
+                $config['charset'] = "utf-8";
+                $config['mailtype'] = "html";
+                $config['newline'] = "\r\n";
+
+                $this->email->initialize($config);
 				$this->email->from('cannavinolibrary@gmail.com', 'James A. Cannavino Library (Collaboration Room Reservation System)');
 				//$this->email->to($this->input->post('primEmail'));
 				$primPatron = $this->input->post('primEmail');
@@ -1378,7 +1381,7 @@ class crr extends CI_Controller
 										   </table>";
 
 				$this->email->message($message);
-				$this->email->send();
+      			$this->email->send();
 
 			}
 
@@ -1804,14 +1807,14 @@ class crr extends CI_Controller
 	{
 
 		$this->load->library('email');
-		$config['protocol'] = "smtp";
-		$config['smtp_host'] = "ssl://smtp.googlemail.com";
-		$config['smtp_port'] = "465";
-		$config['smtp_user'] = "cannavinolibrary@gmail.com";
-		$config['smtp_pass'] = "845@jac3419";
-		$config['charset'] = "utf-8";
-		$config['mailtype'] = "html";
-		$config['newline'] = "\r\n";
+		$config['protocol'] = "mail";
+  		$config['smtp_host'] = "ssl://smtp.googlemail.com";
+  		$config['smtp_port'] = "465";
+  		$config['smtp_user'] = "cannavinolibrary@gmail.com";
+  		$config['smtp_pass'] = "845@jac3419";
+  		$config['charset'] = "utf-8";
+  		$config['mailtype'] = "html";
+  		$config['newline'] = "\r\n";
 		$this->email->initialize($config);
 		$this->email->from('cannavinolibrary@gmail.com', 'James A. Cannavino Library (Collaboration Room Reservation System)');
 		$this->email->to('cannavinolibrary@gmail.com');
