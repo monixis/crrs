@@ -153,7 +153,7 @@
 							$maxHour = $row -> maxHour;
 						}
 					?>
-					<FORM NAME="theForm" ID="theForm" ACTION="<?php echo base_url("?c=crr&m=reserveForm&resId=$resId")?>"  METHOD="POST">
+					<FORM NAME="theForm" ID="theForm" ACTION="<?php echo base_url("?c=crr&m=reserveForm&resId=$resId")?>"  METHOD="POST" novalidate>
 						<p style="font-style: italic; font-weight: bold; text-align: center;"><label>Reservation Requirement => </label><label>Req. Patrons: </label><?php echo $pat_req; ?> &amp; <label>Max. Hours: </label><?php echo $maxHour; ?></p>
 						<p class="resDet"><label class="label">Room No: </label><input type="text" id="roomNo" name="roomNum" disabled="true" style="color: #b31b1b; background: #ffffff; border: 1px solid #ffffff; font-size: 18px; width: 48px;" value="<?php echo $roomNum ?>"/><img src="./icons/expand.png" class="tooltip" id="<?php echo base_url("?c=crr&m=tooltiproomdetails&roomNo=".$roomNum)  ?>" style="width:12px; height:12px;"/></p>
 						<p class="resDet"><label class="label">Reserve Date: </label><input TYPE="text" disabled="true" NAME="resDate" style="color: #b31b1b; background: #ffffff; border: 1px solid #ffffff; font-size: 18px;" value="<?php echo $resDate?>" SIZE="13" class="ask_text_input" /></p>
