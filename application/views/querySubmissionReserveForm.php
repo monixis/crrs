@@ -27,7 +27,7 @@
 		<div id="menu">
 			<div id="menuItems">
 
-				<form method="GET" action="http://marist.summon.serialssolutions.com/search" class = "summon_search_child">
+				<form name="myForm" method="GET" action="http://marist.summon.serialssolutions.com/search" class = "summon_search_child">
 					<img src="http://library.marist.edu/images/foxhunt.png" class ="menu_foxhunt fox2"/>
 					<input type="text" placeholder = "Search Full Text Databases..." name="s.q" class="summon_search_bar_child" size="20"/>
 					<input type="submit" value="" class="search_button_child fox2"/>
@@ -73,14 +73,14 @@
 						> Forms > Reserve Forms
 
 					</p>
-					
+
 					<h1 class="page_head">Confirmation Page</h1>
-					
+
 					<?php
 					session_start();
 					print('<p class="infoHeading">' . $_SESSION['Message'] . '</p>');
 					?>
-					
+
 				</div>
 			</div>
 

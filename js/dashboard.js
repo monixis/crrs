@@ -3,7 +3,8 @@
  */
 var shadowBoxOpen = 0;
 //var test = 0;
-var baseUrl = "http://localhost/crrs/";
+// var baseUrl = "http://localhost/crrs/";
+var baseUrl = "http://dev.library.marist.edu/crrs/";
 $('#datepicker').change(function() {
 	var date = $('input#datepicker').val();
 	var slotId = localStorage.getItem("slotId");
@@ -61,8 +62,8 @@ $('td').click(function() {
 						}else{
 							var link =baseUrl.concat("?c=crr&m=reservationDetails&resId="+ slotid);
 						//	var link = "http://localhost/crrs/?c=crr&m=reservationDetails&resId=" + slotid;
-						}	
-						
+						}
+
 						$('#shadowBox').css({'visibility':'visible','width':'640px','height':'570px'});
 						$('#shadowFrame').css({'width':'600px','height':'570px'});
 						$('#shadowBox').css('left','28%');
@@ -167,7 +168,7 @@ $(document).on('click', 'th.roomno', function(){
 	$('iframe').attr('src',link);
 	shadowBoxOpen = 1;
 });
-	
+
 $('#notesSearch').click(function(){
 	var searchText = $("#primEmail").val();
 	var link = baseUrl.concat("?c=crr&m=search&q=" + searchText);
