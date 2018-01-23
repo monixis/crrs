@@ -127,12 +127,12 @@ class crr extends CI_Controller
 		date_default_timezone_set('US/Eastern');
 		$currentTimeStamp = date("Y-m-d H:i:s");
 		$resId = $_POST['rId'];
-    $resDate = $_POST['date'];
+        $resDate = $_POST['date'];
 		$status = $_POST['status'];
 		$this->load->model('crr_model');
 		$result = $this->crr_model->updateStatus($resId, $status, $currentTimeStamp);
 
-    $this->load->library('email');
+        $this->load->library('email');
 
       $config['protocol'] = "smtp";
                 $config['smtp_host'] = "tls://smtp.googlemail.com";
@@ -144,13 +144,11 @@ class crr extends CI_Controller
                 $config['newline'] = "\r\n";
                 $this->email->initialize($config);
     $this->email->from('cannavinolibrary@gmail.com', 'James A. Cannavino Library (Collaboration Room Reservation System)');
-    //$this->email->to($this->input->post('primEmail'));
     $primPatron = $_POST['primEmail'];
     $secEmail = $_POST['secEmail'];
     $list = array($primPatron,$secEmail);
     $this->email->to($list);
     $this->email->cc("cannavinolibrary@gmail.com");
-  //	$this->email->bcc('dheerajkarnati1@marist.edu');
     $this->email->subject('Cancellation Confirmation. ReservationID: '. $resId);
     $message = "<h4>Cancellation Confirmation. ReservationID: $resId</h4></br></br>";
     $message .= "Your room reservation, ReservationID: $resId, for $resDate has been cancelled.";
