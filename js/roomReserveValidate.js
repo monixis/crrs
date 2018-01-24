@@ -28,7 +28,7 @@ $(document).ready(function() {
 			timeEnd: {
 				required: true
 			}
-			
+
 		},
 		messages: {
 			primEmail: {
@@ -41,6 +41,6 @@ $(document).ready(function() {
 			},
 			roomNum: "<br>Please enter a valid room number."
 		}
-		
+
 	});
 });
