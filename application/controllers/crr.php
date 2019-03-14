@@ -135,10 +135,10 @@ class crr extends CI_Controller
         $this->load->library('email');
 
       $config['protocol'] = "sendmail";
-                $config['smtp_host'] = "ssl://smtp.gmail.com";
+                $config['smtp_host'] = "tls://smtp.gmail.com";
                 $config['smtp_port'] = "465";
                 $config['smtp_user'] = "cannavinolibrary@gmail.com";
-                $config['smtp_pass'] = "845@jac3419";
+                $config['smtp_pass'] = "12601redfoxesLibrary";
                 $config['charset'] = "utf-8";
                 $config['mailtype'] = "html";
                 $config['newline'] = "\r\n";
@@ -1320,10 +1320,10 @@ class crr extends CI_Controller
 
           // was smtp instead of mail
 			$config['protocol'] = "sendmail";
-                $config['smtp_host'] = "ssl://smtp.gmail.com";
+                $config['smtp_host'] = "tls://smtp.gmail.com";
                 $config['smtp_port'] = "465";
                 $config['smtp_user'] = "cannavinolibrary@gmail.com";
-                $config['smtp_pass'] = "845@jac3419";
+                $config['smtp_pass'] = "12601redfoxesLibrary";
                 $config['charset'] = "utf-8";
                 $config['mailtype'] = "html";
                 $config['newline'] = "\r\n";
@@ -1805,11 +1805,11 @@ class crr extends CI_Controller
 	{
 
 		$this->load->library('email');
-		$config['protocol'] = "mail";
-  		$config['smtp_host'] = "ssl://smtp.googlemail.com";
+		$config['protocol'] = "sendmail";
+  		$config['smtp_host'] = "tls://smtp.googlemail.com";
   		$config['smtp_port'] = "465";
   		$config['smtp_user'] = "cannavinolibrary@gmail.com";
-  		$config['smtp_pass'] = "845@jac3419";
+  		$config['smtp_pass'] = "12601redfoxesLibrary";
   		$config['charset'] = "utf-8";
   		$config['mailtype'] = "html";
   		$config['newline'] = "\r\n";
